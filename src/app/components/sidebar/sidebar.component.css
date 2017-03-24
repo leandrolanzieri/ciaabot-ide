@@ -1,0 +1,28 @@
+.sidebar {
+    min-height: 100vh;
+    background-color: #2D83BE;
+    color: #b5d1e4;
+    padding-top: 20px;
+    min-width: 80px !important;
+    display: inline-block;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+                0 4px 5px 0 rgba(0,0,0,.14),
+                0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+a {
+    color: #b5d1e4;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+.active {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.item {
+    margin-bottom: 15px;
+}
