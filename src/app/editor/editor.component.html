@@ -1,8 +1,14 @@
 <div class="container-fluid">
-  <h1 class="display-4">Editor</h1>
-  <div class="container-fluid" id="blocklyArea">
-    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <div class="row" style="height: 100%;">
+    <div class="col-9">
+      <h1 class="display-4">Editor</h1>
+      <app-blockly (onBlocklyCodeChange)="onBlocklyCodeChange($event)"></app-blockly>
+    </div>
+    <div class="col-3">
+      <p class="lead">Vista previa</p>
+      <pre id="codePreview">
+        {{blocklyCode}}
+      </pre>
+    </div>
   </div>
 </div>
-
-<div [hidden]="true" [outerHTML]="toolboxContent"></div>

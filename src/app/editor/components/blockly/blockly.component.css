@@ -1,0 +1,9 @@
+#blocklyArea {
+    height: calc(95% - 4.5rem); /* Header height plus margin */
+    margin: 0;
+    padding: 0;
+}
+
+#blocklyDiv {
+    position: absolute;
+}

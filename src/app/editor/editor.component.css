@@ -5,4 +5,13 @@
     display: inline-block;
     height: 100%;
     margin: 0;
+    width: 100%;
+}
+
+#codePreview {
+    background-color: rgba(45, 131, 190, 0.14);
+    border-radius: 10px;
+    font-family: monospace;
+    margin-top: 20px;
+    padding: 10px;
 }

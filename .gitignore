@@ -77,3 +77,10 @@ dll/
 *.css.shim.ts
 *.ngsummary.json
 *.shim.ngstyle.ts
+src/assets/js/blockly/blocks/arduino/
+
+src/assets/js/blockly/generators/arduino/
+
+src/assets/js/blockly/generators/arduino\.js
+
+src/assets/js/blockly/arduino_compressed\.js
