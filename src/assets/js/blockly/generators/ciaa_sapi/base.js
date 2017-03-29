@@ -75,7 +75,7 @@ Blockly.CiaaSapi['ciaa_sapi_dac_write'] = function(block) {
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['dac-enable'] = 'dacConfig(DAC_ENABLE);';
   var code = 'dacWrite(' + dropdown_pin_option + ', ' + number_value +');\n';
-  return [code, Blockly.CiaaSapi.ORDER_NONE];
+  return code;
 };
 
 Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
