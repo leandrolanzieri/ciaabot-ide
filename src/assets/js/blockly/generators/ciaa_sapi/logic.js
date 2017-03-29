@@ -18,49 +18,49 @@
  */
 
 /**
- * @fileoverview Generating Arduino for logic blocks.
- * @author gasolin@gmail.com  (Fred Lin)
+ * @fileoverview Helper functions for generating CiaaSapi blocks.
+ * @author lanzierileandro@gmail.com <Leandro Lanzieri Rodriguez>
  */
 'use strict';
 
-goog.provide('Blockly.Arduino.logic');
+goog.provide('Blockly.CiaaSapi.logic');
 
-goog.require('Blockly.Arduino');
+goog.require('Blockly.CiaaSapi');
 
 
-Blockly.Arduino.controls_if = function() {
+Blockly.CiaaSapi.controls_if = function() {
   // If/elseif/else condition.
   var n = 0;
-  var argument = Blockly.Arduino.valueToCode(this, 'IF' + n,
-      Blockly.Arduino.ORDER_NONE) || 'false';
-  var branch = Blockly.Arduino.statementToCode(this, 'DO' + n);
+  var argument = Blockly.CiaaSapi.valueToCode(this, 'IF' + n,
+      Blockly.CiaaSapi.ORDER_NONE) || 'false';
+  var branch = Blockly.CiaaSapi.statementToCode(this, 'DO' + n);
   var code = 'if (' + argument + ') {\n' + branch + '\n}';
   for (n = 1; n <= this.elseifCount_; n++) {
-    argument = Blockly.Arduino.valueToCode(this, 'IF' + n,
-      Blockly.Arduino.ORDER_NONE) || 'false';
-    branch = Blockly.Arduino.statementToCode(this, 'DO' + n);
+    argument = Blockly.CiaaSapi.valueToCode(this, 'IF' + n,
+      Blockly.CiaaSapi.ORDER_NONE) || 'false';
+    branch = Blockly.CiaaSapi.statementToCode(this, 'DO' + n);
     code += ' else if (' + argument + ') {\n' + branch + '}';
   }
   if (this.elseCount_) {
-    branch = Blockly.Arduino.statementToCode(this, 'ELSE');
+    branch = Blockly.CiaaSapi.statementToCode(this, 'ELSE');
     code += ' else {\n' + branch + '\n}';
   }
   return code + '\n';
 };
 
-Blockly.Arduino.logic_compare = function() {
+Blockly.CiaaSapi.logic_compare = function() {
   // Comparison operator.
   var mode = this.getFieldValue('OP');
-  var operator = Blockly.Arduino.logic_compare.OPERATORS[mode];
+  var operator = Blockly.CiaaSapi.logic_compare.OPERATORS[mode];
   var order = (operator == '==' || operator == '!=') ?
-      Blockly.Arduino.ORDER_EQUALITY : Blockly.Arduino.ORDER_RELATIONAL;
-  var argument0 = Blockly.Arduino.valueToCode(this, 'A', order) || '0';
-  var argument1 = Blockly.Arduino.valueToCode(this, 'B', order) || '0';
+      Blockly.CiaaSapi.ORDER_EQUALITY : Blockly.CiaaSapi.ORDER_RELATIONAL;
+  var argument0 = Blockly.CiaaSapi.valueToCode(this, 'A', order) || '0';
+  var argument1 = Blockly.CiaaSapi.valueToCode(this, 'B', order) || '0';
   var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
 
-Blockly.Arduino.logic_compare.OPERATORS = {
+Blockly.CiaaSapi.logic_compare.OPERATORS = {
   EQ: '==',
   NEQ: '!=',
   LT: '<',
@@ -69,32 +69,32 @@ Blockly.Arduino.logic_compare.OPERATORS = {
   GTE: '>='
 };
 
-Blockly.Arduino.logic_operation = function() {
+Blockly.CiaaSapi.logic_operation = function() {
   // Operations 'and', 'or'.
   var operator = (this.getFieldValue('OP') == 'AND') ? '&&' : '||';
-  var order = (operator == '&&') ? Blockly.Arduino.ORDER_LOGICAL_AND :
-      Blockly.Arduino.ORDER_LOGICAL_OR;
-  var argument0 = Blockly.Arduino.valueToCode(this, 'A', order) || 'false';
-  var argument1 = Blockly.Arduino.valueToCode(this, 'B', order) || 'false';
+  var order = (operator == '&&') ? Blockly.CiaaSapi.ORDER_LOGICAL_AND :
+      Blockly.CiaaSapi.ORDER_LOGICAL_OR;
+  var argument0 = Blockly.CiaaSapi.valueToCode(this, 'A', order) || 'false';
+  var argument1 = Blockly.CiaaSapi.valueToCode(this, 'B', order) || 'false';
   var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
 
-Blockly.Arduino.logic_negate = function() {
+Blockly.CiaaSapi.logic_negate = function() {
   // Negation.
-  var order = Blockly.Arduino.ORDER_UNARY_PREFIX;
-  var argument0 = Blockly.Arduino.valueToCode(this, 'BOOL', order) || 'false';
+  var order = Blockly.CiaaSapi.ORDER_UNARY_PREFIX;
+  var argument0 = Blockly.CiaaSapi.valueToCode(this, 'BOOL', order) || 'false';
   var code = '!' + argument0;
   return [code, order];
 };
 
-Blockly.Arduino.logic_boolean = function() {
+Blockly.CiaaSapi.logic_boolean = function() {
   // Boolean values true and false.
   var code = (this.getFieldValue('BOOL') == 'TRUE') ? 'true' : 'false';
-  return [code, Blockly.Arduino.ORDER_ATOMIC];
+  return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
 };
 
-Blockly.Arduino.logic_null = function() {
+Blockly.CiaaSapi.logic_null = function() {
   var code = 'NULL';
-  return [code ,Blockly.Arduino.ORDER_ATOMIC];
+  return [code ,Blockly.CiaaSapi.ORDER_ATOMIC];
 };

@@ -19,8 +19,8 @@
  */
 
 /**
- * @fileoverview Logic blocks for Blockly.
- * @author q.neutron@gmail.com (Quynh Neutron)
+ * @fileoverview Helper functions for generating CiaaSapi blocks.
+ * @author lanzierileandro@gmail.com <Leandro Lanzieri Rodriguez>
  */
 'use strict';
 

@@ -73,10 +73,11 @@ Blockly.CiaaSapi.ORDER_NONE = 99;          // (...)
 var profile = {
   edu_ciaa: {
     description: "EduCiaa board",
-    digital: [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"], ["10", "10"], ["11", "11"], ["12", "12"], ["13", "13"], ["A0", "A0"], ["A1", "A1"], ["A2", "A2"], ["A3", "A3"], ["A4", "A4"], ["A5", "A5"]],
+    digital: [['Gpio 0','GPIO0'], ['Gpio 1','GPIO1'], ['Gpio 2','GPIO2'], ['Gpio 3','GPIO3'], ['Gpio 4','GPIO4'], ['Gpio 5','GPIO5'], ['Gpio 6','GPIO6'], ['Gpio 7','GPIO7'], ['Gpio 8','GPIO8']],
     leds: [["Led 1", "LED1"], ["Led 2", "LED2"], ["Led 3", "LED3"], ["Led Rojo", "LEDR"], ["Led Verde", "LEDG"], ["Led Azul", "LEDB"]],
     buttons: [["Tecla 1", "TEC1"], ["Tecla 2", "TEC2"], ["Tecla 3", "TEC3"], ["Tecla 4", "TEC4"]],
-    analog: [["A0", "A0"], ["A1", "A1"], ["A2", "A2"], ["A3", "A3"], ["A4", "A4"], ["A5", "A5"]],
+    adc: [["Canal 1", "CH1"], ["Canal 2", "CH2"], ["Canal 3", "CH3"]],
+    dac: [['DAC', 'DAC']],
     serial: 9600
   },
   ciaa: {
@@ -125,7 +126,7 @@ Blockly.CiaaSapi.init = function(workspace) {
  */
 Blockly.CiaaSapi.finish = function(code) {
   // Indent every line.
-  code = '  ' + code.replace(/\n/g, '\n  ');
+  code = '  ' + code.replace(/\n/g, '\n      ');
   var userCode = code.replace(/\n\s+$/, '\n');
   code = 'void main(void) \n{\n   // Board Initialization \n   boardConfig(); \n\n';
   code += '   // Enable tick counting every 1ms \n   tickConfig(1, 0); \n\n';
@@ -150,7 +151,7 @@ Blockly.CiaaSapi.finish = function(code) {
     setups.push(Blockly.CiaaSapi.setups_[name]);
   }
 
-  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\n void setup(void) \n{\n  '+setups.join('\n  ') + '\n}'+ '\n\n';
+  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\n inline void setup(void) \n{\n  '+setups.join('\n  ') + '\n}'+ '\n\n';
   return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
 };
 

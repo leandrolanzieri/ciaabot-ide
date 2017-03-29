@@ -22,7 +22,7 @@ const createWindow = () => {
   mainWindow.loadURL('file://' + __dirname + '/dist/index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   // Clear out the main window when the app is closed
   mainWindow.on('closed', () => {

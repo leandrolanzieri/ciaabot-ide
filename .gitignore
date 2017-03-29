@@ -4,7 +4,7 @@ firebase.json
 netlify.toml
 karma.conf.js
 protractor.conf.js
-
+ciaabot-ide-packed*
 
 
 # Logs

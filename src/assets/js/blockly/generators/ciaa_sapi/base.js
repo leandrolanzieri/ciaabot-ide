@@ -46,9 +46,40 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_write'] = function(block) {
   var dropdown_value_option = block.getFieldValue('value_option');
   var value_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
-  Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE );';
+  Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE);';
   Blockly.CiaaSapi.setups_['gpio-config-output' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_OUTPUT );';
   var code = 'gpioWrite(' + dropdown_pin_option + ', ' + dropdown_value_option + ');\n';
+  return code;
+};
+
+Blockly.CiaaSapi['ciaa_sapi_gpio_digital_read'] = function(block) {
+  var dropdown_pin_option = block.getFieldValue('pin_option');
+  // Add configuration to user setups
+  Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE);';
+  Blockly.CiaaSapi.setups_['gpio-config-input' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_INPUT );';
+  var code = 'gpioRead(' + dropdown_pin_option + ')';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['ciaa_sapi_gpio_analog_read'] = function(block) {
+  var dropdown_pin_option = block.getFieldValue('pin_option');
+  // Add configuration to user setups
+  Blockly.CiaaSapi.setups_['adc-enable'] = 'adcConfig(ADC_ENABLE);';
+  var code = 'adcRead(' + dropdown_pin_option + ')';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['ciaa_sapi_dac_write'] = function(block) {
+  var dropdown_pin_option = block.getFieldValue('pin_option');
+  var number_value = block.getFieldValue('value');
+  // Add configuration to user setups
+  Blockly.CiaaSapi.setups_['dac-enable'] = 'dacConfig(DAC_ENABLE);';
+  var code = 'dacWrite(' + dropdown_pin_option + ', ' + number_value +');\n';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
+  var code = 'sleepUntilNextInterrupt();\n';
   return code;
 };
 

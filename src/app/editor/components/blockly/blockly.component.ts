@@ -24,10 +24,27 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
     this.toolboxContent = this.domSanitizer.bypassSecurityTrustHtml(`
       
   <xml id="toolbox" style="display: none">
+    <category name="Lógica">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_null"></block>
+    </category>
     <category name="Entradas / Salidas">
       <block type="ciaa_sapi_gpio_write">
         <field name="pin_option">LEDR</field>
         <field name="value_option">ON</field>
+      </block>
+      <block type="ciaa_sapi_gpio_digital_read">
+        <field name="pin_option">GPIO0</field>
+      </block>
+      <block type="ciaa_sapi_gpio_analog_read">
+        <field name="pin_option">CH1</field>
+      </block>
+      <block type="ciaa_sapi_dac_write">
+        <field name="pin_option">DAC</field>
+        <field name="value_option">0</field>
       </block>
     </category>
     <category name="Control">
@@ -44,6 +61,8 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
             <field name="NUM">1000</field>
           </block>
         </value>
+      </block>
+      <block type="ciaa_sapi_sleep_until_interrupt">
       </block>
     </category>
   </xml>
@@ -73,7 +92,7 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
       do {
         x += element.offsetLeft;
         y += element.offsetTop;
-        element = <HTMLElement> element.offsetParent;
+        element = <HTMLElement>element.offsetParent;
       } while (element);
       // Position this.blocklyContainer over blocklyArea.
       // this.blocklyContainer.style.left = x + 'px';
@@ -83,7 +102,7 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
     };
     window.addEventListener('resize', onresize, false);
     onresize(null);
-    Blockly.svgResize(<Blockly.WorkspaceSvg> this.workspace);
+    Blockly.svgResize(<Blockly.WorkspaceSvg>this.workspace);
   }
 
   public blocklyCodeChange() {

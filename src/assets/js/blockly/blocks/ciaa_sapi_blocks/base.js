@@ -77,7 +77,7 @@ Blockly.Blocks['ciaa_sapi_gpio_write'] = {
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Pin")
-        .appendField(new Blockly.FieldDropdown(profile.default.leds), "pin_option");
+        .appendField(new Blockly.FieldDropdown(profile.default.leds.concat(profile.default.digital)), "pin_option");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Valor")
@@ -87,6 +87,71 @@ Blockly.Blocks['ciaa_sapi_gpio_write'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip('Escribe una salida digital');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_gpio_digital_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Leer Entrada Digital.");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin")
+        .appendField(new Blockly.FieldDropdown(profile.default.digital.concat(profile.default.buttons)), "pin_option");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour(135);
+    this.setTooltip('Lee una entrada digital');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_gpio_analog_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Leer Entrada Analógica.");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin")
+        .appendField(new Blockly.FieldDropdown(profile.default.adc), "pin_option");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(135);
+    this.setTooltip('Lee una entrada analógica');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_dac_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Escribir Salida Analógica.");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin")
+        .appendField(new Blockly.FieldDropdown(profile.default.dac), "pin_option");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Valor")
+        .appendField(new Blockly.FieldNumber(0, 0, 65535), "value");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip('Escribe una salida analógica');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_sleep_until_interrupt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Dormir hasta la próxima interrupción");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('Modo sleep');
     this.setHelpUrl('');
   }
 };

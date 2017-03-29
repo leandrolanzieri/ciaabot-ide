@@ -21,14 +21,26 @@
         <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
         <link rel="stylesheet" href="assets/css/bootstrap.css">
         <link rel="stylesheet" href="assets/css/font-awesome.css">
+        <link rel="stylesheet" href="assets/css/loading.css">
 
 </head>
 
 <body>
 
-  <app>
-    Cargando...
-  </app>
+  <app></app>
+
+  <div class="loading container-fluid">
+    <div class="row align-items-center">
+      <div class="col text-center">
+        <h1 class="display-4">Ciaabot IDE</h1>
+        <i class="fa fa-circle-o-notch fa-2x fa-spin" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__theme = 'bs4';
+  </script>
 
   <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
     <!-- Webpack Dev Server reload -->
@@ -37,16 +49,12 @@
 
       <script src="assets/js/blockly/blockly_compressed.js"></script>
       <script src="assets/js/blockly/blocks_compressed.js"></script>
-<!--      <script src="assets/js/blockly/blocks/arduino/blocks_compressed.original.js"></script>
+      <!--      <script src="assets/js/blockly/blocks/arduino/blocks_compressed.original.js"></script>
       <script src="assets/js/blockly/generators/javascript_compressed.js"></script>
       <script src="assets/js/blockly/arduino_compressed.js"></script>-->
       <script src="assets/js/blockly/generators/ciaa_sapi_generator_compressed.js"></script>
       <script src="assets/js/blockly/blocks/ciaa_sapi_blocks_compressed.js"></script>
       <script src="assets/js/blockly/msg/js/es.js"></script>
-
-      <script>
-        window.__theme = 'bs4';
-      </script>
 </body>
 
 </html>
