@@ -48,7 +48,7 @@ npm-debug.log
 
 # Typing #
 /src/typings/tsd/
-/typings/
+#/typings/ Hay tipos modificados
 /tsd_typings/
 
 # Dist #
