@@ -16,7 +16,7 @@ a .row.item{
 }
 
 a:hover .row.item {
-    background-color: #509cce;
+    background-color: #2c4762;
 }
 
 a.active .row.item {
