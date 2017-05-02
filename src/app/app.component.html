@@ -1,8 +1,6 @@
-<div class="container-fluid" style="padding: 0;">
+<app-sidebar></app-sidebar>
+<div class="container-fluid" style="padding: 0; width: calc(100% - 50px); float:left;">
     <div class="row no-gutters" style="height: 100vh;">
-        <div class="col-1">
-            <app-sidebar></app-sidebar>
-        </div>
         <div class="col-11">
             <router-outlet></router-outlet>
         </div>
