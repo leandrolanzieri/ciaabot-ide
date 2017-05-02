@@ -83,6 +83,24 @@ Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
   return code;
 };
 
+Blockly.CiaaSapi['ciaa_sapi_pwm_write'] = function(block) {
+  var dropdown_pin_option = block.getFieldValue('pin_option');
+  var number_value_option = block.getFieldValue('value_option');
+  // Add configuration to user setups
+  Blockly.CiaaSapi.setups_['pwm-enable'] = 'pwmConfig(0, PWM_ENABLE);';
+  Blockly.CiaaSapi.setups_['pwm-' + dropdown_pin_option + '-enable'] = 'pwmConfig(' + dropdown_pin_option + ', PWM_ENABLE_OUTPUT);';
+  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value_option + ');';
+  return code;
+};
+
+Blockly.CiaaSapi['ciaa_sapi_pwm_read'] = function(block) {
+  var dropdown_pin_option = block.getFieldValue('pin_option');
+  Blockly.CiaaSapi.setups_['pwm-enable'] = 'pwmConfig(0, PWM_ENABLE);';
+  Blockly.CiaaSapi.setups_['pwm-' + dropdown_pin_option + '-enable'] = 'pwmConfig(' + dropdown_pin_option + ', PWM_ENABLE_OUTPUT);';
+  var code = 'pwmRead(' + dropdown_pin_option + ')';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
 // Blockly.Arduino.base_map = function() {
 //   var value_num = Blockly.Arduino.valueToCode(this, 'NUM', Blockly.Arduino.ORDER_NONE);
 //   var value_dmax = Blockly.Arduino.valueToCode(this, 'DMAX', Blockly.Arduino.ORDER_ATOMIC);

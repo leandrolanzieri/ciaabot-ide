@@ -46,6 +46,22 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
         <field name="pin_option">DAC</field>
         <field name="value_option">0</field>
       </block>
+      <block type="ciaa_sapi_pwm_write">
+        <field name="pin_option">PWM0</field>
+        <field name="value_option">50</field>
+      </block>
+      <block type="ciaa_sapi_pwm_read">
+        <field name="pin_option">PWM0</field>
+      </block>
+    </category>
+    <category name="Servo">
+      <block type="ciaa_sapi_servo_write">
+        <field name="pin_option">SERVO0</field>
+        <field name="angle_value_option">90</field>
+      </block>
+      <block type="ciaa_sapi_servo_read">
+        <field name="pin_option">SERVO0</field>
+      </block>
     </category>
     <category name="Control">
       <block type="ciaa_sapi_inaccurate_blocking_delay">

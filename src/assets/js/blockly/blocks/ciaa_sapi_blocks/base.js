@@ -156,6 +156,44 @@ Blockly.Blocks['ciaa_sapi_sleep_until_interrupt'] = {
   }
 };
 
+Blockly.Blocks['ciaa_sapi_pwm_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Escribir Salida de PWM");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin")
+        .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value")
+        .appendField(new Blockly.FieldNumber(0, 0, 255), "value_option")
+        .appendField("(0 a 255)");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip('Escribe una salida de PWM');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_pwm_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Leer Salida de PWM");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin")
+        .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(135);
+    this.setTooltip('Lee una salida de PWM');
+    this.setHelpUrl('');
+  }
+};
+
 // Blockly.Blocks['string_length'] = {
 //   init: function() {
 //     this.jsonInit({

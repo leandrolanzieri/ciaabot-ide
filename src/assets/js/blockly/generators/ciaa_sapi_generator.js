@@ -78,7 +78,11 @@ var profile = {
     buttons: [["Tecla 1", "TEC1"], ["Tecla 2", "TEC2"], ["Tecla 3", "TEC3"], ["Tecla 4", "TEC4"]],
     adc: [["Canal 1", "CH1"], ["Canal 2", "CH2"], ["Canal 3", "CH3"]],
     dac: [['DAC', 'DAC']],
-    serial: 9600
+    serial: 9600,
+    pwm: [["PWM0", "PWM0"], ["PWM1", "PWM1"], ["PWM2", "PWM2"], ["PWM3", "PWM3"], ["PWM4", "PWM4"],
+          ["PWM5", "PWM5"], ["PWM6", "PWM6"], ["PWM7", "PWM7"], ["PWM8", "PWM8"], ["PWM9", "PWM9"], ["PWM10", "PWM10"]],
+    servo: [["SERVO0", "SERVO0"], ["SERVO1", "SERVO1"], ["SERVO2", "SERVO2"], ["SERVO3", "SERVO3"], ["SERVO4", "SERVO4"],
+            ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]]
   },
   ciaa: {
     description: "Ciaa board"
