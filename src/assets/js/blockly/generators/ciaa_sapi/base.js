@@ -47,7 +47,7 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_write'] = function(block) {
   var value_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE);';
-  Blockly.CiaaSapi.setups_['gpio-config-output' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_OUTPUT );';
+  Blockly.CiaaSapi.setups_['gpio-config-output' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_OUTPUT);';
   var code = 'gpioWrite(' + dropdown_pin_option + ', ' + dropdown_value_option + ');\n';
   return code;
 };
@@ -56,7 +56,7 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_digital_read'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE);';
-  Blockly.CiaaSapi.setups_['gpio-config-input' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_INPUT );';
+  Blockly.CiaaSapi.setups_['gpio-config-input' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_INPUT);';
   var code = 'gpioRead(' + dropdown_pin_option + ')';
   return [code, Blockly.CiaaSapi.ORDER_NONE];
 };

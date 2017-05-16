@@ -18,27 +18,29 @@
  */
 
 /**
- * @fileoverview Generating Arduino for control blocks.
- * @author gasolin@gmail.com  (Fred Lin)
+ * @fileoverview Code for control blocks
+ * @author lanzierileandro@gmail.con (Leandro Lanzieri Rodriguez)
  */
 'use strict';
 
-goog.provide('Blockly.Arduino.loops');
+goog.provide('Blockly.CiaaSapi.loops');
 
-goog.require('Blockly.Arduino');
+goog.require('Blockly.CiaaSapi');
 
 
-Blockly.Arduino.controls_for = function() {
+Blockly.CiaaSapi.controls_for = function() {
   // For loop.
-  var variable0 = Blockly.Arduino.variableDB_.getName(
+  var variable0 = Blockly.CiaaSapi.variableDB_.getName(
       this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  var argument0 = Blockly.Arduino.valueToCode(this, 'FROM',
-      Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-  var argument1 = Blockly.Arduino.valueToCode(this, 'TO',
-      Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-  var branch = Blockly.Arduino.statementToCode(this, 'DO');
-  if (Blockly.Arduino.INFINITE_LOOP_TRAP) {
-    branch = Blockly.Arduino.INFINITE_LOOP_TRAP.replace(/%1/g,
+  var argument0 = Blockly.CiaaSapi.valueToCode(this, 'FROM',
+      Blockly.CiaaSapi.ORDER_ASSIGNMENT) || '0';
+  var argument1 = Blockly.CiaaSapi.valueToCode(this, 'TO',
+      Blockly.CiaaSapi.ORDER_ASSIGNMENT) || '0';
+  var argument2 = Blockly.CiaaSapi.valueToCode(this, 'BY',
+      Blockly.CiaaSapi.ORDER_ASSIGNMENT) || '0';      
+  var branch = Blockly.CiaaSapi.statementToCode(this, 'DO');
+  if (Blockly.CiaaSapi.INFINITE_LOOP_TRAP) {
+    branch = Blockly.CiaaSapi.INFINITE_LOOP_TRAP.replace(/%1/g,
         '\'' + this.id + '\'') + branch;
   }
   var code;
@@ -48,20 +50,21 @@ Blockly.Arduino.controls_for = function() {
     var up = parseFloat(argument0) <= parseFloat(argument1);
     code = 'for (' + variable0 + ' = ' + argument0 + '; ' +
         variable0 + (up ? ' <= ' : ' >= ') + argument1 + '; ' +
-        variable0 + (up ? '++' : '--') + ') {\n' +
+        // variable0 + (up ? '++' : '--') + ') {\n' +
+        variable0 + (argument2 == 0 ? '++' : '+=' + argument2) + ') {\n' +
         branch + '}\n';
   } else {
     code = '';
     // Cache non-trivial values to variables to prevent repeated look-ups.
     var startVar = argument0;
     if (!argument0.match(/^\w+$/) && !argument0.match(/^-?\d+(\.\d+)?$/)) {
-      var startVar = Blockly.Arduino.variableDB_.getDistinctName(
+      var startVar = Blockly.CiaaSapi.variableDB_.getDistinctName(
           variable0 + '_start', Blockly.Variables.NAME_TYPE);
       code += 'int ' + startVar + ' = ' + argument0 + ';\n';
     }
     var endVar = argument1;
     if (!argument1.match(/^\w+$/) && !argument1.match(/^-?\d+(\.\d+)?$/)) {
-      var endVar = Blockly.Arduino.variableDB_.getDistinctName(
+      var endVar = Blockly.CiaaSapi.variableDB_.getDistinctName(
           variable0 + '_end', Blockly.Variables.NAME_TYPE);
       code += 'int ' + endVar + ' = ' + argument1 + ';\n';
     }
@@ -76,15 +79,15 @@ Blockly.Arduino.controls_for = function() {
   return code;
 };
 
-Blockly.Arduino.controls_whileUntil = function() {
+Blockly.CiaaSapi.controls_whileUntil = function() {
   // Do while/until loop.
   var until = this.getFieldValue('MODE') == 'UNTIL';
-  var argument0 = Blockly.Arduino.valueToCode(this, 'BOOL',
-      until ? Blockly.Arduino.ORDER_LOGICAL_NOT :
-      Blockly.Arduino.ORDER_NONE) || 'false';
-  var branch = Blockly.Arduino.statementToCode(this, 'DO');
-  if (Blockly.Arduino.INFINITE_LOOP_TRAP) {
-    branch = Blockly.Arduino.INFINITE_LOOP_TRAP.replace(/%1/g,
+  var argument0 = Blockly.CiaaSapi.valueToCode(this, 'BOOL',
+      until ? Blockly.CiaaSapi.ORDER_LOGICAL_NOT :
+      Blockly.CiaaSapi.ORDER_NONE) || 'false';
+  var branch = Blockly.CiaaSapi.statementToCode(this, 'DO');
+  if (Blockly.CiaaSapi.INFINITE_LOOP_TRAP) {
+    branch = Blockly.CiaaSapi.INFINITE_LOOP_TRAP.replace(/%1/g,
         '\'' + this.id + '\'') + branch;
   }
   if (until) {

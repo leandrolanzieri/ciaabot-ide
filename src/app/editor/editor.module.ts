@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './editor.routing';
 import { EditorComponent } from './editor.component';
 import { BlocklyComponent } from './components/blockly/blockly.component';
+import { ModalModule } from 'ng2-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { BlocklyComponent } from './components/blockly/blockly.component';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ModalModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

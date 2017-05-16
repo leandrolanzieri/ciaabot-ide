@@ -18,18 +18,18 @@
  */
 
 /**
- * @fileoverview Generating Arduino for text blocks.
- * @author gasolin@gmail.com (Fred Lin)
+ * @fileoverview Text blocks for CiaaSapi.
+ * @author lanzierileandro@gmail.com (Leandro Lanzieri Rodriguez)
  */
 'use strict';
 
-goog.provide('Blockly.Arduino.texts');
+goog.provide('Blockly.CiaaSapi.texts');
 
-goog.require('Blockly.Arduino');
+goog.require('Blockly.CiaaSapi');
 
 
-Blockly.Arduino.text = function() {
+Blockly.CiaaSapi.text = function() {
   // Text value.
-  var code = Blockly.Arduino.quote_(this.getFieldValue('TEXT'));
-  return [code, Blockly.Arduino.ORDER_ATOMIC];
+  var code = Blockly.CiaaSapi.quote_(this.getFieldValue('TEXT'));
+  return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
 };

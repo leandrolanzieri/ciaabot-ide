@@ -72,7 +72,7 @@ Blockly.CiaaSapi.ORDER_NONE = 99;          // (...)
  */
 var profile = {
   edu_ciaa: {
-    description: "EduCiaa board",
+    description: "EDU-CIAA-NXP board",
     digital: [['Gpio 0','GPIO0'], ['Gpio 1','GPIO1'], ['Gpio 2','GPIO2'], ['Gpio 3','GPIO3'], ['Gpio 4','GPIO4'], ['Gpio 5','GPIO5'], ['Gpio 6','GPIO6'], ['Gpio 7','GPIO7'], ['Gpio 8','GPIO8']],
     leds: [["Led 1", "LED1"], ["Led 2", "LED2"], ["Led 3", "LED3"], ["Led Rojo", "LEDR"], ["Led Verde", "LEDG"], ["Led Azul", "LEDB"]],
     buttons: [["Tecla 1", "TEC1"], ["Tecla 2", "TEC2"], ["Tecla 3", "TEC3"], ["Tecla 4", "TEC4"]],
@@ -82,10 +82,11 @@ var profile = {
     pwm: [["PWM0", "PWM0"], ["PWM1", "PWM1"], ["PWM2", "PWM2"], ["PWM3", "PWM3"], ["PWM4", "PWM4"],
           ["PWM5", "PWM5"], ["PWM6", "PWM6"], ["PWM7", "PWM7"], ["PWM8", "PWM8"], ["PWM9", "PWM9"], ["PWM10", "PWM10"]],
     servo: [["SERVO0", "SERVO0"], ["SERVO1", "SERVO1"], ["SERVO2", "SERVO2"], ["SERVO3", "SERVO3"], ["SERVO4", "SERVO4"],
-            ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]]
+            ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]],
+    types: [["Entero", "int"], ["Decimal", "float"], ["Boolean", "boolean"]]
   },
   ciaa: {
-    description: "Ciaa board"
+    description: "CIAA board"
     //53 digital
     //15 analog
   }
