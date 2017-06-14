@@ -1,0 +1,11 @@
+/*!
+ * CIAABOT Site based on: 
+ * Start Bootstrap - Freelancer v4.0.0-alpha (http://startbootstrap.com/template-overviews/freelancer)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-freelancer/blob/master/LICENSE)
+ */
+header.masthead, hr.star-light:after {
+  background: #1181AE; }
+
+#mainNav .navbar-nav li.nav-item a.nav-link:hover {
+  color: #1181AE; }

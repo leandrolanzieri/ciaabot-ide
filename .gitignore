@@ -1,0 +1,6 @@
+node_modules/
+Dockerfile
+firebase.json
+karma.conf.js
+netlify.toml
+protractor.conf.js
