@@ -1,9 +1,0 @@
-/*styles for home content only*/
-:host>.container-fluid {
-    background-color: #ffffff;
-    color: #616161;
-    display: inline-block;
-    height: 100%;
-    margin: 0;
-    width: 100%;
-}

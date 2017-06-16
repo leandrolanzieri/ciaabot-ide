@@ -2,7 +2,9 @@
   <div class="row" style="height: 100%;">
     <div class="col-9">
 
-      <app-blockly (onBlocklyCodeChange)="onBlocklyCodeChange($event)"></app-blockly>
+      <app-blockly  (onBlocklyCodeChange)="onBlocklyCodeChange($event)" (onBlocklyBlocksChange)="onBlocklyBlocksChange($event)"
+                    [blocks]="blocklyBlocks">
+      </app-blockly>
     </div>
     <div class="col-3">
       <p class="lead">Vista previa</p>

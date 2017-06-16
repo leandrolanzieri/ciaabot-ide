@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap';
 
@@ -20,6 +20,8 @@ export class BlocklyComponent implements OnInit {
   public promptValue: string;
   @ViewChild('promptModal') public promptModal: ModalDirective;
   @Output() public onBlocklyCodeChange = new EventEmitter<string>();
+  @Output() public onBlocklyBlocksChange = new EventEmitter<string>();
+  @Input() public blocks;
 
   constructor(private domSanitizer: DomSanitizer) {
     Blockly.prompt = (a, b, c) => {
@@ -140,7 +142,7 @@ export class BlocklyComponent implements OnInit {
       do {
         x += element.offsetLeft;
         y += element.offsetTop;
-        element = <HTMLElement>element.offsetParent;
+        element = element.offsetParent as HTMLElement;
       } while (element);
       // Position this.blocklyContainer over blocklyArea.
       // this.blocklyContainer.style.left = x + 'px';
@@ -150,12 +152,20 @@ export class BlocklyComponent implements OnInit {
     };
     window.addEventListener('resize', onresize, false);
     onresize(null);
-    Blockly.svgResize(<Blockly.WorkspaceSvg>this.workspace);
+    Blockly.svgResize(this.workspace as Blockly.WorkspaceSvg);
+
+    if (this.blocks) {
+      const xml = Blockly.Xml.textToDom(this.blocks);
+      Blockly.Xml.domToWorkspace(xml, this.workspace);
+    }
   }
 
   public blocklyCodeChange() {
-    let code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
+    const code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
+    const xml = Blockly.Xml.workspaceToDom(this.workspace);
+    const xmlText = Blockly.Xml.domToText(xml);
     this.onBlocklyCodeChange.emit(code);
+    this.onBlocklyBlocksChange.emit(xmlText);
   }
 
   public promptReady() {

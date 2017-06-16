@@ -20,6 +20,7 @@ import { EditorComponent } from './components/editor/editor.component';
 import { HelpComponent } from './components/help/help.component';
 import { BlocklyComponent } from './components/blockly/blockly.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
+import { ProjectComponent } from './components/project/project.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TopbarComponent } from './components/topbar/topbar.component';
     HelpComponent,
     BlocklyComponent,
     TopbarComponent,
+    ProjectComponent,
   ],
   imports: [
     BrowserModule,

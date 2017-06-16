@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectService } from '../../providers/project.service';
 
 @Component({
   selector: 'app-editor',
@@ -7,13 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditorComponent implements OnInit {
   public blocklyCode = '';
-  constructor() { }
+  public blocklyBlocks = null;
+  constructor(
+    private projectService: ProjectService
+  ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
+    const code = this.projectService.getBlocklyCode();
+    const blocks = this.projectService.getBlocklyBlocks();
+    if (code) {
+      this.blocklyCode = code;
+    }
+    if (blocks) {
+      this.blocklyBlocks = blocks;
+    }
   }
 
   public onBlocklyCodeChange(blocklyCode: string) {
     this.blocklyCode = blocklyCode;
+    this.projectService.setBlocklyCode(blocklyCode);
+  }
+
+  public onBlocklyBlocksChange(blocklyBlocks: any) {
+    // const blocksText = new XMLSerializer().serializeToString(blocklyBlocks);
+    this.projectService.setBlocklyBlocks(blocklyBlocks);
   }
 
 }
