@@ -1,45 +1,43 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "noEmit": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "strictNullChecks": false,
-    "lib": [
-      "dom",
-      "es6"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "allowJs": true,
+    "target": "es5",
+    "paths": {
+      "environments": [
+        "./environments"
+      ]
+    },
     "types": [
-      "hammerjs",
-      "jasmine",
       "node",
+      "jasmine",
+      "hammerjs",
       "source-map",
       "uglify-js",
       "webpack",
       "Blockly"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2016",
+      "dom"
     ]
   },
   "exclude": [
     "node_modules",
-    "dist",
-    "src/main.browser.aot.ts"
+    "dist"
   ],
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true,
-    "useWebpackText": true
-  },
-  "compileOnSave": false,
-  "buildOnSave": false,
-  "atom": {
-    "rewriteTsconfig": false
-  }
+  "files": [
+    "typings/index.d.ts",
+    "src/typings.d.ts"
+  ]
 }

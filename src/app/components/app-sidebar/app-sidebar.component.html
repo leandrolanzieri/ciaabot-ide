@@ -1,0 +1,34 @@
+<div class="container-fluid sidebar text-center">
+
+  <a [routerLink]="['home']" [routerLinkActive]="['active']" placement="right" tooltip="Inicio">
+    <div class="row item">
+      <div class="col">
+        <i class="fa fa-list-ul fa-lg"></i>
+      </div>
+    </div>
+  </a>
+
+  <a [routerLink]="['editor']" [routerLinkActive]="['active']"  placement="right" tooltip="Editor">
+    <div class="row item">
+      <div class="col">
+        <i class="fa fa-puzzle-piece fa-lg" style="padding-left: 3px;"></i>
+      </div>
+    </div>
+  </a>
+
+  <a [routerLink]="['configuration']" [routerLinkActive]="['active']" placement="right" tooltip="Configuración">
+    <div class="row item">
+      <div class="col">
+        <i class="fa fa-cog fa-lg"></i>
+      </div>
+    </div>
+  </a>
+
+  <a [routerLink]="['help']" [routerLinkActive]="['active']" placement="right" tooltip="Ayuda">
+    <div class="row item">
+      <div class="col">
+        <i class="fa fa-question-circle fa-lg"></i>
+      </div>
+    </div>
+  </a>
+</div>

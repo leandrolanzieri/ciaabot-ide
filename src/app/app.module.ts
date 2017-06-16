@@ -1,113 +1,46 @@
+import 'zone.js';
+import 'reflect-metadata';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {
-  NgModule,
-  ApplicationRef,
-  CUSTOM_ELEMENTS_SCHEMA
-} from '@angular/core';
-import {
-  removeNgStyles,
-  createNewHosts,
-  createInputTransfer
-} from '@angularclass/hmr';
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-/*
- * Platform and Environment providers/directives/pipes
- */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routing';
-// App is our top level component
 import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
-import { Ng2BootstrapModule, TooltipModule } from 'ng2-bootstrap';
+import { HomeComponent } from './components/home/home.component';
 
-import '../styles/styles.scss';
-import '../styles/headings.css';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AppRoutingModule } from './app-routing.module';
 
-// Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
-];
+import { ElectronService } from './providers/electron.service';
+import { ProjectService } from './providers/project.service';
+import { AppSidebarComponent } from './components/app-sidebar/app-sidebar.component';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { EditorComponent } from './components/editor/editor.component';
+import { HelpComponent } from './components/help/help.component';
+import { BlocklyComponent } from './components/blockly/blockly.component';
+import { TopbarComponent } from './components/topbar/topbar.component';
 
-type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
-
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
 @NgModule({
-  bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    SidebarComponent
+    HomeComponent,
+    AppSidebarComponent,
+    ConfigurationComponent,
+    EditorComponent,
+    HelpComponent,
+    BlocklyComponent,
+    TopbarComponent,
   ],
-  imports: [ // import Angular's modules
+  imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-    Ng2BootstrapModule.forRoot(),
+    AppRoutingModule,
+    ModalModule.forRoot(),
     TooltipModule.forRoot()
   ],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS,
-    APP_PROVIDERS
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: [ElectronService, ProjectService],
+  bootstrap: [AppComponent]
 })
-export class AppModule {
-
-  constructor(
-    public appRef: ApplicationRef,
-    public appState: AppState
-  ) {}
-
-  public hmrOnInit(store: StoreType) {
-    if (!store || !store.state) {
-      return;
-    }
-    console.log('HMR store', JSON.stringify(store, null, 2));
-    // set state
-    this.appState._state = store.state;
-    // set input values
-    if ('restoreInputValues' in store) {
-      let restoreInputValues = store.restoreInputValues;
-      setTimeout(restoreInputValues);
-    }
-
-    this.appRef.tick();
-    delete store.state;
-    delete store.restoreInputValues;
-  }
-
-  public hmrOnDestroy(store: StoreType) {
-    const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
-    // save state
-    const state = this.appState._state;
-    store.state = state;
-    // recreate root elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // save input values
-    store.restoreInputValues  = createInputTransfer();
-    // remove styles
-    removeNgStyles();
-  }
-
-  public hmrAfterDestroy(store: StoreType) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
-
-}
+export class AppModule { }

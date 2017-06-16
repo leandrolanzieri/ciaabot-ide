@@ -1,30 +1,22 @@
-/*
- * Angular 2 decorators and services
- */
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
-import { AppState } from './app.service';
+import { Component } from '@angular/core';
+import { ElectronService } from './providers/electron.service';
 
-/*
- * App Component
- * Top Level Component
- */
 @Component({
-  selector: 'app',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
-  templateUrl: 'app.component.html'
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  constructor(public electronService: ElectronService) {
 
-  constructor() {}
-
-  public ngOnInit() {
+    if (electronService.isElectron()) {
+      console.log('Mode electron');
+      // Check if electron is correctly injected (see externals in webpack.config.js)
+      console.log('c', electronService.ipcRenderer);
+      // Check if nodeJs childProcess is correctly injected (see externals in webpack.config.js)
+      console.log('c', electronService.childProcess);
+    } else {
+      console.log('Mode web');
+    }
   }
-
 }

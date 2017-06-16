@@ -1,2 +1,2 @@
-# Ciaabot IDE
-IDE para el proyecto de robótica educativa abierto **Ciaabot**.
+<img src="ciaabot.svg" width="300">
+
