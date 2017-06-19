@@ -1,2 +1,2 @@
-<img src="ciaabot.svg" width="300">
+<img src="ciaabot.png">
 
