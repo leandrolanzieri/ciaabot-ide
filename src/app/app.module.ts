@@ -1,11 +1,14 @@
 import 'zone.js';
 import 'reflect-metadata';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MdInputModule, MdSelectModule } from '@angular/material';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -21,6 +24,7 @@ import { HelpComponent } from './components/help/help.component';
 import { BlocklyComponent } from './components/blockly/blockly.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { ProjectComponent } from './components/project/project.component';
+import { ConfirmationService } from './providers/confirmation.service';
 
 @NgModule({
   declarations: [
@@ -32,17 +36,21 @@ import { ProjectComponent } from './components/project/project.component';
     HelpComponent,
     BlocklyComponent,
     TopbarComponent,
-    ProjectComponent,
+    ProjectComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot(),
     ModalModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    MdInputModule,
+    MdSelectModule
   ],
-  providers: [ElectronService, ProjectService],
+  providers: [ElectronService, ProjectService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

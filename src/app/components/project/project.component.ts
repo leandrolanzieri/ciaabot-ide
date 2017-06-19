@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Project } from '../../models/project';
 import { CiaabotsModels } from '../../models/ciaabots-models.enum';
+import { ProjectService } from '../../providers/project.service';
+import { NotificationsService } from 'angular2-notifications';
+
+import * as path from 'path';
 
 @Component({
   selector: 'app-project',
@@ -10,7 +15,11 @@ import { CiaabotsModels } from '../../models/ciaabots-models.enum';
 export class ProjectComponent implements OnInit {
   public project: Project = new Project();
   public ciaabots = CiaabotsModels;
-  constructor() { }
+  constructor(
+    private projectService: ProjectService,
+    private router: Router,
+    private notification: NotificationsService
+  ) { }
 
   public ngOnInit() {
   }
@@ -20,12 +29,22 @@ export class ProjectComponent implements OnInit {
     return keys.slice(keys.length / 2);
   }
   public guardar() {
-    console.log("Saving ", this.project);
+    this.project.file = path.join(this.project.file, '/' + this.project.name + '.cbp');
+    this.projectService.create(this.project).subscribe((success) => {
+      console.log(success);
+      if (success) {
+        this.router.navigate(['editor']);
+      } else {
+        this.notification.error(
+          'Error al crear el proyecto',
+          '  '
+        );
+      }
+    })
   }
   public fileChange(event: any) {
     if (event.target.files[0]) {
       let path = event.target.files[0].path;
-      console.log("File ", path);
       this.project.file = path;
     }
   }

@@ -1,6 +1,15 @@
 .project-title {
     font-size: 2rem;
 }
+
+.custom-file-control {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid white;
+    color: white;
+}
+
 .custom-file-control::before {
     content: "Navegar";
     position: absolute;
@@ -15,9 +24,34 @@
     color: #464a4c;
     background-color: #eceeef;
     border: 1px solid rgba(0,0,0,.15);
-    border-radius: 0 .25rem .25rem 0;
+    border-radius: 0;
 }
 
 .custom-file-control::after {
     content: "Seleccionar directorio...";
+}
+
+select, select:focus {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    border-radius: 0;
+    color: white;
+}
+
+select * {
+    color: black;
+}
+
+.btn {
+    background: white;
+    border: 1px solid white;
+    border-radius: 0;
+    color: #1f3042;
+    transition: all 0.2s ease;
+    width: 100%;
+    &:not([disabled]):hover {
+        background: #1f3042;
+        color: white;
+    }
 }

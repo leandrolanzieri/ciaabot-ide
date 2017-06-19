@@ -1,13 +1,15 @@
-<div class="container-fluid">
-  <h1 class="display-4 project-title">{{project.name ? project.name : 'Nuevo Proyecto'}}</h1>
-  <div class="row">
+<div class="container-fluid h-100">
+  <div class="row align-items-center h-100">
     <div class="col-4 offset-4">
+      <h1 class="display-4 project-title">{{project.name ? project.name : 'Nuevo Proyecto'}}</h1>
+      <br>
       <form>
-        <label for="name">Nombre del proyecto</label>
-        <input class="form-control" type="text" name="name" [(ngModel)]="project.name">
-        <hr>
+        <md-input-container class="w-100">
+          <input mdInput type="text" name="name" placeholder="Ingrese el nombre del proyecto" [(ngModel)]="project.name" tabindex="1">
+        </md-input-container>
         <label for="modelo">Modelo de Ciaabot</label>
-        <select class="form-control" name="modelo" [(ngModel)]="project.ciaabotModel">
+
+        <select class="form-control" name="modelo" [(ngModel)]="project.ciaabotModel" tabindex="2">
               <option *ngFor="let modelo of modelos()">
                 {{ modelo }}
               </option>
@@ -15,11 +17,12 @@
         <hr>
         <label for="file">Directorio</label>
         <label class="custom-file d-block">
-          <input type="file" name="file" (change)="fileChange($event)" class="custom-file-input" webkitdirectory >
+          <input type="file" name="file" (change)="fileChange($event)" class="custom-file-input" webkitdirectory tabindex="3">
           <span class="custom-file-control"></span>
         </label>
       </form>
-      <button class="btn btn-lg btn-primary" (click)="guardar()">Guardar</button>
+      <br>
+      <button class="btn btn-lg btn-primary" [disabled]="!project.name || !project.ciaabotModel || !project.file" (click)="guardar()">Guardar</button>
     </div>
   </div>
 </div>

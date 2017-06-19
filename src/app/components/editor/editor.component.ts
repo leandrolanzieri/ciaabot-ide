@@ -30,7 +30,6 @@ export class EditorComponent implements OnInit {
   }
 
   public onBlocklyBlocksChange(blocklyBlocks: any) {
-    // const blocksText = new XMLSerializer().serializeToString(blocklyBlocks);
     this.projectService.setBlocklyBlocks(blocklyBlocks);
   }
 

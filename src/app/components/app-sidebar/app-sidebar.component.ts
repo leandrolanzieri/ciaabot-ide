@@ -9,7 +9,7 @@ import { ProjectService } from '../../providers/project.service';
 export class AppSidebarComponent implements OnInit {
 
   constructor(
-    private projectService: ProjectService
+    public projectService: ProjectService
   ) { }
 
   ngOnInit() {

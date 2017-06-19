@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,13 @@ import { ElectronService } from './providers/electron.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService) {
+  public notificationsOptions = {
+    position: ['top', 'right'],
+    timeOut: 5000
+  }
+  constructor(
+    public electronService: ElectronService,
+    private notificationsService: NotificationsService ) {
 
     if (electronService.isElectron()) {
       console.log('Mode electron');

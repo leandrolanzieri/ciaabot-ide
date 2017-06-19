@@ -38,3 +38,24 @@ $topbar-height: 40px;
         box-shadow: none;
     }
 }
+
+
+.modal-content {
+    color: #2c4762;
+
+    .btn {
+        margin: 0 5px;
+    }
+    .modal-header {
+        margin: 0;
+        padding: 0;
+
+        .modal-title {
+            padding: 5px;
+        }
+
+        .close {
+            padding-right: 10px;
+        }
+    }
+}
