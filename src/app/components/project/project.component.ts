@@ -15,6 +15,9 @@ import * as path from 'path';
 export class ProjectComponent implements OnInit {
   public project: Project = new Project();
   public ciaabots = CiaabotsModels;
+  public directoryPath: string;
+  public fileName: string;
+
   constructor(
     private projectService: ProjectService,
     private router: Router,
@@ -24,13 +27,14 @@ export class ProjectComponent implements OnInit {
   public ngOnInit() {
   }
 
-  public modelos(): string[] {
+  public models(): string[] {
     let keys = Object.keys(this.ciaabots);
     return keys.slice(keys.length / 2);
   }
-  public guardar() {
-    this.project.file = path.join(this.project.file, '/' + this.project.name + '.cbp');
-    this.projectService.create(this.project).subscribe((success) => {
+  public saveProject() {
+    this.directoryPath = path.join(this.directoryPath, '/' + this.toHyphenCase(this.project.name));
+    this.fileName = path.join(this.directoryPath, '/' + this.toHyphenCase(this.project.name) + '.cbp');
+    this.projectService.createProject(this.project, this.directoryPath, this.fileName).subscribe((success) => {
       console.log(success);
       if (success) {
         this.router.navigate(['editor']);
@@ -45,7 +49,16 @@ export class ProjectComponent implements OnInit {
   public fileChange(event: any) {
     if (event.target.files[0]) {
       let path = event.target.files[0].path;
-      this.project.file = path;
+      this.directoryPath = path;
     }
   }
+
+  public toHyphenCase(str: string): string {
+    return str.replace(/\s+/g, '-').toLowerCase();
+  }
+
+  public getPathSeparator(): string {
+    return path.sep;
+  }
+
 }

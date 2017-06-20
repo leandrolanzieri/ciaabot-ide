@@ -5,6 +5,7 @@ import { ConfigurationComponent } from './components/configuration/configuration
 import { EditorComponent } from './components/editor/editor.component';
 import { HelpComponent } from './components/help/help.component';
 import { ProjectComponent } from './components/project/project.component';
+import { EditorGuardService } from './providers/editor-guard.service';
 
 const routes: Routes = [
     {
@@ -19,7 +20,8 @@ const routes: Routes = [
         component: ConfigurationComponent
     }, {
         path: 'editor',
-        component: EditorComponent
+        component: EditorComponent,
+        canActivate: [EditorGuardService]
     }, {
         path: 'help',
         component: HelpComponent

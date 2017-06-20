@@ -3,5 +3,37 @@
 }
 
 #logo {
+    opacity: 0.2;
     width: 100%;
+}
+
+.recent-project-list {
+    border-left: 1px solid #b5d1e4;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.recent-project {
+    border: 1px solid rgba(181, 209, 228, 0.1);
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 5px;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+
+    &:hover {
+        background: rgba(181, 209, 228, 0.1);
+        border-color: transparent;
+    }
+
+    & .path {
+        font-size: 80%;
+        width: 100%;
+    }
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

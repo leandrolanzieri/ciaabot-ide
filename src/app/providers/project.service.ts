@@ -1,91 +1,214 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Project } from '../models/project';
 import * as fs from 'fs';
+import * as mkdirp from 'mkdirp';
+import { Observable, Observer, Subject } from 'rxjs';
+import { NotificationsService } from 'angular2-notifications';
+import { LocalStorage } from 'ng2-webstorage';
+
 import { ConfirmationService } from './confirmation.service';
 import { Dialog } from '../models/dialog';
-import { NotificationsService } from 'angular2-notifications';
-import { Observable, Observer } from 'rxjs';
+import { Project } from '../models/project';
+import { Workspace } from '../models/workspace';
+import { LocalStorageService } from 'ng2-webstorage';
+import { UserPreferences } from '../models/user-preferences';
 
 @Injectable()
 export class ProjectService {
-  public project: Project;
+  public workspace: Workspace = new Workspace();
+  public workspaceSubscription = new Subject<Workspace>();
+  public userPreferences: UserPreferences = new UserPreferences();
+
   constructor(
     private confirmationService: ConfirmationService,
     private notificationsService: NotificationsService,
-    private ngZone: NgZone
-  ) { }
-
-  public create(project: Project): Observable<boolean> {
-    this.project = project;
-    console.log('[Project Service]: Intentando guardar el proyecto ', project);
-    return this.saveProjectToFile();
+    private ngZone: NgZone,
+    private storage: LocalStorageService
+  ) {
+    this.workspaceSubscription.next(this.workspace);
+    this.updatePersistedWorkspace();
+    const preferences = this.storage.retrieve('user-preferences');
+    if (preferences) {
+      this.userPreferences = preferences;
+    }
   }
 
-  public saveProjectToFile(): Observable<boolean> {
-    let retValue = new Observable(observer => {
-      fs.open(this.project.file, 'w', (err, fd) => {
-        if (err) {
-          this.notificationsService.alert('No se puede abrir el archivo');
-          observer.next(false);
-          observer.complete();
-        }
+  public getWorkspace(): Observable<Workspace> {
+    return this.workspaceSubscription.asObservable();
+  }
 
-        fs.writeFile(this.project.file, JSON.stringify(this.project), (errWrite) => {
-          if (errWrite) {
-            observer.next(false);
-            observer.complete();
-          } else {
-            this.ngZone.run(() => {
-              this.notificationsService.success(
-                'Guardar Proyecto',
-                'Guardado',
-                {
-                  timeOut: 3000,
-                  showProgressBar: true,
-                  pauseOnHover: false,
-                  clickToClose: false,
-                  maxLength: 10,
-                  animate: 'fromRight'
-                }
-              );
-            });
-            observer.next(true);
-            observer.complete();
-          }
-        });
-      });
+  /**
+   * Creates a project file and the basic folder structure with basic files
+   * @param project Project to be created
+   * @param directory Absolute path to the container directory
+   * @param file Absolute path to the project file
+   */
+  public createProject(project: Project, directory: string, file: string): Observable<boolean> {
+    this.workspace.project = project;
+    this.workspace.path = directory;
+    this.workspace.projectFile = file;
+    this.workspaceSubscription.next(this.workspace);
+    this.updatePersistedWorkspace();
+    this.addToRecentProjects(project);
+    return this.createProjectStructure(directory, file);
+  }
+
+  public openProject(): boolean {
+    return this.workspace.project != null;
+  }
+
+  public saveProjectToFile(file): boolean {
+    let fileDescriptor: number;
+    try {
+      fileDescriptor = fs.openSync(file, 'w');
+    } catch (error) {
+      this.notificationsService.alert('No se puede crear el archivo');
+      return false;
+    }
+
+    try {
+      fs.writeFileSync(file, JSON.stringify(this.workspace.project));
+    } catch (error) {
+      this.notificationsService.alert('No se puede escribir el archivo');
+      return false;
+    }
+    this.ngZone.run(() => {
+      this.notificationsService.success(
+        'Guardar Proyecto',
+        'Guardado',
+        {
+          timeOut: 3000,
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: false,
+          maxLength: 10,
+          animate: 'fromRight'
+        }
+      );
     });
-    return retValue;
+    return true;
   }
 
   public setBlocklyBlocks(blocks: any) {
-    if (this.project) {
-      this.project.blocks = blocks;
+    if (this.workspace.project) {
+      this.workspace.project.blocks = blocks;
+      this.workspaceSubscription.next(this.workspace);
+      this.updatePersistedWorkspace();
     }
   }
 
   public getBlocklyBlocks(): string {
-    if (this.project) {
-      if (this.project.blocks) {
-        return this.project.blocks;
+    if (this.workspace.project) {
+      if (this.workspace.project.blocks) {
+        return this.workspace.project.blocks;
       }
     }
     return null;
   }
 
   public setBlocklyCode(code: string) {
-    if (this.project) {
-      this.project.code = code;
+    if (this.workspace.project) {
+      this.workspace.project.code = code;
+      this.workspaceSubscription.next(this.workspace);
+      this.updatePersistedWorkspace();
     }
   }
 
   public getBlocklyCode(): string {
-    if (this.project) {
-      if (this.project.code) {
-        return this.project.code;
+    if (this.workspace.project) {
+      if (this.workspace.project.code) {
+        return this.workspace.project.code;
       }
     }
     return null;
+  }
+
+  public getRecentProjects(): Array<{ name: string, projectFile: string, lastOpened: Date }> {
+    return this.userPreferences.recentProjects;
+  }
+
+  /**
+   * Creates directories and copies the files needed to compile and load code to the board.
+   * @param project Project to be created
+   */
+  private createProjectStructure(directory: string, file: string): Observable<boolean> {
+    let retValue = new Observable((observer) => {
+      let error: boolean = false;
+      mkdirp(directory, (err) => {
+        if (err) {
+          console.error(err);
+          observer.next(false);
+          observer.complete();
+          return;
+        } else {
+          if (this.saveProjectToFile(file)) {
+            console.log('Archivo cbp creado');
+          } else {
+            console.log('No se pudo crear el cbp');
+            observer.next(false);
+            observer.complete();
+            return;
+          }
+        }
+
+        mkdirp(directory + '/app/src', (err) => {
+          if (err) {
+            console.error(err);
+            observer.next(false);
+            observer.complete();
+            return;
+          }
+
+          mkdirp(directory + '/app/inc', (err) => {
+            if (err) {
+              console.error(err);
+              observer.next(false);
+              observer.complete();
+              return;
+            }
+
+            mkdirp(directory + '/libs', (err) => {
+              if (err) {
+                console.error(err);
+                observer.next(false);
+                observer.complete();
+                return;
+              }
+
+              mkdirp(directory + '/scripts', (err) => {
+                if (err) {
+                  console.error(err);
+                  observer.next(false);
+                  observer.complete();
+                  return;
+                } else {
+                  observer.next(true);
+                  observer.complete();
+                }
+              });
+            });
+          });
+        });
+      });
+    });
+    return retValue;
+  }
+
+  private updatePersistedWorkspace() {
+    this.storage.store('workspace', this.workspace);
+  }
+
+  private updatePersistedUserPreferences() {
+    this.storage.store('user-preferences', this.userPreferences);
+  }
+
+  private addToRecentProjects(project: Project) {
+    if (-1 === this.userPreferences.recentProjects.findIndex((recentProject) => {
+      return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
+    })) {
+      this.userPreferences.recentProjects.push({ name: project.name, projectFile: this.workspace.projectFile });
+      this.updatePersistedUserPreferences();
+    }
+
   }
 
 }

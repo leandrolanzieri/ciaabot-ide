@@ -1,13 +1,10 @@
 <div class="container-fluid">
   <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
-  <button [routerLink]="['project']" type="button" class="btn btn-outline-primary"><i class="fa fa-file" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-outline-primary"><i class="fa fa-lg fa-folder-open-o" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-outline-primary" (click)="saveProject()"><i class="fa fa-lg fa-floppy-o" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-outline-primary" [routerLink]="['configuration']"><i class="fa fa-lg fa-cog" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-outline-primary" [routerLink]="['help']"><i class="fa fa-lg fa-question-circle" aria-hidden="true"></i></button>
-
-
-  
+  <button [routerLink]="['project']" type="button" class="btn btn-outline-primary"><i class="cursor-pointer fa fa-file" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-outline-primary cursor-pointer"><i class="cursor-pointer fa fa-lg fa-folder-open-o" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-outline-primary cursor-pointer" (click)="saveProject()"><i class="cursor-pointer fa fa-lg fa-floppy-o" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-outline-primary cursor-pointer" [routerLink]="['configuration']"><i class="cursor-pointer fa fa-lg fa-cog" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-outline-primary cursor-pointer" [routerLink]="['help']"><i class="cursor-pointer fa fa-lg fa-question-circle" aria-hidden="true"></i></button>
 </div>
 
 <div class="modal fade" *ngIf="dialog" bsModal #confirmationModal="bs-modal" [config]="{backdrop: 'static'}"
