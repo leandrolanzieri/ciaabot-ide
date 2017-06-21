@@ -1,6 +1,8 @@
 import { CiaabotsModels } from './ciaabots-models.enum';
+import { RecentProject } from './recent-project';
+
 export class UserPreferences {
     public defaultSerialPort: string = null;
     public defaultCiaabotModel: CiaabotsModels = null;
-    public recentProjects: Array<{ name: string, projectFile: string, lastOpened: Date }> = [];
+    public recentProjects: RecentProject[];
 }

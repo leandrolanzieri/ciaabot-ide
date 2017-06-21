@@ -23,7 +23,8 @@ function createWindow() {
     width: size.width,
     height: size.height,
     show: false,
-    icon: __dirname + '/favicon.ico'
+    icon: __dirname + '/favicon.ico',
+    frame: false
   });
 
   win.setMenu(null);

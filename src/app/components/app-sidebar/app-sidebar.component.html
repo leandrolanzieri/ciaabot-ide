@@ -8,7 +8,7 @@
     </div>
   </a>
 
-  <a [routerLink]="['editor']" *ngIf="projectService.openProject()" [routerLinkActive]="['active']"  placement="right" tooltip="Editor">
+  <a [routerLink]="['editor']" *ngIf="projectService.existsOpenProject()" [routerLinkActive]="['active']"  placement="right" tooltip="Editor">
     <div class="row item">
       <div class="col">
         <i class="fa fa-puzzle-piece fa-lg" style="padding-left: 3px;"></i>

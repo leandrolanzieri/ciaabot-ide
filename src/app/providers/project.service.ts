@@ -11,6 +11,7 @@ import { Project } from '../models/project';
 import { Workspace } from '../models/workspace';
 import { LocalStorageService } from 'ng2-webstorage';
 import { UserPreferences } from '../models/user-preferences';
+import { RecentProject } from '../models/recent-project';
 
 @Injectable()
 export class ProjectService {
@@ -52,7 +53,7 @@ export class ProjectService {
     return this.createProjectStructure(directory, file);
   }
 
-  public openProject(): boolean {
+  public existsOpenProject(): boolean {
     return this.workspace.project != null;
   }
 
@@ -205,7 +206,10 @@ export class ProjectService {
     if (-1 === this.userPreferences.recentProjects.findIndex((recentProject) => {
       return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
     })) {
-      this.userPreferences.recentProjects.push({ name: project.name, projectFile: this.workspace.projectFile });
+      const recentProject = new RecentProject();
+      recentProject.name = project.name;
+      recentProject.projectFile = this.workspace.projectFile;
+      this.userPreferences.recentProjects.push(recentProject);
       this.updatePersistedUserPreferences();
     }
 
