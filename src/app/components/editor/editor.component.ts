@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ProjectService } from '../../providers/project.service';
 
 @Component({
@@ -10,7 +10,8 @@ export class EditorComponent implements OnInit {
   public blocklyCode = '';
   public blocklyBlocks = null;
   constructor(
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private ngZone: NgZone
   ) { }
 
   public ngOnInit() {
@@ -25,8 +26,10 @@ export class EditorComponent implements OnInit {
   }
 
   public onBlocklyCodeChange(blocklyCode: string) {
-    this.blocklyCode = blocklyCode;
-    this.projectService.setBlocklyCode(blocklyCode);
+    this.ngZone.run(() => {
+      this.blocklyCode = blocklyCode;
+      this.projectService.setBlocklyCode(blocklyCode);
+    });
   }
 
   public onBlocklyBlocksChange(blocklyBlocks: any) {

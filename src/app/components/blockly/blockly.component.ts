@@ -55,7 +55,7 @@ export class BlocklyComponent implements OnInit {
       </block>
       <block type="ciaa_sapi_dac_write">
         <field name="pin_option">DAC</field>
-        <field name="value_option">0</field>
+        <field name="value">0</field>
       </block>
       <block type="ciaa_sapi_pwm_write">
         <field name="pin_option">PWM0</field>
@@ -68,7 +68,7 @@ export class BlocklyComponent implements OnInit {
     <category name="Servo" colour="230">
       <block type="ciaa_sapi_servo_write">
         <field name="pin_option">SERVO0</field>
-        <field name="angle_value_option">90</field>
+        <field name="value_option">90</field>
       </block>
       <block type="ciaa_sapi_servo_read">
         <field name="pin_option">SERVO0</field>
@@ -161,6 +161,7 @@ export class BlocklyComponent implements OnInit {
   }
 
   public blocklyCodeChange() {
+    console.log('Code change');
     const code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
     const xml = Blockly.Xml.workspaceToDom(this.workspace);
     const xmlText = Blockly.Xml.domToText(xml);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -14,7 +14,8 @@ export class AppComponent {
   }
   constructor(
     public electronService: ElectronService,
-    private notificationsService: NotificationsService ) {
+    private notificationsService: NotificationsService,
+    private changeDetector: ChangeDetectorRef ) {
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
