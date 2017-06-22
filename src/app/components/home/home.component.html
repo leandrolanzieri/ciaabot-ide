@@ -6,11 +6,13 @@
           <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
         </div>
         <div class="col-8 recent-project-list" *ngIf="projectService.getRecentProjects().length > 0">
-          <p class="lead">Proyectos recientes</p>
+          <p class="lead" style="font-weight: 400">Proyectos recientes</p>
+          <div id="recent-projects">
             <div *ngFor="let project of projectService.getRecentProjects()" class="recent-project">
               <div class="ellipsis">{{project.name}}</div>
               <div class="path text-muted ellipsis">{{project.projectFile}}</div>
             </div>
+          </div>
         </div>
       </div>
     </div>

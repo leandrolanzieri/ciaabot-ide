@@ -24,10 +24,12 @@ function createWindow() {
     height: size.height,
     show: false,
     icon: __dirname + '/favicon.ico',
-    frame: false
+    frame: false,
+    title: 'Ciaabot IDE'
   });
 
   win.setMenu(null);
+  win.setTitle('Ciaabot IDE');
   // and load the index.html of the app.
   win.loadURL('file://' + __dirname + '/index.html');
 

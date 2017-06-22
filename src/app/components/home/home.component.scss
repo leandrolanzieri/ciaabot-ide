@@ -13,6 +13,12 @@
     padding-bottom: 20px;
 }
 
+#recent-projects {
+    max-height: 30vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 .recent-project {
     border: 1px solid rgba(181, 209, 228, 0.1);
     font-size: 14px;

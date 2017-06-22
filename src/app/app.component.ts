@@ -45,8 +45,12 @@ export class AppComponent {
 
   public isMaximizedWindow() {
     if (BrowserWindow.getFocusedWindow()) {
-      console.log('Ventana maximizada:', BrowserWindow.getFocusedWindow().isMaximized());
-      return BrowserWindow.getFocusedWindow().isMaximized();
+      let max: boolean;
+      try {
+        max = BrowserWindow.getFocusedWindow().isMaximized();
+      } catch (error) {
+        return false;
+      }
     } else {
       return false;
     }
