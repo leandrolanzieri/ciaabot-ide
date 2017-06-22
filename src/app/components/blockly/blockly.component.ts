@@ -161,7 +161,6 @@ export class BlocklyComponent implements OnInit {
   }
 
   public blocklyCodeChange() {
-    console.log('Code change');
     const code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
     const xml = Blockly.Xml.workspaceToDom(this.workspace);
     const xmlText = Blockly.Xml.domToText(xml);

@@ -21,11 +21,16 @@
 
 .recent-project {
     border: 1px solid rgba(181, 209, 228, 0.1);
+    cursor: pointer;
     font-size: 14px;
     margin-bottom: 5px;
     padding: 5px;
     transition: all 0.3s ease-in-out;
     width: 100%;
+
+    & * {
+        cursor: pointer;
+    }
 
     &:hover {
         background: rgba(181, 209, 228, 0.1);

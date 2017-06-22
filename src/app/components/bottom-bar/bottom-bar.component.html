@@ -1,6 +1,6 @@
 <div class="container-fluid" *ngIf="workspace">
   <div *ngIf="workspace.project">
-    <small>{{workspace.project.name || ''}}</small>
+    <small>{{workspace.project.name || ''}} <span *ngIf="projectService.getProjectChange()"> *</span></small>
     <small *ngIf="workspace.project.ciaabotModel">| Usando el Ciaabot {{workspace.project.ciaabotModel}}</small>
   </div>
 </div>

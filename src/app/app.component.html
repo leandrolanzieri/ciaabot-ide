@@ -4,8 +4,8 @@
     Ciaabot IDE
     <div class="controls float-right">
         <button class="btn" (click)="minimizeWindow()"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
-        <button class="btn" *ngIf="isMaximizedWindow()" (click)="unmaximizeWindow()"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
-        <button class="btn" *ngIf="!isMaximizedWindow()" (click)="maximizeWindow()"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+        <button class="btn" *ngIf="isMaximizedWindow" (click)="unmaximizeWindow()"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+        <button class="btn" *ngIf="!isMaximizedWindow" (click)="maximizeWindow()"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
         <button class="btn close-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
     </div>
 </div>

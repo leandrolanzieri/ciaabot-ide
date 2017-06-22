@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { NotificationsService } from 'angular2-notifications';
+import { WindowService } from './providers/window.service';
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
 @Component({
@@ -13,10 +14,11 @@ export class AppComponent {
     position: ['top', 'right'],
     timeOut: 5000
   };
+  public isMaximizedWindow: boolean = false;
   constructor(
     public electronService: ElectronService,
     private notificationsService: NotificationsService,
-    private changeDetector: ChangeDetectorRef ) {
+    private windowService: WindowService ) {
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
@@ -27,32 +29,25 @@ export class AppComponent {
     } else {
       console.log('Mode web');
     }
+
+    setInterval(() => {
+      this.isMaximizedWindow = this.maximizedWindow();
+    }, 500);
   }
 
   public minimizeWindow() {
-    BrowserWindow.getFocusedWindow().minimize();
+    this.windowService.minimizeWindow();
   }
 
   public unmaximizeWindow() {
-    console.log('Minimizando ventana');
-    BrowserWindow.getFocusedWindow().unmaximize();
+    this.windowService.unmaximizeWindow();
   }
 
   public maximizeWindow() {
-    console.log('Maximizando ventana');
-    BrowserWindow.getFocusedWindow().maximize();
+    this.windowService.maximizeWindow();
   }
 
-  public isMaximizedWindow() {
-    if (BrowserWindow.getFocusedWindow()) {
-      let max: boolean;
-      try {
-        max = BrowserWindow.getFocusedWindow().isMaximized();
-      } catch (error) {
-        return false;
-      }
-    } else {
-      return false;
-    }
+  public maximizedWindow() {
+    return this.windowService.isMaximizedWindow();
   }
 }

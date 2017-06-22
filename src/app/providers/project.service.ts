@@ -53,47 +53,59 @@ export class ProjectService {
     return this.createProjectStructure(directory, file);
   }
 
+  public openProject(recentProject: RecentProject): Observable<boolean> {
+    let retValue = new Observable((observer) => {
+      fs.readFile(recentProject.projectFile, (err, data) => {
+        if (err) {
+          this.notificationsService.alert('Ocurrió un error al abrir el proyecto');
+          observer.next(false);
+          observer.complete();
+        } else {
+          try {
+            this.workspace.project = (JSON.parse(data as any) as Project);
+            this.workspace.projectFile = recentProject.projectFile;
+            this.workspace.changes = false;
+            this.workspaceSubscription.next(this.workspace);
+            this.updatePersistedUserPreferences();
+            this.addToRecentProjects(this.workspace.project);
+            observer.next(true);
+            observer.complete();
+          } catch (error) {
+            console.log('Error al parsear json del proyecto');
+            this.notificationsService.alert('Ocurrión un error al leer el proyecto');
+            observer.next(false);
+            observer.complete();
+          }
+        }
+      });
+    });
+    return retValue;
+  }
+
+  public saveCurrentProject() {
+    this.saveProjectToFile(this.workspace.projectFile);
+  }
+
+  public registerProjectChange() {
+    this.workspace.changes = true;
+    this.workspaceSubscription.next(this.workspace);
+    this.updatePersistedWorkspace();
+  }
+
+  public getProjectChange() {
+    return this.workspace.changes;
+  }
+
   public existsOpenProject(): boolean {
     return this.workspace.project != null;
   }
 
-  public saveProjectToFile(file): boolean {
-    let fileDescriptor: number;
-    try {
-      fileDescriptor = fs.openSync(file, 'w');
-    } catch (error) {
-      this.notificationsService.alert('No se puede crear el archivo');
-      return false;
-    }
-
-    try {
-      fs.writeFileSync(file, JSON.stringify(this.workspace.project));
-    } catch (error) {
-      this.notificationsService.alert('No se puede escribir el archivo');
-      return false;
-    }
-    this.ngZone.run(() => {
-      this.notificationsService.success(
-        'Guardar Proyecto',
-        'Guardado',
-        {
-          timeOut: 3000,
-          showProgressBar: true,
-          pauseOnHover: false,
-          clickToClose: false,
-          maxLength: 10,
-          animate: 'fromRight'
-        }
-      );
-    });
-    return true;
-  }
-
   public setBlocklyBlocks(blocks: any) {
     if (this.workspace.project) {
-      this.workspace.project.blocks = blocks;
-      this.workspaceSubscription.next(this.workspace);
-      this.updatePersistedWorkspace();
+      if (this.workspace.project.blocks !== blocks) {
+        this.workspace.project.blocks = blocks;
+        this.registerProjectChange();
+      }
     }
   }
 
@@ -125,6 +137,47 @@ export class ProjectService {
 
   public getRecentProjects(): Array<{ name: string, projectFile: string, lastOpened: Date }> {
     return this.userPreferences.recentProjects;
+  }
+
+  private saveProjectToFile(file): boolean {
+    console.log('Trying to save', file);
+    let fileDescriptor: number;
+    /* Try to open file */
+    try {
+      fileDescriptor = fs.openSync(file, 'w');
+    } catch (error) {
+      this.notificationsService.alert('No se puede crear el archivo');
+      return false;
+    }
+
+    /* Try to write to file */
+    try {
+      fs.writeFileSync(file, JSON.stringify(this.workspace.project));
+    } catch (error) {
+      this.notificationsService.alert('No se puede escribir el archivo');
+      /* Closing the file */
+      fs.closeSync(fileDescriptor);
+      return false;
+    }
+
+    /* Closing the file */
+    fs.closeSync(fileDescriptor);
+
+    this.ngZone.run(() => {
+      this.notificationsService.success(
+        'Guardar Proyecto',
+        'Guardado',
+        {
+          timeOut: 3000,
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: false,
+          maxLength: 10,
+          animate: 'fromRight'
+        }
+      );
+    });
+    return true;
   }
 
   /**
@@ -213,6 +266,7 @@ export class ProjectService {
       this.userPreferences.recentProjects.push(recentProject);
       this.userPreferences.recentProjects.splice(0, 1);
 
+      /* Order recent projects by date */
       this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
         if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
           return b.lastOpened.getTime() - a.lastOpened.getTime();

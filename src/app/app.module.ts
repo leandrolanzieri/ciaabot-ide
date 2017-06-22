@@ -26,6 +26,7 @@ import { ProjectComponent } from './components/project/project.component';
 import { BottomBarComponent } from './components/bottom-bar/bottom-bar.component';
 import { ConfirmationService } from './providers/confirmation.service';
 import { EditorGuardService } from './providers/editor-guard.service';
+import { WindowService } from './providers/window.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,13 @@ import { EditorGuardService } from './providers/editor-guard.service';
     MdSelectModule,
     Ng2Webstorage
   ],
-  providers: [ElectronService, ProjectService, ConfirmationService, EditorGuardService],
+  providers: [
+    ElectronService,
+    ProjectService,
+    ConfirmationService,
+    EditorGuardService,
+    WindowService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

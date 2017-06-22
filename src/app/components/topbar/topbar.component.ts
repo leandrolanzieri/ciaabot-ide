@@ -30,7 +30,7 @@ export class TopbarComponent implements OnInit {
   }
 
   public saveProject() {
-    this.projectService.saveProjectToFile();
+    this.projectService.saveCurrentProject();
   }
 
 }
