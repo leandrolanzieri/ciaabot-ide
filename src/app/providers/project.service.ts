@@ -270,26 +270,35 @@ export class ProjectService {
 
   private addToRecentProjects(project: Project) {
     /* If the project does not exists, it is pushed into the array */
-    if (-1 === this.userPreferences.recentProjects.findIndex((recentProject) => {
-      return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
-    })) {
+    if (this.userPreferences.recentProjects) {
+      if (-1 === this.userPreferences.recentProjects.findIndex((recentProject) => {
+        return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
+      })) {
+        const recentProject = new RecentProject();
+        recentProject.name = project.name;
+        recentProject.projectFile = this.workspace.projectFile;
+        this.userPreferences.recentProjects.push(recentProject);
+        this.userPreferences.recentProjects.splice(0, 1);
+
+        /* Order recent projects by date */
+        this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
+          if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
+            return b.lastOpened.getTime() - a.lastOpened.getTime();
+          } else if (a.lastOpened instanceof Date) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+
+        this.updatePersistedUserPreferences();
+      }
+    } else {
+      this.userPreferences.recentProjects = [];
       const recentProject = new RecentProject();
       recentProject.name = project.name;
       recentProject.projectFile = this.workspace.projectFile;
       this.userPreferences.recentProjects.push(recentProject);
-      this.userPreferences.recentProjects.splice(0, 1);
-
-      /* Order recent projects by date */
-      this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
-        if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
-          return b.lastOpened.getTime() - a.lastOpened.getTime();
-        } else if (a.lastOpened instanceof Date) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-
       this.updatePersistedUserPreferences();
     }
   }

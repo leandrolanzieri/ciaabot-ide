@@ -1,0 +1,64 @@
+
+$spacer-icon: '\f2db';
+
+header.masthead, hr.star-light:after {
+    background: $theme-success; 
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link:hover {
+    color: $theme-success;
+}
+
+.intro-text a {
+    border-bottom: 2px solid white;
+    color: white;
+}
+
+.intro-text a:hover {
+    text-decoration: none;
+}
+
+/****************************
+** Spacer **
+*****************************/
+
+hr.spacer-icon, hr.spacer-icon {
+    border-color: #fff;
+    max-width: 250px;
+    margin: 25px auto 30px;
+    padding: 0;
+    text-align: center;
+    border: none;
+    border-top: solid 5px;
+}
+
+hr.spacer-icon:after {
+    font-family: FontAwesome;
+    font-size: 2em;
+    position: relative;
+    top: -.8em;
+    display: inline-block;
+    padding: 0 .25em;
+    content: $spacer-icon;
+}
+
+hr.spacer-icon.light:after {
+    background-color: $theme-success;
+}
+
+hr.spacer-icon.primary:after {
+    background-color: white;
+}
+
+hr.spacer-icon.green:after {
+    background-color: $theme-success;
+}
+
+/****************************
+*****************************/
+
+a.light {
+    color: white;
+    
+    text-decoration: underline;
+}
