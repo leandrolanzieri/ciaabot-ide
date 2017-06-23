@@ -6,4 +6,8 @@ export class Project {
     public blocks?: string = '';
     public code?: string = '';
     public serialPort?: string = '';
+
+    public isProject(project: any): project is Project {
+        return project.name != null;
+    }
 }

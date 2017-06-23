@@ -1,7 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as fs from 'fs';
+import * as path from 'path';
 import * as mkdirp from 'mkdirp';
-import { Observable, Observer, Subject } from 'rxjs';
+import { Observable, Observer, Subject, BehaviorSubject } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 import { LocalStorage } from 'ng2-webstorage';
 
@@ -16,7 +17,7 @@ import { RecentProject } from '../models/recent-project';
 @Injectable()
 export class ProjectService {
   public workspace: Workspace = new Workspace();
-  public workspaceSubscription = new Subject<Workspace>();
+  public workspaceSubscription = new BehaviorSubject<Workspace>(null);
   public userPreferences: UserPreferences = new UserPreferences();
 
   constructor(
@@ -53,23 +54,33 @@ export class ProjectService {
     return this.createProjectStructure(directory, file);
   }
 
-  public openProject(recentProject: RecentProject): Observable<boolean> {
+  public openRecentProject(recentProject: RecentProject): Observable<boolean> {
+    return this.openProject(recentProject.projectFile);
+  }
+
+  public openProject(filePath: string): Observable<boolean> {
     let retValue = new Observable((observer) => {
-      fs.readFile(recentProject.projectFile, (err, data) => {
+      fs.readFile(filePath, (err, data) => {
         if (err) {
           this.notificationsService.alert('Ocurrió un error al abrir el proyecto');
           observer.next(false);
           observer.complete();
         } else {
           try {
-            this.workspace.project = (JSON.parse(data as any) as Project);
-            this.workspace.projectFile = recentProject.projectFile;
-            this.workspace.changes = false;
-            this.workspaceSubscription.next(this.workspace);
-            this.updatePersistedUserPreferences();
-            this.addToRecentProjects(this.workspace.project);
-            observer.next(true);
-            observer.complete();
+            let parsedData = JSON.parse(data as any);
+            if (!new Project().isProject(parsedData)) {
+              throw new Error();
+            } else {
+              this.workspace.project = parsedData;
+              this.workspace.projectFile = filePath;
+              this.workspace.changes = false;
+              this.workspace.path = path.dirname(filePath);
+              this.workspaceSubscription.next(this.workspace);
+              this.updatePersistedUserPreferences();
+              this.addToRecentProjects(this.workspace.project);
+              observer.next(true);
+              observer.complete();
+            }
           } catch (error) {
             console.log('Error al parsear json del proyecto');
             this.notificationsService.alert('Ocurrión un error al leer el proyecto');

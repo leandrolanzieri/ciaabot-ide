@@ -27,6 +27,8 @@ import { BottomBarComponent } from './components/bottom-bar/bottom-bar.component
 import { ConfirmationService } from './providers/confirmation.service';
 import { EditorGuardService } from './providers/editor-guard.service';
 import { WindowService } from './providers/window.service';
+import { AppSidebarService } from './components/app-sidebar/app-sidebar.service';
+import { CompilingService } from './providers/compiling.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { WindowService } from './providers/window.service';
     ProjectService,
     ConfirmationService,
     EditorGuardService,
-    WindowService
+    WindowService,
+    AppSidebarService,
+    CompilingService
   ],
   bootstrap: [AppComponent]
 })

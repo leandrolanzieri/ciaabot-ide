@@ -1,5 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ProjectService } from '../../providers/project.service';
+import { Subscription } from 'rxjs';
+import { Workspace } from '../../models/workspace';
+import { AppSidebarService } from '../app-sidebar/app-sidebar.service';
 
 @Component({
   selector: 'app-editor',
@@ -7,27 +10,32 @@ import { ProjectService } from '../../providers/project.service';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
-  public blocklyCode = '';
-  public blocklyBlocks = null;
+  public workspace: Workspace;
+  public workspaceSubscription: Subscription;
+  public showCCode: boolean = false;
   constructor(
     private projectService: ProjectService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private appSidebarService: AppSidebarService
   ) { }
 
   public ngOnInit() {
-    const code = this.projectService.getBlocklyCode();
-    const blocks = this.projectService.getBlocklyBlocks();
-    if (code) {
-      this.blocklyCode = code;
-    }
-    if (blocks) {
-      this.blocklyBlocks = blocks;
-    }
+    this.workspaceSubscription = this.projectService.getWorkspace().subscribe((workspace: Workspace) => {
+      this.ngZone.run(() => {
+        console.log('Editor: Workspace', workspace);
+        this.workspace = workspace;
+      });
+    });
+
+    this.appSidebarService.getShowCCode().subscribe((show: boolean) => {
+      this.ngZone.run(() => {
+        this.showCCode = show;
+      });
+    });
   }
 
   public onBlocklyCodeChange(blocklyCode: string) {
     this.ngZone.run(() => {
-      this.blocklyCode = blocklyCode;
       this.projectService.setBlocklyCode(blocklyCode);
     });
   }

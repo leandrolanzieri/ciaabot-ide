@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   }
 
   public openProject(recentProject: RecentProject) {
-    this.projectService.openProject(recentProject).subscribe((success) => {
+    this.projectService.openRecentProject(recentProject).subscribe((success) => {
       if (success) {
         this.router.navigate(['editor']);
       }

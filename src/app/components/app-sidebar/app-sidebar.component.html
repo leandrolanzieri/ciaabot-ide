@@ -1,6 +1,6 @@
 <div class="container-fluid sidebar text-center">
-<i class="fa fa-lg fa-ellipsis-h" aria-hidden="true" style="color: #1f3042;"></i>
-  <a [routerLink]="['home']" [routerLinkActive]="['active']" placement="right" tooltip="Inicio">
+  <i class="fa fa-lg fa-ellipsis-h" aria-hidden="true" style="color: #1f3042;"></i>
+  <a [routerLink]="['home']" [routerLinkActive]="['active']" placement="right" tooltip="Proyectos recientes" container="body">
     <div class="row item">
       <div class="col">
         <i class="fa fa-list-ul fa-lg"></i>
@@ -8,11 +8,49 @@
     </div>
   </a>
 
-  <a [routerLink]="['editor']" *ngIf="projectService.existsOpenProject()" [routerLinkActive]="['active']"  placement="right" tooltip="Editor">
-    <div class="row item">
-      <div class="col">
-        <i class="fa fa-puzzle-piece fa-lg" style="padding-left: 3px;"></i>
+  <!-- Editor specific actions -->
+  <div *ngIf="projectService.existsOpenProject()">
+    <hr>
+    <a [routerLink]="['editor']" [routerLinkActive]="['active']" placement="right" tooltip="Editor">
+      <div class="row item">
+        <div class="col">
+          <i class="fa fa-puzzle-piece fa-lg" style="padding-left: 3px;"></i>
+        </div>
       </div>
-    </div>
-  </a>
+    </a>
+    <a (click)="toggleCCode()" [ngClass]="{'active': showCCode}" placement="right"
+      tooltip="Ver código en C" container="body">
+      <div class="row item">
+        <div class="col">
+          <i class="fa fa-code fa-lg" aria-hidden="true"></i>
+        </div>
+      </div>
+    </a>
+    <a placement="right" tooltip="Ver código en Español" container="body">
+      <div class="row item">
+        <div class="col">
+          <strong>Es</strong>
+        </div>
+      </div>
+    </a>
+
+    <hr>
+
+    <a placement="right" tooltip="Verificar programa" (click)="verifyProgram()" container="body">
+      <div class="row item">
+        <div class="col">
+          <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
+        </div>
+      </div>
+    </a>
+
+    <a placement="right" tooltip="Descargar al robot" container="body">
+      <div class="row item">
+        <div class="col">
+          <i class="fa fa-download fa-lg" aria-hidden="true"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+  <!-- ===================== -->
 </div>
