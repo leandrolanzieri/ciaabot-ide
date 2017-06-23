@@ -98,3 +98,17 @@ Blockly.CiaaSapi.logic_null = function() {
   var code = 'NULL';
   return [code ,Blockly.CiaaSapi.ORDER_ATOMIC];
 };
+
+Blockly.CiaaSapi['logic_true'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'TRUE';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['logic_false'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'FALSE';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};

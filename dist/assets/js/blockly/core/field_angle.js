@@ -276,7 +276,8 @@ Blockly.FieldAngle.prototype.updateGraph_ = function() {
  * @return {?string} A string representing a valid angle, or null if invalid.
  */
 Blockly.FieldAngle.angleValidator = function(text) {
-  var n = Blockly.FieldTextInput.numberValidator(text);
+  // var n = Blockly.FieldTextInput.numberValidator(text);
+  var n = Blockly.fieldNumber(text);
   if (n !== null) {
     n = n % 360;
     if (n < 0) {

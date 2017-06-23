@@ -103,7 +103,7 @@ Blockly.CiaaSapi.init = function(workspace) {
   // Create a dictionary of definitions to be printed before setups.
   Blockly.CiaaSapi.definitions_ = Object.create(null);
   // Always include sAPI header file
-  Blockly.CiaaSapi.definitions_['sapi-header-file'] = '#include "sapi.h"';
+  Blockly.CiaaSapi.definitions_['sapi-header-file'] = '\n#include "sapi.h"';
   // Create a dictionary of setups to be printed before the code.
   Blockly.CiaaSapi.setups_ = Object.create(null);
 
@@ -133,10 +133,10 @@ Blockly.CiaaSapi.finish = function(code) {
   // Indent every line.
   code = '  ' + code.replace(/\n/g, '\n      ');
   var userCode = code.replace(/\n\s+$/, '\n');
-  code = 'void main(void) \n{\n   // Board Initialization \n   boardConfig(); \n\n';
+  code = 'void main(void) {\n\t // Board Initialization \n\t boardConfig(); \n\n';
   code += '   // Enable tick counting every 1ms \n   tickConfig(1, 0); \n\n';
   code += '   // User generated setups \n   setup(); \n\n';
-  code += '   while(1) {\n    '+ userCode + '\n  }\n}';
+  code += userCode + '\n}';
 
   // Convert the definitions dictionary into a list.
   var imports = [];
