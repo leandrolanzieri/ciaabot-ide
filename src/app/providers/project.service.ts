@@ -94,6 +94,8 @@ export class ProjectService {
   }
 
   public saveCurrentProject() {
+    this.workspace.changes = false;
+    this.workspaceSubscription.next(this.workspace);
     this.saveProjectToFile(this.workspace.projectFile);
   }
 

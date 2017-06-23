@@ -22,7 +22,6 @@ export class EditorComponent implements OnInit {
   public ngOnInit() {
     this.workspaceSubscription = this.projectService.getWorkspace().subscribe((workspace: Workspace) => {
       this.ngZone.run(() => {
-        console.log('Editor: Workspace', workspace);
         this.workspace = workspace;
       });
     });

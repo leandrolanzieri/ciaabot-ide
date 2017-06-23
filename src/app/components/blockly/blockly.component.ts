@@ -39,6 +39,8 @@ export class BlocklyComponent implements OnInit {
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
+      <block type="logic_true"></block>
+      <block type="logic_false"></block>
       <block type="logic_negate"></block>
       <block type="logic_null"></block>
     </category>
@@ -75,6 +77,8 @@ export class BlocklyComponent implements OnInit {
       </block>
     </category>
     <category name="Control" colour="20">
+      <block type="controls_repeat_forever">
+      </block>
       <block type="controls_whileUntil">
       </block>
       <block type="ciaa_sapi_blocking_delay">

@@ -316,3 +316,17 @@ Blockly.Blocks['controls_flow_statements'] = {
     }
   }
 };
+
+Blockly.Blocks['controls_repeat_forever'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Repetir para siempre");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

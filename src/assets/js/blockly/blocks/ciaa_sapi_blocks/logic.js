@@ -462,3 +462,25 @@ Blockly.Blocks['logic_ternary'] = {
     this.prevParentConnection_ = parentConnection;
   }
 };
+
+Blockly.Blocks['logic_true'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Verdadero");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['logic_false'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Falso");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
