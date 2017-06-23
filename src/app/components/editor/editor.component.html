@@ -1,0 +1,16 @@
+<div class="container-fluid" *ngIf="workspace">
+  <div class="row" style="height: 100%;">
+    <div class="col">
+
+      <app-blockly  (onBlocklyCodeChange)="onBlocklyCodeChange($event)" (onBlocklyBlocksChange)="onBlocklyBlocksChange($event)"
+                    [blocks]="workspace.project.blocks">
+      </app-blockly>
+    </div>
+    <div class="col-3" *ngIf="showCCode">
+      <p class="lead">Código en C</p>
+      <pre id="codePreview">
+        {{workspace.project.code}}
+      </pre>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<simple-notifications [options]="notificationsOptions"></simple-notifications>
+<div id="header">
+    <img src="../assets/img/bot-icon.png" id="icon" alt="">
+    Ciaabot IDE
+    <div class="controls float-right">
+        <button class="btn" (click)="minimizeWindow()"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
+        <button class="btn" *ngIf="isMaximizedWindow" (click)="unmaximizeWindow()"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+        <button class="btn" *ngIf="!isMaximizedWindow" (click)="maximizeWindow()"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+        <button class="btn close-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+</div>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container-fluid contenido" style="padding: 0; width: calc(100% - 50px); float:left; height: calc(100vh - 98px);">
+    <div class="row no-gutters" style="height: 100%;">
+        <div class="col-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<app-bottom-bar></app-bottom-bar>

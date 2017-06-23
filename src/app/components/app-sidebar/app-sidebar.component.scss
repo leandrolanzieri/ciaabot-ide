@@ -1,0 +1,40 @@
+.sidebar {
+    min-height: calc(100vh - 98px);
+    background-color: #2c4762;
+    border-top: 2px solid #1f3042;
+    border-bottom: 2px solid #1f3042;
+    color: #b5d1e4;
+    display: inline-block;
+    float: left;
+    padding: 0;
+    width: 50px;
+}
+
+a .row.item{
+    border-bottom: 1px solid transparent;
+    color: #b5d1e4;
+    margin: 0;
+    padding: 10px 0;
+    transition: all ease 0.3s;
+}
+
+a:hover .row.item {
+    background-color: #2c4762;
+}
+
+a:hover .row.item {
+    background-color: darken(#b5d1e4, 20%);
+    color: #2c4762 !important;
+}
+
+a.active .row.item {
+    background-color: #b5d1e4;
+    color: #2c4762 !important;
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 1px;
+    background: #1f3042;
+}

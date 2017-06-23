@@ -1,0 +1,23 @@
+:host {
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+:host>.container-fluid {
+    background-color: #ffffff;
+    color: #616161;
+    display: inline-block;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+#codePreview {
+    background-color: rgb(44, 71, 98);
+    color: #b5d1e4;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px;
+}

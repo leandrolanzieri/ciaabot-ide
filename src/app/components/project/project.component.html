@@ -1,0 +1,31 @@
+<div class="container-fluid h-100">
+  <div class="row align-items-center h-100">
+    <div class="col-4 offset-4">
+      <h1 class="display-4 project-title">{{project.name ? project.name : 'Nuevo Proyecto'}}</h1>
+      <br>
+      <form>
+        <md-input-container class="w-100">
+          <input mdInput type="text" name="name" placeholder="Ingrese el nombre del proyecto" [(ngModel)]="project.name" tabindex="1">
+        </md-input-container>
+        <label for="modelo">Modelo de Ciaabot</label>
+
+        <select class="form-control" name="modelo" [(ngModel)]="project.ciaabotModel" tabindex="2">
+              <option *ngFor="let modelo of models()">
+                {{ modelo }}
+              </option>
+        </select>
+        <hr>
+        <label for="file">Directorio</label>
+        <label class="custom-file d-block">
+          <input type="file" name="file" (change)="fileChange($event)" class="custom-file-input" webkitdirectory tabindex="3">
+          <span class="custom-file-control"></span>
+        </label>
+      </form>
+      <br>
+      <small *ngIf="directoryPath">
+        Se creará el directorio {{directoryPath + getPathSeparator() + toHyphenCase(project.name)}}
+      </small>
+      <button class="btn btn-lg btn-primary" [disabled]="!project.name || !project.ciaabotModel || !directoryPath" (click)="saveProject()">Guardar</button>
+    </div>
+  </div>
+</div>

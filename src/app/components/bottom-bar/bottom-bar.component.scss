@@ -1,0 +1,8 @@
+$bottom-bar-height: 25px;
+:host {
+    background-color: #2c4762;
+    color: #b5d1e4;
+    min-height: $bottom-bar-height;
+    float: right;
+    width: 100%;
+}

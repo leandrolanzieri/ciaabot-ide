@@ -1,0 +1,20 @@
+<div class="container-fluid" id="contenido">
+  <div class="row align-items-center h-100">
+    <div class="col-6 offset-3">
+      <div class="row align-items-center">
+        <div class="col-4">
+          <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
+        </div>
+        <div class="col-8 recent-project-list" *ngIf="projectService.getRecentProjects()">
+          <p class="lead" style="font-weight: 400">Proyectos recientes</p>
+          <div id="recent-projects">
+            <div *ngFor="let project of projectService.getRecentProjects()" (click)="openProject(project)" class="recent-project">
+              <div class="ellipsis">{{project.name}}</div>
+              <div class="path text-muted ellipsis">{{project.projectFile}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
