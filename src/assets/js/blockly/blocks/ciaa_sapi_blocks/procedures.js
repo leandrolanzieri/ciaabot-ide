@@ -271,7 +271,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
    * @this Blockly.Block
    */
   getProcedureDef: function() {
-    return [this.getFieldValue('NAME'), this.argumentsTypes_, this.arguments_, false];
+    return [this.getFieldValue('NAME'), this.arguments_, false];
   },
   /**
    * Return all variables referenced by this block.
