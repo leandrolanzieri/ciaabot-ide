@@ -7,6 +7,7 @@ goog.provide('Blockly.Msg.es');
 goog.require('Blockly.Msg');
 
 Blockly.Msg.ADD_COMMENT = "Añadir comentario";
+Blockly.Msg.CANNOT_DELETE_VARIABLE_PROCEDURE = "No se puede borrar la variable %1, se usa en %2";
 Blockly.Msg.CHANGE_VALUE_TITLE = "Cambiar el valor:";
 Blockly.Msg.CLEAN_UP = "Limpiar los bloques";
 Blockly.Msg.COLLAPSE_ALL = "Contraer bloques";
@@ -291,8 +292,8 @@ Blockly.Msg.PROCEDURES_IFRETURN_TOOLTIP = "Si un valor es verdadero, entonces de
 Blockly.Msg.PROCEDURES_IFRETURN_WARNING = "Advertencia: Este bloque solo puede ser utilizado dentro de la definición de una función.";
 Blockly.Msg.PROCEDURES_MUTATORARG_TITLE = "nombre de entrada:";
 Blockly.Msg.PROCEDURES_MUTATORARG_TOOLTIP = "Añadir una entrada a la función.";
-Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TITLE = "entradas";
-Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TOOLTIP = "Añadir, eliminar o reordenar entradas para esta función.";
+Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TITLE = "Parámetros";
+Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TOOLTIP = "Añadir, eliminar o reordenar parámetros para esta función.";
 Blockly.Msg.REDO = "Rehacer";
 Blockly.Msg.REMOVE_COMMENT = "Eliminar comentario";
 Blockly.Msg.RENAME_VARIABLE = "Renombrar la variable…";
