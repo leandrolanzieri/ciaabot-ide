@@ -54,6 +54,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
     this.arguments_ = [];
+    this.argumentsTypes_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
   },
@@ -99,11 +100,25 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     } else {
       this.setWarningText(null);
     }
+  
+    var argumentsWithTypes = [];
+    for (var i = 0; i < this.arguments_.length; i++) {
+      /* Busco el tipo en ES */
+      var type = 'int';
+      for (var j = 0; j < profile.edu_ciaa.types.length; j++) {
+        if (profile.edu_ciaa.types[j][1] === this.argumentsTypes_[i]) {
+          type = profile.edu_ciaa.types[j][0];
+        }
+      }
+      console.log(type);
+      argumentsWithTypes[i] = type + ' ' + this.arguments_[i];
+    }
+
     // Merge the arguments into a human-readable list.
     var paramString = '';
-    if (this.arguments_.length) {
+    if (argumentsWithTypes.length) {
       paramString = Blockly.Msg.PROCEDURES_BEFORE_PARAMS +
-          ' ' + this.arguments_.join(', ');
+          ' ' + argumentsWithTypes.join(', ');
     }
     this.setFieldValue(paramString, 'PARAMS');
   },
@@ -117,6 +132,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     for (var i = 0; i < this.arguments_.length; i++) {
       var parameter = document.createElement('arg');
       parameter.setAttribute('name', this.arguments_[i]);
+      parameter.setAttribute('type', this.argumentsTypes_[i]);
       container.appendChild(parameter);
     }
 
@@ -136,6 +152,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     for (var i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
       if (childNode.nodeName.toLowerCase() == 'arg') {
         this.arguments_.push(childNode.getAttribute('name'));
+        this.argumentsTypes_.push(childNode.getAttribute('type'))
       }
     }
     this.updateParams_();
@@ -168,6 +185,8 @@ Blockly.Blocks['procedures_defnoreturn'] = {
       var paramBlock = Blockly.Block.obtain(workspace, 'procedures_mutatorarg');
       paramBlock.initSvg();
       paramBlock.setFieldValue(this.arguments_[i], 'NAME');
+      paramBlock.setFieldValue(this.argumentsTypes_[i], 'TYPE');
+      
       // Store the old location.
       paramBlock.oldLocation = i;
       connection.connect(paramBlock.previousConnection);
@@ -186,10 +205,12 @@ Blockly.Blocks['procedures_defnoreturn'] = {
   compose: function(containerBlock) {
     // Parameter list.
     this.arguments_ = [];
+    this.argumentsTypes_ = [];
     this.paramIds_ = [];
     var paramBlock = containerBlock.getInputTargetBlock('STACK');
     while (paramBlock) {
       this.arguments_.push(paramBlock.getFieldValue('NAME'));
+      this.argumentsTypes_.push(paramBlock.getFieldValue('TYPE'));
       this.paramIds_.push(paramBlock.id);
       paramBlock = paramBlock.nextConnection &&
           paramBlock.nextConnection.targetBlock();
@@ -250,7 +271,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
    * @this Blockly.Block
    */
   getProcedureDef: function() {
-    return [this.getFieldValue('NAME'), this.arguments_, false];
+    return [this.getFieldValue('NAME'), this.argumentsTypes_, this.arguments_, false];
   },
   /**
    * Return all variables referenced by this block.
@@ -304,6 +325,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     for (var i = 0; i < this.arguments_.length; i++) {
       var xmlArg = goog.dom.createDom('arg');
       xmlArg.setAttribute('name', this.arguments_[i]);
+      xmlArg.setAttribute('type', this.argumentsTypes_[i]);
       xmlMutation.appendChild(xmlArg);
     }
     var xmlBlock = goog.dom.createDom('block', null, xmlMutation);
