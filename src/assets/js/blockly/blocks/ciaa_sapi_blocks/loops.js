@@ -330,3 +330,15 @@ Blockly.Blocks['controls_repeat_forever'] = {
     this.setHelpUrl('');
   }
 };
+
+Blockly.Blocks['controls_main_program'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Programa principal");
+    this.appendStatementInput("programa")
+        .setCheck(null);
+    this.setColour(120);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

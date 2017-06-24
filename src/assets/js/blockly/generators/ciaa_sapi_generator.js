@@ -133,10 +133,11 @@ Blockly.CiaaSapi.finish = function(code) {
   // Indent every line.
   code = '  ' + code.replace(/\n/g, '\n      ');
   var userCode = code.replace(/\n\s+$/, '\n');
-  code = 'void main(void) {\n\t // Board Initialization \n\t boardConfig(); \n\n';
-  code += '   // Enable tick counting every 1ms \n   tickConfig(1, 0); \n\n';
-  code += '   // User generated setups \n   setup(); \n\n';
-  code += userCode + '\n}';
+  // code = 'void main(void) {\n\t // Board Initialization \n\t boardConfig(); \n\n';
+  // code += '   // Enable tick counting every 1ms \n   tickConfig(1, 0); \n\n';
+  // code += '   // User generated setups \n   setup(); \n\n';
+  // code += userCode + '\n';
+  code = userCode + '\n';
 
   // Convert the definitions dictionary into a list.
   var imports = [];

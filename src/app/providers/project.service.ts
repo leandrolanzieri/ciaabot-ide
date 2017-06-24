@@ -278,7 +278,10 @@ export class ProjectService {
         recentProject.name = project.name;
         recentProject.projectFile = this.workspace.projectFile;
         this.userPreferences.recentProjects.push(recentProject);
-        this.userPreferences.recentProjects.splice(0, 1);
+        /* If there are more than 10 projects saved, delete the older one */
+        if (this.userPreferences.recentProjects.length > 10) {
+          this.userPreferences.recentProjects.splice(0, 1);
+        }
 
         /* Order recent projects by date */
         this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {

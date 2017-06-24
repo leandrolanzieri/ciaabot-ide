@@ -6,6 +6,7 @@ import * as os from 'os';
 import { ProjectService } from './project.service';
 import { Workspace } from '../models/workspace';
 import { NotificationsService } from 'angular2-notifications';
+import * as mkdirp from 'mkdirp';
 
 @Injectable()
 export class CompilingService {
@@ -39,26 +40,35 @@ export class CompilingService {
   private createMainFile(): boolean {
     let fileDescriptor: number;
     let file = path.join(this.workspace.path, 'app/src/main.c');
-    /* Try to open file */
-    try {
-      fileDescriptor = fs.openSync(file, 'w');
-    } catch (error) {
-      this.notificationsService.alert('No se puede crear el archivo');
-      return false;
-    }
 
-    /* Try to write to file */
-    try {
-      fs.writeFileSync(file, this.workspace.project.code.replace(/\n/, os.EOL));
-    } catch (error) {
-      this.notificationsService.alert('No se puede escribir el archivo');
-      /* Closing the file */
-      fs.closeSync(fileDescriptor);
-      return false;
-    }
+    /* Check if app structure is there */
+    mkdirp(path.join(this.workspace.path, 'app/src'), (err) => {
+      if (err) {
+        this.notificationsService.alert('No se puede crear la carpeta');
+        return false;
+      } else {
+        /* Try to open file */
+        try {
+          fileDescriptor = fs.openSync(file, 'w');
+        } catch (error) {
+          this.notificationsService.alert('No se puede crear el archivo');
+          return false;
+        }
 
-    /* Closing the file */
-    fs.closeSync(fileDescriptor);
-    return true;
+        /* Try to write to file */
+        try {
+          fs.writeFileSync(file, this.workspace.project.code.replace(/\n/, os.EOL));
+        } catch (error) {
+          this.notificationsService.alert('No se puede escribir el archivo');
+          /* Closing the file */
+          fs.closeSync(fileDescriptor);
+          return false;
+        }
+
+        /* Closing the file */
+        fs.closeSync(fileDescriptor);
+        return true;
+      }
+    });
   }
 }

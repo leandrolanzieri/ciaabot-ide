@@ -77,6 +77,8 @@ export class BlocklyComponent implements OnInit {
       </block>
     </category>
     <category name="Control" colour="20">
+      <block type="controls_main_program">
+      </block>
       <block type="controls_repeat_forever">
       </block>
       <block type="controls_whileUntil">

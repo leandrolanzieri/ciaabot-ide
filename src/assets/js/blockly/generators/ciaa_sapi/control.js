@@ -110,3 +110,13 @@ Blockly.CiaaSapi['controls_repeat_forever'] = function (block) {
     }
     return 'while (TRUE) {\n' + statements_name + '}\n';
 };
+
+Blockly.CiaaSapi['controls_main_program'] = function (block) {
+  var statements_programa = Blockly.CiaaSapi.statementToCode(block, 'programa');
+  var code = '';
+  code = 'void main(void) {\n\t // Inicializar placa \n\t boardConfig(); \n\n';
+  code += '   // Habilita cuenta de tick cada 1ms \n   tickConfig(1, 0); \n\n';
+  code += '   // Inicializaciones del usuario prueba\n   setup(); \n\n';
+  code += statements_programa + '\n}';
+  return code;
+};
