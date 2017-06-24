@@ -45,7 +45,7 @@ Blockly.CiaaSapi.procedures_defreturn = function () {
   var returnType = returnValue ? 'int' : 'void';
   var args = [];
   for (var x = 0; x < this.arguments_.length; x++) {
-    args[x] = 'int ' + Blockly.CiaaSapi.variableDB_.getName(this.arguments_[x],
+    args[x] = this.argumentsTypes_[x] + ' ' + Blockly.CiaaSapi.variableDB_.getName(this.arguments_[x],
       Blockly.Variables.NAME_TYPE);
   }
   var code = returnType + ' ' + funcName + '(' + args.join(', ') + ') {\n' +

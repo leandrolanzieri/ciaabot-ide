@@ -83,7 +83,7 @@ var profile = {
           ["PWM5", "PWM5"], ["PWM6", "PWM6"], ["PWM7", "PWM7"], ["PWM8", "PWM8"], ["PWM9", "PWM9"], ["PWM10", "PWM10"]],
     servo: [["SERVO0", "SERVO0"], ["SERVO1", "SERVO1"], ["SERVO2", "SERVO2"], ["SERVO3", "SERVO3"], ["SERVO4", "SERVO4"],
             ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]],
-    types: [["Entero", "int"], ["Decimal", "float"], ["Boolean", "boolean"]]
+    types: [["Entero", "int"], ["Decimal", "float"], ["Booleano", "bool_t"]]
   },
   ciaa: {
     description: "CIAA board"
