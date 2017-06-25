@@ -150,43 +150,52 @@ export class BlocklyComponent implements OnInit {
     this.workspace = Blockly.inject(this.blocklyContainer,
       {
         toolbox: this.blocklyToolbox,
-        scrollbars: false
+        zoom:
+        {
+          controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2
+        },
+        trashcan: true
       });
     let onresize = (e) => {
-      // Compute the absolute coordinates and dimensions of blocklyArea.
-      let element = this.blocklyArea;
-      let x = 0;
-      let y = 0;
-      do {
-        x += element.offsetLeft;
-        y += element.offsetTop;
-        element = element.offsetParent as HTMLElement;
-      } while (element);
-      // Position this.blocklyContainer over blocklyArea.
-      // this.blocklyContainer.style.left = x + 'px';
-      // this.blocklyContainer.style.top = y + 'px';
-      this.blocklyContainer.style.width = this.blocklyArea.offsetWidth + 'px';
-      this.blocklyContainer.style.height = this.blocklyArea.offsetHeight + 'px';
-    };
-    window.addEventListener('resize', onresize, false);
-    onresize(null);
-    Blockly.svgResize(this.workspace as Blockly.WorkspaceSvg);
+  // Compute the absolute coordinates and dimensions of blocklyArea.
+  let element = this.blocklyArea;
+  let x = 0;
+  let y = 0;
+  do {
+    x += element.offsetLeft;
+    y += element.offsetTop;
+    element = element.offsetParent as HTMLElement;
+  } while (element);
+  // Position this.blocklyContainer over blocklyArea.
+  // this.blocklyContainer.style.left = x + 'px';
+  // this.blocklyContainer.style.top = y + 'px';
+  this.blocklyContainer.style.width = this.blocklyArea.offsetWidth + 'px';
+  this.blocklyContainer.style.height = this.blocklyArea.offsetHeight + 'px';
+};
+window.addEventListener('resize', onresize, false);
+onresize(null);
+Blockly.svgResize(this.workspace as Blockly.WorkspaceSvg);
 
-    if (this.blocks) {
-      const xml = Blockly.Xml.textToDom(this.blocks);
-      Blockly.Xml.domToWorkspace(xml, this.workspace);
-    }
+if (this.blocks) {
+  const xml = Blockly.Xml.textToDom(this.blocks);
+  Blockly.Xml.domToWorkspace(xml, this.workspace);
+}
   }
 
   public blocklyCodeChange() {
-    const code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
-    const xml = Blockly.Xml.workspaceToDom(this.workspace);
-    const xmlText = Blockly.Xml.domToText(xml);
-    this.onBlocklyCodeChange.emit(code);
-    this.onBlocklyBlocksChange.emit(xmlText);
-  }
+  const code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
+  const xml = Blockly.Xml.workspaceToDom(this.workspace);
+  const xmlText = Blockly.Xml.domToText(xml);
+  this.onBlocklyCodeChange.emit(code);
+  this.onBlocklyBlocksChange.emit(xmlText);
+}
 
   public promptReady() {
-    this.promptCallback(this.promptValue);
-  }
+  this.promptCallback(this.promptValue);
+}
 }

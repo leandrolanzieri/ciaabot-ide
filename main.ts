@@ -38,9 +38,9 @@ function createWindow() {
     win.webContents.openDevTools();
   }
 
-  win.on('close', function (e) {
+  win.on('close', (e) => {
     if (projectChanges) {
-      let choice = require('electron').dialog.showMessageBox(this,
+      const choice = require('electron').dialog.showMessageBox(this,
         {
           type: 'question',
           buttons: ['Yes', 'No'],
