@@ -50,4 +50,8 @@ export class AppComponent {
   public maximizedWindow() {
     return this.windowService.isMaximizedWindow();
   }
+
+  public closeWindow() {
+    this.windowService.closeWindow();
+  }
 }

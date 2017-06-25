@@ -13,6 +13,8 @@ import { Workspace } from '../models/workspace';
 import { LocalStorageService } from 'ng2-webstorage';
 import { UserPreferences } from '../models/user-preferences';
 import { RecentProject } from '../models/recent-project';
+import { ElectronService } from 'app/providers/electron.service';
+import { ipcRenderer } from 'electron';
 
 @Injectable()
 export class ProjectService {
@@ -24,7 +26,8 @@ export class ProjectService {
     private confirmationService: ConfirmationService,
     private notificationsService: NotificationsService,
     private ngZone: NgZone,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private electronService: ElectronService
   ) {
     this.workspaceSubscription.next(this.workspace);
     this.updatePersistedWorkspace();
@@ -74,6 +77,7 @@ export class ProjectService {
               this.workspace.project = parsedData;
               this.workspace.projectFile = filePath;
               this.workspace.changes = false;
+              this.electronService.ipcRenderer.send('workspace-changes', false);
               this.workspace.path = path.dirname(filePath);
               this.workspaceSubscription.next(this.workspace);
               this.updatePersistedUserPreferences();
@@ -95,12 +99,14 @@ export class ProjectService {
 
   public saveCurrentProject() {
     this.workspace.changes = false;
+    this.electronService.ipcRenderer.send('workspace-changes', false);
     this.workspaceSubscription.next(this.workspace);
     this.saveProjectToFile(this.workspace.projectFile);
   }
 
   public registerProjectChange() {
     this.workspace.changes = true;
+    this.electronService.ipcRenderer.send('workspace-changes', true);
     this.workspaceSubscription.next(this.workspace);
     this.updatePersistedWorkspace();
   }

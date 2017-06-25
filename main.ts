@@ -1,10 +1,10 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 
-
 let win, serve, loaderWindow;
 const args = process.argv.slice(1);
 serve = args.some(val => val === "--serve");
+let projectChanges: boolean = false;
 
 if (serve) {
   require('electron-reload')(__dirname, {
@@ -37,6 +37,21 @@ function createWindow() {
   if (serve) {
     win.webContents.openDevTools();
   }
+
+  win.on('close', function (e) {
+    if (projectChanges) {
+      let choice = require('electron').dialog.showMessageBox(this,
+        {
+          type: 'question',
+          buttons: ['Yes', 'No'],
+          title: 'Hay cambios en el proyecto',
+          message: '¿Salir de todas formas?'
+        });
+      if (choice === 1) {
+        e.preventDefault();
+      }
+    }
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -99,7 +114,12 @@ try {
     win.maximize();
     loaderWindow.close();
     // loaderWindow = null;
-  })
+  });
+
+  ipcMain.on('workspace-changes', (event, arg) => {
+    console.log('[Workspace]: ', arg);
+    projectChanges = arg;
+  });
 
 } catch (e) {
   // Catch Error
