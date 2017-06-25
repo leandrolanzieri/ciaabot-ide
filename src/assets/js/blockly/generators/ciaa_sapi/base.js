@@ -43,12 +43,12 @@ Blockly.CiaaSapi['ciaa_sapi_inaccurate_blocking_delay'] = function(block) {
 Blockly.CiaaSapi['ciaa_sapi_gpio_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
   var value_pin = Blockly.CiaaSapi.valueToCode(block, 'pin', Blockly.CiaaSapi.ORDER_ATOMIC);
-  var dropdown_value_option = block.getFieldValue('value_option');
+  //var dropdown_value_option = block.getFieldValue('value_option');
   var value_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE);';
   Blockly.CiaaSapi.setups_['gpio-config-output' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_OUTPUT);';
-  var code = 'gpioWrite(' + dropdown_pin_option + ', ' + dropdown_value_option + ');\n';
+  var code = 'gpioWrite(' + dropdown_pin_option + ', ' + value_value + ');\n';
   return code;
 };
 
@@ -71,7 +71,8 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_analog_read'] = function(block) {
 
 Blockly.CiaaSapi['ciaa_sapi_dac_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
-  var number_value = block.getFieldValue('value');
+  // var number_value = block.getFieldValue('value');
+  var number_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['dac-enable'] = 'dacConfig(DAC_ENABLE);';
   var code = 'dacWrite(' + dropdown_pin_option + ', ' + number_value +');\n';
@@ -85,11 +86,11 @@ Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
 
 Blockly.CiaaSapi['ciaa_sapi_pwm_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
-  var number_value_option = block.getFieldValue('value_option');
+  var number_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['pwm-enable'] = 'pwmConfig(0, PWM_ENABLE);';
   Blockly.CiaaSapi.setups_['pwm-' + dropdown_pin_option + '-enable'] = 'pwmConfig(' + dropdown_pin_option + ', PWM_ENABLE_OUTPUT);';
-  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value_option + ');';
+  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value + ');';
   return code;
 };
 

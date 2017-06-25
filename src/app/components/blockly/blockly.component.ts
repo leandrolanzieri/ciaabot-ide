@@ -41,13 +41,17 @@ export class BlocklyComponent implements OnInit {
       <block type="logic_operation"></block>
       <block type="logic_true"></block>
       <block type="logic_false"></block>
+      <block type="logic_on"></block>
+      <block type="logic_off"></block>
       <block type="logic_negate"></block>
       <block type="logic_null"></block>
     </category>
     <category name="Entradas / Salidas" colour="120">
       <block type="ciaa_sapi_gpio_write">
         <field name="pin_option">LEDR</field>
-        <field name="value_option">ON</field>
+        <value name="value">
+          <block type="logic_on"></block>
+        </value>
       </block>
       <block type="ciaa_sapi_gpio_digital_read" >
         <field name="pin_option">GPIO0</field>
@@ -57,11 +61,19 @@ export class BlocklyComponent implements OnInit {
       </block>
       <block type="ciaa_sapi_dac_write">
         <field name="pin_option">DAC</field>
-        <field name="value">0</field>
+        <value name="value">
+          <block type="math_number">
+            <field name="NUM">150</field>
+          </block>
+        </value>
       </block>
       <block type="ciaa_sapi_pwm_write">
         <field name="pin_option">PWM0</field>
-        <field name="value_option">50</field>
+        <value name="value">
+          <block type="math_number">
+            <field name="NUM">150</field>
+          </block>
+        </value>
       </block>
       <block type="ciaa_sapi_pwm_read">
         <field name="pin_option">PWM0</field>

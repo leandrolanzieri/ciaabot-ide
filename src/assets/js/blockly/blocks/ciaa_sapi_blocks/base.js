@@ -73,15 +73,15 @@ Blockly.Blocks['ciaa_sapi_inaccurate_blocking_delay'] = {
 Blockly.Blocks['ciaa_sapi_gpio_write'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Escribir Salida Digital.");
+        .appendField("Fijar pin digital ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin")
         .appendField(new Blockly.FieldDropdown(profile.default.leds.concat(profile.default.digital)), "pin_option");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Valor")
-        .appendField(new Blockly.FieldDropdown([["On","ON"], ["Off","OFF"]]), "value_option");
+        .appendField(" en ");
+    this.appendValueInput("value")
+        .setCheck("Boolean");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -94,10 +94,9 @@ Blockly.Blocks['ciaa_sapi_gpio_write'] = {
 Blockly.Blocks['ciaa_sapi_gpio_digital_read'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Leer Entrada Digital.");
+        .appendField("Leer pin digital ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin")
         .appendField(new Blockly.FieldDropdown(profile.default.digital.concat(profile.default.buttons)), "pin_option");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
@@ -110,10 +109,9 @@ Blockly.Blocks['ciaa_sapi_gpio_digital_read'] = {
 Blockly.Blocks['ciaa_sapi_gpio_analog_read'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Leer Entrada Analógica.");
+        .appendField("Leer pin analógico ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin")
         .appendField(new Blockly.FieldDropdown(profile.default.adc), "pin_option");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
@@ -126,15 +124,16 @@ Blockly.Blocks['ciaa_sapi_gpio_analog_read'] = {
 Blockly.Blocks['ciaa_sapi_dac_write'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Escribir Salida Analógica.");
+        .appendField("Escribir conversor D/A ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin")
         .appendField(new Blockly.FieldDropdown(profile.default.dac), "pin_option");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Valor")
-        .appendField(new Blockly.FieldNumber(0, 0, 65535), "value");
+        .appendField(" al valor ");
+        // .appendField(new Blockly.FieldNumber(0, 0, 65535), "value");
+    this.appendValueInput("value")
+        .setCheck("Number");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -159,15 +158,17 @@ Blockly.Blocks['ciaa_sapi_sleep_until_interrupt'] = {
 Blockly.Blocks['ciaa_sapi_pwm_write'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Escribir Salida de PWM");
+        .appendField("Fijar el pin ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin")
         .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Value")
-        .appendField(new Blockly.FieldNumber(0, 0, 255), "value_option")
+        .appendField(" al valor ");
+    this.appendValueInput("value")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("(0 a 255)");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -181,10 +182,9 @@ Blockly.Blocks['ciaa_sapi_pwm_write'] = {
 Blockly.Blocks['ciaa_sapi_pwm_read'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Leer Salida de PWM");
+        .appendField("Leer el valor del pin ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin")
         .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
     this.setInputsInline(true);
     this.setOutput(true, "Number");

@@ -484,3 +484,25 @@ Blockly.Blocks['logic_false'] = {
     this.setHelpUrl('');
   }
 };
+
+Blockly.Blocks['logic_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Encender");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['logic_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Apagar");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

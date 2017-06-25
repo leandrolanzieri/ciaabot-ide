@@ -100,15 +100,21 @@ Blockly.CiaaSapi.logic_null = function() {
 };
 
 Blockly.CiaaSapi['logic_true'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
   var code = 'TRUE';
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.CiaaSapi.ORDER_NONE];
+  return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
 };
 
 Blockly.CiaaSapi['logic_false'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
   var code = 'FALSE';
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.CiaaSapi.ORDER_NONE];
+  return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
+};
+
+Blockly.CiaaSapi['logic_on'] = function(block) {
+  var code = 'ON';
+  return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
+};
+
+Blockly.CiaaSapi['logic_off'] = function(block) {
+  var code = 'OFF';
+  return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
 };
