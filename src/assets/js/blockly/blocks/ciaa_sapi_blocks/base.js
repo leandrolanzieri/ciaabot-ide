@@ -45,170 +45,170 @@ Blockly.Blocks['base_delay'] = {
 };*/
 
 Blockly.Blocks['ciaa_sapi_blocking_delay'] = {
-  init: function() {
-    this.appendValueInput("delay_time")
-        .setCheck("Number")
-        .appendField("Esperar ticks");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('Retardo bloqueante');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendValueInput("delay_time")
+            .setCheck("Number")
+            .appendField("Esperar ticks");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip('Retardo bloqueante');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_delay_seconds'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Esperar");
-    this.appendValueInput("TIME")
-        .setCheck("Number");
-    this.appendDummyInput()
-        .appendField(" segundos");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Esperar");
+        this.appendValueInput("TIME")
+            .setCheck(["Number", "Entero"]);
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldDropdown(profile.edu_ciaa.timeUnits), "UNIT");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip('');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_inaccurate_blocking_delay'] = {
-  init: function() {
-    this.appendValueInput("delay_ms")
-        .setCheck("Number")
-        .appendField("Esperar milisegundos");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('Retardo aproximado bloqueante');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendValueInput("delay_ms")
+            .setCheck("Number")
+            .appendField("Esperar milisegundos");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip('Retardo aproximado bloqueante');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_gpio_write'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Fijar pin digital ");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldDropdown(profile.default.leds.concat(profile.default.digital)), "pin_option");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(" en ");
-    this.appendValueInput("value")
-        .setCheck("Boolean");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(135);
-    this.setTooltip('Escribe una salida digital');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Fijar pin digital ");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(new Blockly.FieldDropdown(profile.default.leds.concat(profile.default.digital)), "pin_option");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(" en ");
+        this.appendValueInput("value")
+            .setCheck("Boolean");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(135);
+        this.setTooltip('Escribe una salida digital');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_gpio_digital_read'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Leer pin digital ");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldDropdown(profile.default.digital.concat(profile.default.buttons)), "pin_option");
-    this.setInputsInline(true);
-    this.setOutput(true, "Boolean");
-    this.setColour(135);
-    this.setTooltip('Lee una entrada digital');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Leer pin digital ");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(new Blockly.FieldDropdown(profile.default.digital.concat(profile.default.buttons)), "pin_option");
+        this.setInputsInline(true);
+        this.setOutput(true, "Boolean");
+        this.setColour(135);
+        this.setTooltip('Lee una entrada digital');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_gpio_analog_read'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Leer pin analógico ");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldDropdown(profile.default.adc), "pin_option");
-    this.setInputsInline(true);
-    this.setOutput(true, "Number");
-    this.setColour(135);
-    this.setTooltip('Lee una entrada analógica');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Leer pin analógico ");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(new Blockly.FieldDropdown(profile.default.adc), "pin_option");
+        this.setInputsInline(true);
+        this.setOutput(true, "Number");
+        this.setColour(135);
+        this.setTooltip('Lee una entrada analógica');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_dac_write'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Escribir conversor D/A ");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldDropdown(profile.default.dac), "pin_option");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(" al valor ");
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Escribir conversor D/A ");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(new Blockly.FieldDropdown(profile.default.dac), "pin_option");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(" al valor ");
         // .appendField(new Blockly.FieldNumber(0, 0, 65535), "value");
-    this.appendValueInput("value")
-        .setCheck("Number");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(135);
-    this.setTooltip('Escribe una salida analógica');
-    this.setHelpUrl('');
-  }
+        this.appendValueInput("value")
+            .setCheck("Number");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(135);
+        this.setTooltip('Escribe una salida analógica');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_sleep_until_interrupt'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Dormir hasta la próxima interrupción");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('Modo sleep');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Dormir hasta la próxima interrupción");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip('Modo sleep');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_pwm_write'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Fijar el pin ");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(" al valor ");
-    this.appendValueInput("value")
-        .setCheck("Number");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("(0 a 255)");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(135);
-    this.setTooltip('Escribe una salida de PWM');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Fijar el pin ");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(" al valor ");
+        this.appendValueInput("value")
+            .setCheck("Number");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("(0 a 255)");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(135);
+        this.setTooltip('Escribe una salida de PWM');
+        this.setHelpUrl('');
+    }
 };
 
 Blockly.Blocks['ciaa_sapi_pwm_read'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Leer el valor del pin ");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
-    this.setInputsInline(true);
-    this.setOutput(true, "Number");
-    this.setColour(135);
-    this.setTooltip('Lee una salida de PWM');
-    this.setHelpUrl('');
-  }
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Leer el valor del pin ");
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(new Blockly.FieldDropdown(profile.default.pwm), "pin_option");
+        this.setInputsInline(true);
+        this.setOutput(true, "Number");
+        this.setColour(135);
+        this.setTooltip('Lee una salida de PWM');
+        this.setHelpUrl('');
+    }
 };
 
 // Blockly.Blocks['string_length'] = {

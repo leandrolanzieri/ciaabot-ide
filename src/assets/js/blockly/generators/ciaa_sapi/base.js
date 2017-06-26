@@ -36,7 +36,17 @@ Blockly.CiaaSapi.ciaa_sapi_blocking_delay = function() {
 
 Blockly.CiaaSapi['ciaa_sapi_delay_seconds'] = function(block) {
   var value_time = Blockly.CiaaSapi.valueToCode(block, 'TIME', Blockly.CiaaSapi.ORDER_ATOMIC);
-  var code = 'delay(1000 * ' + value_time + ');\n';
+  var unit = block.getFieldValue('UNIT');
+  var multiplier;
+  switch (unit) {
+    case "_s":
+      multiplier = "1000 * ";
+      break;
+    default:
+      multiplier = "";
+      break;
+  }
+  var code = 'delay(' + multiplier + value_time + ');\n';
   return code;
 };
 
