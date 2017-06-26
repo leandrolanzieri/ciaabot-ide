@@ -95,21 +95,12 @@ export class BlocklyComponent implements OnInit {
       </block>
       <block type="controls_whileUntil">
       </block>
-      <block type="ciaa_sapi_blocking_delay">
-        <value name="delay_time">
-          <block type="math_number">
-            <field name="NUM">1000</field>
-          </block>
-        </value>
-      </block>
-      <block type="ciaa_sapi_delay_seconds">
-        <value name="TIME">
+      <block type="controls_for_simplified">
+        <value name="CANT">
           <block type="math_number">
             <field name="NUM">5</field>
           </block>
         </value>
-      </block>
-      <block type="ciaa_sapi_sleep_until_interrupt">
       </block>
       <block type="controls_for">
         <value name="FROM">
@@ -125,6 +116,20 @@ export class BlocklyComponent implements OnInit {
         <value name="BY">
           <block type="math_number">
             <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="ciaa_sapi_blocking_delay">
+        <value name="delay_time">
+          <block type="math_number">
+            <field name="NUM">1000</field>
+          </block>
+        </value>
+      </block>
+      <block type="ciaa_sapi_delay_seconds">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">5</field>
           </block>
         </value>
       </block>
