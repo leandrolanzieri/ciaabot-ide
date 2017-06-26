@@ -14,9 +14,11 @@
 }
 
 #recent-projects {
+    float: left;
     max-height: 30vh;
     overflow-x: hidden;
     overflow-y: auto;
+    width: 100%;
 }
 
 .recent-project {
@@ -47,4 +49,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+button.btn.action {
+    background: transparent;
+    color: #b5d1e4;
+
+    & small {
+        display: block;
+        font-size: 0.7rem;
+        margin-top: 5px;
+    }
 }

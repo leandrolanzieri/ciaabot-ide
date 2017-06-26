@@ -34,6 +34,14 @@ export class ProjectService {
     const preferences = this.storage.retrieve('user-preferences');
     if (preferences) {
       this.userPreferences = preferences;
+      this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
+          if (a.lastOpened && b.lastOpened) {
+            return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
+          } else {
+            return 0;
+          }
+      });
+      console.log(this.userPreferences.recentProjects);
     }
   }
 
@@ -154,7 +162,7 @@ export class ProjectService {
     return null;
   }
 
-  public getRecentProjects(): Array<{ name: string, projectFile: string, lastOpened: Date }> {
+  public getRecentProjects(): RecentProject[] {
     return this.userPreferences.recentProjects;
   }
 
@@ -277,9 +285,10 @@ export class ProjectService {
   private addToRecentProjects(project: Project) {
     /* If the project does not exists, it is pushed into the array */
     if (this.userPreferences.recentProjects) {
-      if (-1 === this.userPreferences.recentProjects.findIndex((recentProject) => {
+      let index = this.userPreferences.recentProjects.findIndex((recentProject) => {
         return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
-      })) {
+      });
+      if (-1 === index) {
         const recentProject = new RecentProject();
         recentProject.name = project.name;
         recentProject.projectFile = this.workspace.projectFile;
@@ -292,7 +301,7 @@ export class ProjectService {
         /* Order recent projects by date */
         this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
           if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
-            return b.lastOpened.getTime() - a.lastOpened.getTime();
+            return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
           } else if (a.lastOpened instanceof Date) {
             return -1;
           } else {
@@ -300,6 +309,9 @@ export class ProjectService {
           }
         });
 
+        this.updatePersistedUserPreferences();
+      } else {
+        this.userPreferences.recentProjects[index].lastOpened = new Date();
         this.updatePersistedUserPreferences();
       }
     } else {

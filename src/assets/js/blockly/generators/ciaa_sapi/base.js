@@ -34,6 +34,12 @@ Blockly.CiaaSapi.ciaa_sapi_blocking_delay = function() {
   return code;
 };
 
+Blockly.CiaaSapi['ciaa_sapi_delay_seconds'] = function(block) {
+  var value_time = Blockly.CiaaSapi.valueToCode(block, 'TIME', Blockly.CiaaSapi.ORDER_ATOMIC);
+  var code = 'delay(1000 * ' + value_time + ');\n';
+  return code;
+};
+
 Blockly.CiaaSapi['ciaa_sapi_inaccurate_blocking_delay'] = function(block) {
   var value_delay_ms = Blockly.CiaaSapi.valueToCode(block, 'delay_ms', Blockly.CiaaSapi.ORDER_ATOMIC);
   var code = 'delayInaccurate(' + value_delay_ms + ');\n';

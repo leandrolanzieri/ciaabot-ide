@@ -5,12 +5,29 @@
         <div class="col-4">
           <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
         </div>
-        <div class="col-8 recent-project-list" *ngIf="projectService.getRecentProjects()">
-          <p class="lead" style="font-weight: 400">Proyectos recientes</p>
-          <div id="recent-projects">
-            <div *ngFor="let project of projectService.getRecentProjects()" (click)="openProject(project)" class="recent-project">
-              <div class="ellipsis">{{project.name}}</div>
-              <div class="path text-muted ellipsis">{{project.projectFile}}</div>
+        <div class="col-8 recent-project-list">
+          <div class="row" style="margin-left: 10px;" *ngIf="projectService.getRecentProjects()">
+            <p class="lead" style="font-weight: 400">Proyectos recientes</p>
+            <div id="recent-projects">
+              <div *ngFor="let project of projectService.getRecentProjects()" (click)="openRecentProject(project)" class="recent-project">
+                <div class="ellipsis">{{project.name}}</div>
+                <div class="path text-muted ellipsis">{{project.projectFile}}</div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div class="row" style="margin-left: 10px;">
+            <div class="col-3">
+              <button type="button" [routerLink]="['../project']" class="btn action">
+                <i class="fa fa-file fa-2x" aria-hidden="true"></i>
+                <small>Nuevo Proyecto</small>
+              </button>
+            </div>
+            <div class="col">
+              <button type="button" (click)="openProject()" class="btn action">
+                <i class="fa fa-folder-open-o fa-2x" aria-hidden="true"></i>
+                <small>Abrir Proyecto</small>
+              </button>
             </div>
           </div>
         </div>

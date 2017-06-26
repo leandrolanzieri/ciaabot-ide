@@ -40,7 +40,7 @@ function createWindow() {
 
   win.on('close', (e) => {
     if (projectChanges) {
-      const choice = require('electron').dialog.showMessageBox(this,
+      const choice = require('electron').dialog.showMessageBox(win,
         {
           type: 'question',
           buttons: ['Yes', 'No'],

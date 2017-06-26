@@ -57,6 +57,23 @@ Blockly.Blocks['ciaa_sapi_blocking_delay'] = {
   }
 };
 
+Blockly.Blocks['ciaa_sapi_delay_seconds'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Esperar");
+    this.appendValueInput("TIME")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField(" segundos");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
 Blockly.Blocks['ciaa_sapi_inaccurate_blocking_delay'] = {
   init: function() {
     this.appendValueInput("delay_ms")
