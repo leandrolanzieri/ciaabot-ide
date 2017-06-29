@@ -140,7 +140,28 @@ export class BlocklyComponent implements OnInit {
     <category name="Matemática">
       <block type="math_number">
       </block>
-      <block type="math_arithmetic">
+      <block type="math_arithmetic"></block>
+      <block type="math_map_range">
+            <value name="MIN_INITIAL">
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="MAX_INITIAL">
+              <block type="math_number">
+                <field name="NUM">1023</field>
+              </block>
+            </value>
+            <value name="MIN_LAST">
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="MAX_LAST">
+              <block type="math_number">
+                <field name="NUM">255</field>
+              </block>
+            </value>
       </block>
     </category>
     <category name="Texto">
