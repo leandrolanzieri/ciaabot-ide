@@ -45,6 +45,7 @@ export class BlocklyComponent implements OnInit {
       <block type="logic_off"></block>
       <block type="logic_negate"></block>
       <block type="logic_null"></block>
+      <block type="switch_case"></block>
     </category>
     <category name="Entradas / Salidas" colour="120">
       <block type="ciaa_sapi_gpio_write">

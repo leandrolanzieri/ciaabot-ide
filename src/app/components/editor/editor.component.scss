@@ -16,8 +16,19 @@
 #codePreview {
     background-color: rgb(44, 71, 98);
     color: #b5d1e4;
+    cursor: text;
     font-family: monospace;
     font-weight: bold;
     margin-top: 20px;
     padding: 10px;
+
+    -webkit-user-select: text;  
+    -moz-user-select: text;    
+    -ms-user-select: text;      
+    user-select: text;
+
+    &::selection {
+        background: #b5d1e4;
+        color: rgb(44, 71, 98);
+    }
 }

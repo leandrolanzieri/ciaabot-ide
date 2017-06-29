@@ -118,3 +118,38 @@ Blockly.CiaaSapi['logic_off'] = function(block) {
   var code = 'OFF';
   return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
 };
+
+Blockly.CiaaSapi['switch_case'] = function(block) {
+	var code = '';
+	var do_n;
+	var case_n;
+	var switchVariable = Blockly.CiaaSapi.valueToCode(block, 'CONDITION',
+												Blockly.CiaaSapi.ORDER_NONE) || null;
+	if (switchVariable){
+		var pattern = /^([a-zA-Z_]+(\d|[a-zA-Z_])*)$/g;
+		//if (pattern.test(switchVariable)){ // Check to see if the switch is a kind of variable type
+			code = '\nswitch (' + switchVariable + '){\n';
+			var case_0 = Blockly.CiaaSapi.valueToCode(block, 'CASECONDITION0',
+														Blockly.CiaaSapi.ORDER_NONE) || null;
+			var do_0 = Blockly.CiaaSapi.statementToCode(block, 'CASE0');
+			code += '\tcase ' + case_0 + ':\n' + do_0 + '\n\t\tbreak;\n';
+			
+			for (var n = 1; n <= block.caseCount_; n++) {
+				case_n = Blockly.CiaaSapi.valueToCode(block, 'CASECONDITION' + n,
+					Blockly.CiaaSapi.ORDER_NONE) || null;
+				if (case_n){
+					do_n = Blockly.CiaaSapi.statementToCode(block, 'CASE' + n);
+					code += '\tcase ' + case_n + ':\n' + do_n + '\n\t\tbreak;\n';
+				}
+			}
+			if (block.defaultCount_) {
+				do_n = Blockly.CiaaSapi.statementToCode(block, 'ONDEFAULT');
+				code += '\tdefault:\n' + do_n + '\n\t\tbreak;\n';
+			}
+			code += '}\n';
+	  // }
+	  // else
+		//   alert('switch_case: ' + switchVariable + ' is not a variable name');
+	}
+	return code;
+};
