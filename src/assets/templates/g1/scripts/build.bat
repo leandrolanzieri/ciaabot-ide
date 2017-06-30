@@ -44,5 +44,5 @@ echo Compilar proyecto de C generado...
 make -C %PROJECT_PATH% Compilar_proyecto
 
 :: Con pause te deja ver el resultado, con exit lo cierra al terminar
-pause
-::exit
+::pause
+exit

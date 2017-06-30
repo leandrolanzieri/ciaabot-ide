@@ -45,5 +45,5 @@ make -C %PROJECT_PATH% Compilar_proyecto
 make -C %PROJECT_PATH% Grabar_proyecto_en_flash
 
 :: Con pause te deja ver el resultado, con exit lo cierra al terminar
-pause
-::exit
+::pause
+exit
