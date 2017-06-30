@@ -39,11 +39,13 @@ Blockly.Blocks['variables_get'] = {
    * Block for variable getter.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
     this.setColour(Blockly.Blocks.variables.HUE);
+    var variables = new Blockly.FieldVariable(Blockly.Msg.VARIABLES_DEFAULT_NAME);
+    console.log(variables);
     this.appendDummyInput()
-        .appendField(new Blockly.FieldVariable(
+      .appendField(new Blockly.FieldVariable(
         Blockly.Msg.VARIABLES_DEFAULT_NAME), 'VAR');
     this.setOutput(true);
     this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
@@ -54,7 +56,7 @@ Blockly.Blocks['variables_get'] = {
    * @return {!Array.<string>} List of variable names.
    * @this Blockly.Block
    */
-  getVars: function() {
+  getVars: function () {
     return [this.getFieldValue('VAR')];
   },
   /**
@@ -64,7 +66,7 @@ Blockly.Blocks['variables_get'] = {
    * @param {string} newName Renamed variable.
    * @this Blockly.Block
    */
-  renameVar: function(oldName, newName) {
+  renameVar: function (oldName, newName) {
     if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
       this.setFieldValue(newName, 'VAR');
     }
@@ -75,8 +77,8 @@ Blockly.Blocks['variables_get'] = {
    * @param {!Array} options List of menu options to add to.
    * @this Blockly.Block
    */
-  customContextMenu: function(options) {
-    var option = {enabled: true};
+  customContextMenu: function (options) {
+    var option = { enabled: true };
     var name = this.getFieldValue('VAR');
     option.text = this.contextMenuMsg_.replace('%1', name);
     var xmlField = goog.dom.createDom('field', null, name);
@@ -93,7 +95,7 @@ Blockly.Blocks['variables_set'] = {
    * Block for variable setter.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.VARIABLES_SET,
       "args0": [
@@ -120,7 +122,7 @@ Blockly.Blocks['variables_set'] = {
    * @return {!Array.<string>} List of variable names.
    * @this Blockly.Block
    */
-  getVars: function() {
+  getVars: function () {
     return [this.getFieldValue('VAR')];
   },
   /**
@@ -130,7 +132,7 @@ Blockly.Blocks['variables_set'] = {
    * @param {string} newName Renamed variable.
    * @this Blockly.Block
    */
-  renameVar: function(oldName, newName) {
+  renameVar: function (oldName, newName) {
     if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
       this.setFieldValue(newName, 'VAR');
     }
@@ -138,3 +140,65 @@ Blockly.Blocks['variables_set'] = {
   contextMenuType_: 'variables_get',
   customContextMenu: Blockly.Blocks['variables_get'].customContextMenu
 };
+
+Blockly.Blocks['typed_variable_declare'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Crear variable del tipo");
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldDropdown(profile.edu_ciaa.types), "TYPE");
+    this.appendDummyInput()
+      .appendField("con el nombre");
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput("mi_var"), "NAME");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['typed_variable_get'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Variable")
+      .appendField(new Blockly.FieldDropdown(getTypedVariables), "VAR");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.Blocks['typed_variable_set'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Establecer variable")
+        .appendField(new Blockly.FieldDropdown(getTypedVariables), "VAR");
+    this.appendValueInput("VALUE")
+        .setCheck(null)
+        .appendField("en");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+function getTypedVariables() {
+  var typedVariables = [["No hay variable seleccionada", ""]];
+  if (!objectIsEmpty(Blockly.CiaaSapi.typedVariables_)) {
+    for (var name in Blockly.CiaaSapi.typedVariables_) {
+      typedVariables.push([Blockly.CiaaSapi.typedVariables_[name].name, Blockly.CiaaSapi.typedVariables_[name].name]);
+    }
+  }
+  return typedVariables;
+}
+
+function objectIsEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+}

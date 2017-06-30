@@ -83,7 +83,7 @@ var profile = {
           ["PWM5", "PWM5"], ["PWM6", "PWM6"], ["PWM7", "PWM7"], ["PWM8", "PWM8"], ["PWM9", "PWM9"], ["PWM10", "PWM10"]],
     servo: [["SERVO0", "SERVO0"], ["SERVO1", "SERVO1"], ["SERVO2", "SERVO2"], ["SERVO3", "SERVO3"], ["SERVO4", "SERVO4"],
             ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]],
-    types: [["Entero", "int"], ["Decimal", "float"], ["Booleano", "bool_t"], ["Nulo", "void"]],
+    types: [["Entero", "int"], ["Decimal", "float"], ["Booleano", "bool"], ["Nulo", "void"]],
     timeUnits: [["segundos", "_s"], ["milisegundos", "_ms"], ["microsegundos", "_us"]]
   },
   ciaa: {
@@ -107,6 +107,7 @@ Blockly.CiaaSapi.init = function(workspace) {
   Blockly.CiaaSapi.definitions_['sapi-header-file'] = '\n #include "sapi.h"';
   // Create a dictionary of setups to be printed before the code.
   Blockly.CiaaSapi.setups_ = Object.create(null);
+  Blockly.CiaaSapi.typedVariables_ = Object.create(null);
 
 	if (!Blockly.CiaaSapi.variableDB_) {
 		Blockly.CiaaSapi.variableDB_ =
@@ -118,8 +119,17 @@ Blockly.CiaaSapi.init = function(workspace) {
 	var defvars = [];
 	var variables = Blockly.Variables.allVariables(workspace);
 	for (var x = 0; x < variables.length; x++) {
-		defvars[x] = 'int ' +
-				Blockly.CiaaSapi.variableDB_.getName(variables[x],
+    var type;
+    var name;
+    if ((variables[x].search('::') + 1)) {
+      type = variables[x].split('::')[0];
+      name = variables[x].split('::')[1];
+    } else {
+      type = 'int';
+      name = variables[x];
+    }
+		defvars[x] = type + ' ' +
+				Blockly.CiaaSapi.variableDB_.getName(name,
 				Blockly.Variables.NAME_TYPE) + ';\n';
 	}
 	Blockly.CiaaSapi.definitions_['variables'] = defvars.join('\n');
@@ -158,7 +168,14 @@ Blockly.CiaaSapi.finish = function(code) {
     setups.push(Blockly.CiaaSapi.setups_[name]);
   }
 
-  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\ninline void setup(void) \n{\n  '+setups.join('\n  ') + '\n}'+ '\n\n';
+  // Convert the setups dictionary into a list.
+  var typedVariables = [];
+  for (var name in Blockly.CiaaSapi.typedVariables_) {
+    // typedVariables.push(Blockly.CiaaSapi.typedVariables_[name]);
+    typedVariables.push(Blockly.CiaaSapi.typedVariables_[name].type + ' ' + Blockly.CiaaSapi.typedVariables_[name].name + ';\n');
+  }
+
+  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\n\n' + typedVariables.join('\n') + '\ninline void setup(void) \n{\n  ' + setups.join('\n  ') + '\n}'+ '\n\n';
   return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
 };
 

@@ -135,7 +135,11 @@ export class BlocklyComponent implements OnInit {
         </value>
       </block>
     </category>
-    <category name="Variables" custom="VARIABLE" colour="330"></category>
+    <category name="Variables" colour="330">
+      <block type="typed_variable_declare"></block>
+      <block type="typed_variable_get"></block>
+      <block type="typed_variable_set"></block>
+    </category>
     <category name="Funciones" custom="PROCEDURE" colour="290"></category>
     <category name="Matemática">
       <block type="math_number">
@@ -174,7 +178,10 @@ export class BlocklyComponent implements OnInit {
   public ngAfterViewInit() {
     this.blocklyResize();
     this.workspace.addChangeListener((e) => this.blocklyCodeChange());
+  }
 
+  public crearVariable() {
+    Blockly.Variables.createVariable(this.workspace);
   }
 
   public blocklyResize() {
