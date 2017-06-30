@@ -27,8 +27,12 @@ export class AppSidebarComponent implements OnInit {
     this.appSidebarService.toggleCCode();
   }
 
-  public verifyProgram() {
-    this.compilingService.verifyProgram();
+  public compileProgram() {
+    this.compilingService.compileProgram();
+  }
+
+  public downloadProgram() {
+    this.compilingService.downloadProgram();
   }
 
 }

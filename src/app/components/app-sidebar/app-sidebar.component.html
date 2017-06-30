@@ -36,7 +36,7 @@
 
     <hr>
 
-    <a placement="right" tooltip="Verificar programa" (click)="verifyProgram()" container="body">
+    <a placement="right" tooltip="Compilar programa" (click)="compileProgram()" container="body">
       <div class="row item">
         <div class="col">
           <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
@@ -44,7 +44,7 @@
       </div>
     </a>
 
-    <a placement="right" tooltip="Descargar al robot" container="body">
+    <a placement="right" tooltip="Descargar al robot" (click)="downloadProgram()" container="body">
       <div class="row item">
         <div class="col">
           <i class="fa fa-download fa-lg" aria-hidden="true"></i>

@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
+import * as fsExtra from 'fs-extra';
 import { Observable, Observer, Subject, BehaviorSubject } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 import { LocalStorage } from 'ng2-webstorage';
@@ -13,7 +14,7 @@ import { Workspace } from '../models/workspace';
 import { LocalStorageService } from 'ng2-webstorage';
 import { UserPreferences } from '../models/user-preferences';
 import { RecentProject } from '../models/recent-project';
-import { ElectronService } from 'app/providers/electron.service';
+import { ElectronService } from './electron.service';
 import { ipcRenderer } from 'electron';
 
 @Injectable()
@@ -35,11 +36,11 @@ export class ProjectService {
     if (preferences) {
       this.userPreferences = preferences;
       this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
-          if (a.lastOpened && b.lastOpened) {
-            return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
-          } else {
-            return 0;
-          }
+        if (a.lastOpened && b.lastOpened) {
+          return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
+        } else {
+          return 0;
+        }
       });
       console.log(this.userPreferences.recentProjects);
     }
@@ -166,6 +167,32 @@ export class ProjectService {
     return this.userPreferences.recentProjects;
   }
 
+  public removeRecentProject(project: RecentProject) {
+    
+    /* If the project exists, it is removed from the array */
+    if (this.userPreferences.recentProjects) {
+      let index = this.userPreferences.recentProjects.findIndex((recentProject) => {
+        return recentProject.name === project.name && recentProject.projectFile === project.projectFile;
+      });
+      console.log('Removiendo', project);
+      console.log("Indice", index);
+      if (-1 !== index) {
+        this.userPreferences.recentProjects.splice(index, 1);
+        /* Order recent projects by date */
+        this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
+          if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
+            return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
+          } else if (a.lastOpened instanceof Date) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        this.updatePersistedUserPreferences();
+      }
+    }
+  }
+
   private saveProjectToFile(file): boolean {
     console.log('Trying to save', file);
     let fileDescriptor: number;
@@ -213,64 +240,84 @@ export class ProjectService {
    */
   private createProjectStructure(directory: string, file: string): Observable<boolean> {
     let retValue = new Observable((observer) => {
-      let error: boolean = false;
-      mkdirp(directory, (err) => {
+      fsExtra.copy(__dirname + '/assets/templates/g1', directory, (err) => {
         if (err) {
           console.error(err);
           observer.next(false);
           observer.complete();
           return;
-        } else {
-          if (this.saveProjectToFile(file)) {
-            console.log('Archivo cbp creado');
-          } else {
-            console.log('No se pudo crear el cbp');
-            observer.next(false);
-            observer.complete();
-            return;
-          }
         }
-
-        mkdirp(directory + '/app/src', (err) => {
-          if (err) {
-            console.error(err);
-            observer.next(false);
-            observer.complete();
-            return;
-          }
-
-          mkdirp(directory + '/app/inc', (err) => {
-            if (err) {
-              console.error(err);
-              observer.next(false);
-              observer.complete();
-              return;
-            }
-
-            mkdirp(directory + '/libs', (err) => {
-              if (err) {
-                console.error(err);
-                observer.next(false);
-                observer.complete();
-                return;
-              }
-
-              mkdirp(directory + '/scripts', (err) => {
-                if (err) {
-                  console.error(err);
-                  observer.next(false);
-                  observer.complete();
-                  return;
-                } else {
-                  observer.next(true);
-                  observer.complete();
-                }
-              });
-            });
-          });
-        });
+        if (this.saveProjectToFile(file)) {
+          console.log('Archivo cbp creado');
+          observer.next(true);
+        } else {
+          console.error('No se pudo crear el cbp');
+          observer.next(false);
+        }
+        observer.complete();
+        return;
       });
     });
+    // let retValue = new Observable((observer) => {
+    //   let error: boolean = false;
+    //   mkdirp(directory, (err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       observer.next(false);
+    //       observer.complete();
+    //       return;
+    //     } else {
+    //       if (this.saveProjectToFile(file)) {
+    //         console.log('Archivo cbp creado');
+    //       } else {
+    //         console.log('No se pudo crear el cbp');
+    //         observer.next(false);
+    //         observer.complete();
+    //         return;
+    //       }
+    //     }
+
+    //     mkdirp(directory + '/app/src', (err) => {
+    //       if (err) {
+    //         console.error(err);
+    //         observer.next(false);
+    //         observer.complete();
+    //         return;
+    //       }
+
+    //       mkdirp(directory + '/app/inc', (err) => {
+    //         if (err) {
+    //           console.error(err);
+    //           observer.next(false);
+    //           observer.complete();
+    //           return;
+    //         }
+
+    //         mkdirp(directory + '/libs', (err) => {
+    //           if (err) {
+    //             console.error(err);
+    //             observer.next(false);
+    //             observer.complete();
+    //             return;
+    //           }
+
+    //           mkdirp(directory + '/scripts', (err) => {
+    //             if (err) {
+    //               console.error(err);
+    //               observer.next(false);
+    //               observer.complete();
+    //               return;
+    //             } else {
+    //               observer.next(true);
+    //               observer.complete();
+    //             }
+    //           });
+    //         });
+    //       });
+    //     });
+    //   });
+    // });
+
     return retValue;
   }
 

@@ -41,8 +41,6 @@ export class BlocklyComponent implements OnInit {
       <block type="logic_operation"></block>
       <block type="logic_true"></block>
       <block type="logic_false"></block>
-      <block type="logic_on"></block>
-      <block type="logic_off"></block>
       <block type="logic_negate"></block>
       <block type="logic_null"></block>
       <block type="switch_case"></block>
@@ -79,6 +77,8 @@ export class BlocklyComponent implements OnInit {
       <block type="ciaa_sapi_pwm_read">
         <field name="pin_option">PWM0</field>
       </block>
+      <block type="logic_on"></block>
+      <block type="logic_off"></block>
     </category>
     <category name="Servo" colour="230">
       <block type="ciaa_sapi_servo_write">

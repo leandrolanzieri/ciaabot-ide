@@ -47,4 +47,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  public removeRecentProject(event, project: RecentProject) {
+    event.stopPropagation();
+    this.projectService.removeRecentProject(project);
+  }
+
 }
