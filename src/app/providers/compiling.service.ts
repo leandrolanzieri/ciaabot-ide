@@ -23,15 +23,35 @@ export class CompilingService {
     });
   }
 
-  public verifyProgram() {
-    console.log('Verificando en ', this.workspace.path);
+  public compileProgram() {
+    console.log('Compilando en ', this.workspace.path);
     this.createMainFile();
     if (this.workspace) {
-      childProcess.execFile(path.join(this.workspace.path, 'scripts/verify.bat'), (err, stdout) => {
+      childProcess.execFile(path.join(this.workspace.path, 'scripts/build.bat'), (err, stdout) => {
         if (err) {
-          console.log('Error al verificar programa', err);
+          this.notificationsService.error('Problema al compilar', 'Verificar el programa');
+          console.log('Error al compilar programa', err);
           return;
         }
+        this.notificationsService.success('Programa compilado', 'Se ha compilado con éxito');
+        console.log('Compilacion finalizada');
+        console.log(stdout);
+      });
+    }
+  }
+
+  public downloadProgram() {
+    console.log('Descargando en ', this.workspace.path);
+    this.createMainFile();
+    if (this.workspace) {
+      childProcess.execFile(path.join(this.workspace.path, 'scripts/build_download.bat'), (err, stdout) => {
+        if (err) {
+          this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
+          console.log('Error al descargar programa', err);
+          return;
+        }
+        this.notificationsService.success('Programa descargado', 'Se ha descargado con éxito');
+        console.log('Descarga finalizada');
         console.log(stdout);
       });
     }

@@ -37,11 +37,20 @@
     &:hover {
         background: rgba(181, 209, 228, 0.1);
         border-color: transparent;
+
+        & .delete-recent-project {
+            opacity: 1;
+        }
     }
 
     & .path {
         font-size: 80%;
         width: 100%;
+    }
+
+    & .delete-recent-project {
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
     }
 }
 
