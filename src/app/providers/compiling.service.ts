@@ -24,7 +24,6 @@ export class CompilingService {
   }
 
   public compileProgram() {
-    console.log('Compilando en ', this.workspace.path);
     this.createMainFile();
     if (this.workspace) {
       let scriptName = 'scripts/build';
@@ -37,7 +36,7 @@ export class CompilingService {
           scriptName += '.sh';
           break;
       }
-      console.log('Usando el archivo', scriptName);
+      this.notificationsService.info('Compilando', 'Aguarde unos instantes');
       childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
         if (err) {
           this.notificationsService.error('Problema al compilar', 'Verificar el código');
@@ -52,7 +51,6 @@ export class CompilingService {
   }
 
   public downloadProgram() {
-    console.log('Descargando en ', this.workspace.path);
     this.createMainFile();
     if (this.workspace) {
       let scriptName = 'scripts/build_download';
@@ -65,7 +63,7 @@ export class CompilingService {
           scriptName += '.sh';
           break;
       }
-      console.log('Usando el archivo', scriptName);
+      this.notificationsService.info('Descargando', 'Aguarde unos instantes');
       childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
         if (err) {
           this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
