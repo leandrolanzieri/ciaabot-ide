@@ -27,14 +27,25 @@ export class CompilingService {
     console.log('Compilando en ', this.workspace.path);
     this.createMainFile();
     if (this.workspace) {
-      childProcess.execFile(path.join(this.workspace.path, 'scripts/build.bat'), (err, stdout) => {
+      let scriptName = 'scripts/build';
+      switch (os.platform()) {
+        case 'win32':
+          scriptName += '.bat';
+          break;
+
+        default:
+          scriptName += '.sh';
+          break;
+      }
+      console.log('Usando el archivo', scriptName);
+      childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
         if (err) {
-          this.notificationsService.error('Problema al compilar', 'Verificar el programa');
-          console.log('Error al compilar programa', err);
+          this.notificationsService.error('Problema al compilar', 'Verificar el código');
+          console.log('Error al descargar programa', err);
           return;
         }
         this.notificationsService.success('Programa compilado', 'Se ha compilado con éxito');
-        console.log('Compilacion finalizada');
+        console.log('Descarga finalizada');
         console.log(stdout);
       });
     }
@@ -44,7 +55,18 @@ export class CompilingService {
     console.log('Descargando en ', this.workspace.path);
     this.createMainFile();
     if (this.workspace) {
-      childProcess.execFile(path.join(this.workspace.path, 'scripts/build_download.bat'), (err, stdout) => {
+      let scriptName = 'scripts/build_download';
+      switch (os.platform()) {
+        case 'win32':
+          scriptName += '.bat';
+          break;
+
+        default:
+          scriptName += '.sh';
+          break;
+      }
+      console.log('Usando el archivo', scriptName);
+      childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
         if (err) {
           this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
           console.log('Error al descargar programa', err);

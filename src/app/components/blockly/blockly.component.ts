@@ -70,7 +70,7 @@ export class BlocklyComponent implements OnInit {
         <field name="pin_option">PWM0</field>
         <value name="value">
           <block type="math_number">
-            <field name="NUM">150</field>
+            <field name="NUM">50</field>
           </block>
         </value>
       </block>
@@ -117,13 +117,6 @@ export class BlocklyComponent implements OnInit {
         <value name="BY">
           <block type="math_number">
             <field name="NUM">1</field>
-          </block>
-        </value>
-      </block>
-      <block type="ciaa_sapi_blocking_delay">
-        <value name="delay_time">
-          <block type="math_number">
-            <field name="NUM">1000</field>
           </block>
         </value>
       </block>

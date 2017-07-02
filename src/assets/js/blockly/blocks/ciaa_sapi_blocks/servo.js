@@ -32,7 +32,7 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['ciaa_sapi_servo_read'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Leer Salida de un Servo");
+        .appendField("Leer ángulo de SERVO");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Pin")
@@ -49,13 +49,13 @@ Blockly.Blocks['ciaa_sapi_servo_read'] = {
 Blockly.Blocks['ciaa_sapi_servo_write'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Fijar servo ");
+        .appendField("Establecer ángulo de SERVO ");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(new Blockly.FieldDropdown(profile.default.servo), "pin_option");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(" en ángulo ");
+        .appendField(" a ");
     this.appendValueInput("value")
         .setCheck("Number");
     this.appendDummyInput()
