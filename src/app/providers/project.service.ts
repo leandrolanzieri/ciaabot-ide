@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
-import * as fsExtra from 'fs-extra';
+import * as copyDir from 'copy-dir';
 import { Observable, Observer, Subject, BehaviorSubject } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 import { LocalStorage } from 'ng2-webstorage';
@@ -71,7 +71,7 @@ export class ProjectService {
   }
 
   public openProject(filePath: string): Observable<boolean> {
-    let retValue = new Observable((observer) => {
+    const retValue = new Observable<boolean>((observer) => {
       fs.readFile(filePath, (err, data) => {
         if (err) {
           this.notificationsService.alert('Ocurrió un error al abrir el proyecto');
@@ -79,7 +79,7 @@ export class ProjectService {
           observer.complete();
         } else {
           try {
-            let parsedData = JSON.parse(data as any);
+            const parsedData = JSON.parse(data as any);
             if (!new Project().isProject(parsedData)) {
               throw new Error();
             } else {
@@ -168,14 +168,13 @@ export class ProjectService {
   }
 
   public removeRecentProject(project: RecentProject) {
-    
     /* If the project exists, it is removed from the array */
     if (this.userPreferences.recentProjects) {
-      let index = this.userPreferences.recentProjects.findIndex((recentProject) => {
+      const index = this.userPreferences.recentProjects.findIndex((recentProject) => {
         return recentProject.name === project.name && recentProject.projectFile === project.projectFile;
       });
       console.log('Removiendo', project);
-      console.log("Indice", index);
+      console.log('Indice', index);
       if (-1 !== index) {
         this.userPreferences.recentProjects.splice(index, 1);
         /* Order recent projects by date */
@@ -236,11 +235,13 @@ export class ProjectService {
 
   /**
    * Creates directories and copies the files needed to compile and load code to the board.
-   * @param project Project to be created
+   * @param directory String with the destination directory path
+   * @param file String with the project file name
+   * @returns Observable with result
    */
   private createProjectStructure(directory: string, file: string): Observable<boolean> {
-    let retValue = new Observable((observer) => {
-      fsExtra.copy(__dirname + '/assets/templates/g1', directory, (err) => {
+    const retValue = new Observable<boolean>((observer) => {
+      copyDir(__dirname + '/assets/templates/g1', directory, (err) => {
         if (err) {
           console.error(err);
           observer.next(false);
@@ -332,7 +333,7 @@ export class ProjectService {
   private addToRecentProjects(project: Project) {
     /* If the project does not exists, it is pushed into the array */
     if (this.userPreferences.recentProjects) {
-      let index = this.userPreferences.recentProjects.findIndex((recentProject) => {
+      const index = this.userPreferences.recentProjects.findIndex((recentProject) => {
         return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
       });
       if (-1 === index) {

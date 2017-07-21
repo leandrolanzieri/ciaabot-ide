@@ -6,22 +6,24 @@
           <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
         </div>
         <div class="col-8 recent-project-list">
-          <div class="row" style="margin-left: 10px;" *ngIf="projectService.getRecentProjects().length > 0">
-            <p class="lead" style="font-weight: 400">Proyectos recientes</p>
-            <div id="recent-projects">
-              <div *ngFor="let project of projectService.getRecentProjects()" (click)="openRecentProject(project)" class="recent-project">
-                <div class="row">
-                  <div class="col">
-                    <div class="ellipsis">{{project.name}}</div>
-                    <div class="path text-muted ellipsis">{{project.projectFile}}</div>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-times delete-recent-project" (click)="removeRecentProject($event, project)" aria-hidden="true"></i>
+          <div *ngIf="projectService.getRecentProjects()">
+            <div class="row" style="margin-left: 10px;" *ngIf="projectService.getRecentProjects().length > 0">
+              <p class="lead" style="font-weight: 400">Proyectos recientes</p>
+              <div id="recent-projects">
+                <div *ngFor="let project of projectService.getRecentProjects()" (click)="openRecentProject(project)" class="recent-project">
+                  <div class="row">
+                    <div class="col">
+                      <div class="ellipsis">{{project.name}}</div>
+                      <div class="path text-muted ellipsis">{{project.projectFile}}</div>
+                    </div>
+                    <div class="col-1">
+                      <i class="fa fa-times delete-recent-project" (click)="removeRecentProject($event, project)" aria-hidden="true"></i>
+                    </div>
                   </div>
                 </div>
               </div>
+              <br>
             </div>
-            <br>
           </div>
           <div class="row" style="margin-left: 10px;">
             <div class="col-3">
