@@ -36,7 +36,10 @@ export class CompilingService {
           scriptName += '.sh';
           break;
       }
-      this.notificationsService.info('Compilando', 'Aguarde unos instantes');
+      this.notificationsService.info('Compilando', 'Aguarde unos instantes', {
+        timeOut: 0,
+        maxStack: 1
+      });
       childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
         if (err) {
           this.notificationsService.error('Problema al compilar', 'Verificar el código');
@@ -63,7 +66,10 @@ export class CompilingService {
           scriptName += '.sh';
           break;
       }
-      this.notificationsService.info('Descargando', 'Aguarde unos instantes');
+      this.notificationsService.info('Descargando', 'Aguarde unos instantes', {
+        timeOut: 0,
+        maxStack: 1
+      });
       childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
         if (err) {
           this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
