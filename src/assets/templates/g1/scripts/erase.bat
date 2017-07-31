@@ -44,5 +44,5 @@ echo Borrar memoria flash de la placa...
 make -C %PROJECT_PATH% Borrar_memoria_flash
 
 :: Con pause te deja ver el resultado, con exit lo cierra al terminar
-pause
-::exit
+::pause
+exit

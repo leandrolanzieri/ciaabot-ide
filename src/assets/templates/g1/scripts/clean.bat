@@ -44,5 +44,5 @@ echo Limpiar compilacion de proyecto de C generado...
 make -C %PROJECT_PATH% Limpiar_Proyecto
 
 :: Con pause te deja ver el resultado, con exit lo cierra al terminar
-pause
-::exit
+::pause
+exit

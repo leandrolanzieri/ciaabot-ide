@@ -26,7 +26,7 @@ export class CompilingService {
   public compileProgram() {
     this.createMainFile();
     if (this.workspace) {
-      let scriptName = 'scripts/build';
+      let scriptName = 'build';
       switch (os.platform()) {
         case 'win32':
           scriptName += '.bat';
@@ -40,46 +40,65 @@ export class CompilingService {
         timeOut: 0,
         maxStack: 1
       });
-      childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
-        if (err) {
-          this.notificationsService.error('Problema al compilar', 'Verificar el código');
-          console.log('Error al descargar programa', err);
-          return;
+      childProcess.exec( 
+        'cd ' + path.join(this.workspace.path, 'scripts') + 
+        ' && chmod +x ' + scriptName +
+        ' && ./' + scriptName, (err, stdout) => {
+          if (err) {
+            this.notificationsService.error('Problema al compilar', 'Verificar el código');
+            console.log('Error al descargar programa', err);
+            return;
+          }
+          this.notificationsService.success('Programa compilado', 'Se ha compilado con éxito');
+          console.log('Descarga finalizada');
+          console.log(stdout);
         }
-        this.notificationsService.success('Programa compilado', 'Se ha compilado con éxito');
-        console.log('Descarga finalizada');
-        console.log(stdout);
-      });
+      );
     }
   }
 
   public downloadProgram() {
     this.createMainFile();
     if (this.workspace) {
-      let scriptName = 'scripts/build_download';
-      switch (os.platform()) {
-        case 'win32':
-          scriptName += '.bat';
-          break;
-
-        default:
-          scriptName += '.sh';
-          break;
-      }
+      let scriptName = 'build_download';
       this.notificationsService.info('Descargando', 'Aguarde unos instantes', {
         timeOut: 0,
         maxStack: 1
       });
-      childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
-        if (err) {
-          this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
-          console.log('Error al descargar programa', err);
-          return;
-        }
-        this.notificationsService.success('Programa descargado', 'Se ha descargado con éxito');
-        console.log('Descarga finalizada');
-        console.log(stdout);
-      });
+
+      switch (os.platform()) {
+        case 'win32':
+          scriptName += '.bat';
+          childProcess.execFile(path.join(this.workspace.path, scriptName), (err, stdout) => {
+            if (err) {
+              this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
+              console.log('Error al descargar programa', err);
+              return;
+            }
+            this.notificationsService.success('Programa descargado', 'Se ha descargado con éxito');
+            console.log('Descarga finalizada');
+            console.log(stdout);
+          });
+          break;
+
+        default:
+          scriptName += '.sh';
+          childProcess.exec( 
+            'cd ' + path.join(this.workspace.path, 'scripts') + 
+            ' && chmod +x ' + scriptName +
+            ' && ./' + scriptName, (err, stdout) => {
+              if (err) {
+                this.notificationsService.error('Problema al descargar', 'Verificar la conexión al robot');
+                console.log('Error al descargar programa', err);
+                return;
+              }
+              this.notificationsService.success('Programa descargado', 'Se ha descargado con éxito');
+              console.log('Descarga finalizada');
+              console.log(stdout);
+            }
+          );
+          break;
+      }
     }
   }
 
