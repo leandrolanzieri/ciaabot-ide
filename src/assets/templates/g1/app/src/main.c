@@ -51,7 +51,7 @@ int main( void ){
    } 
 
    // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta 
-   // directamenteno sobre un microcontroladore y no es llamado/ por ningun
+   // directamenteno sobre un microcontroladore y no es llamado por ningun
    // Sistema Operativo, como en el caso de un programa para PC.
    return 0;
 }
