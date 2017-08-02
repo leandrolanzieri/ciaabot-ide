@@ -12,7 +12,7 @@
               <div id="recent-projects">
                 <div *ngFor="let project of projectService.getRecentProjects()" (click)="openRecentProject(project)" class="recent-project">
                   <div class="row">
-                    <div class="col">
+                    <div class="col-10">
                       <div class="ellipsis">{{project.name}}</div>
                       <div class="path text-muted ellipsis">{{project.projectFile}}</div>
                     </div>
