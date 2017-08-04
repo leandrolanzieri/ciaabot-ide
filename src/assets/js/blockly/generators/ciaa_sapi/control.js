@@ -128,6 +128,7 @@ Blockly.CiaaSapi['controls_repeat_forever'] = function (block) {
             '\'' + this.id + '\'') + statements_name;
     }
     return 'while (TRUE) {\n' + statements_name + '}\n';
+    //return 'while (TRUE) {\n' + statements_name + '  sleepUntilNextInterrupt();\n}\n';
 };
 
 Blockly.CiaaSapi['controls_main_program'] = function (block) {

@@ -123,6 +123,20 @@ Blockly.Blocks['ciaa_sapi_gpio_digital_read'] = {
     }
 };
 
+Blockly.Blocks['ciaa_sapi_gpio_toggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Invertir el estado del pin")
+        .appendField(new Blockly.FieldDropdown(profile.default.digital.concat(profile.default.leds)), "DIGITAL_PIN");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+ this.setTooltip("Invertir estado de una salida digital");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['ciaa_sapi_gpio_analog_read'] = {
     init: function () {
         this.appendDummyInput()
@@ -170,6 +184,34 @@ Blockly.Blocks['ciaa_sapi_sleep_until_interrupt'] = {
         this.setTooltip('Modo bajo consumo');
         this.setHelpUrl('');
     }
+};
+
+Blockly.Blocks['ciaa_sapi_set_tick_count'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Escribir base de tiempo");
+    this.appendValueInput("ticks")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendDummyInput()
+        .appendField("(ms)");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("Establecer el tiempo del sistema en ms");
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_get_tick_count'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Leer base de tiempo (ms)");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("Devuelve el tiempo del sistema en ms");
+ this.setHelpUrl("");
+  }
 };
 
 Blockly.Blocks['ciaa_sapi_pwm_write'] = {

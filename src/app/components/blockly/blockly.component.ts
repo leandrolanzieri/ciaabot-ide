@@ -55,6 +55,9 @@ export class BlocklyComponent implements OnInit {
       <block type="ciaa_sapi_gpio_digital_read" >
         <field name="pin_option">GPIO0</field>
       </block>
+      <block type="ciaa_sapi_gpio_toggle" >
+        <field name="pin_option">GPIO0</field>
+      </block>
       <block type="ciaa_sapi_gpio_analog_read">
         <field name="pin_option">CH1</field>
       </block>
@@ -89,6 +92,24 @@ export class BlocklyComponent implements OnInit {
         <field name="pin_option">SERVO0</field>
       </block>
     </category>
+    <category name="Tiempo" colour="30">
+      <block type="ciaa_sapi_delay_seconds">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+      <block type="ciaa_sapi_get_tick_count">
+      </block>
+      <block type="ciaa_sapi_set_tick_count">
+        <value name="ticks">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+    </category>
     <category name="Control" colour="20">
       <block type="controls_main_program">
       </block>
@@ -117,13 +138,6 @@ export class BlocklyComponent implements OnInit {
         <value name="BY">
           <block type="math_number">
             <field name="NUM">1</field>
-          </block>
-        </value>
-      </block>
-      <block type="ciaa_sapi_delay_seconds">
-        <value name="TIME">
-          <block type="math_number">
-            <field name="NUM">5</field>
           </block>
         </value>
       </block>
@@ -158,6 +172,9 @@ export class BlocklyComponent implements OnInit {
       </block>
     </category>
     <category name="Texto">
+      <block type="ciaa_sapi_uart_send_string"></block>
+      <block type="ciaa_sapi_uart_receive_byte"></block>
+      <block type="ciaa_sapi_uart_send_byte"></block>
       <block type="text"></block>
     </category>
   </xml>

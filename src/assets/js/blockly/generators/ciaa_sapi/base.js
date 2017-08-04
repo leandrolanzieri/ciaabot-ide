@@ -77,6 +77,12 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_digital_read'] = function(block) {
   return [code, Blockly.CiaaSapi.ORDER_NONE];
 };
 
+Blockly.CiaaSapi['ciaa_sapi_gpio_toggle'] = function(block) {
+  var dropdown_digital_pin = block.getFieldValue('DIGITAL_PIN');
+  var code = 'gpioToggle(' + dropdown_digital_pin + ');\n';
+  return code;
+};
+
 Blockly.CiaaSapi['ciaa_sapi_gpio_analog_read'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
   // Add configuration to user setups
@@ -97,6 +103,17 @@ Blockly.CiaaSapi['ciaa_sapi_dac_write'] = function(block) {
 
 Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
   var code = 'sleepUntilNextInterrupt();\n';
+  return code;
+};
+
+Blockly.CiaaSapi['ciaa_sapi_get_tick_count'] = function(block) {
+  var code = 'tickRead();';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['ciaa_sapi_set_tick_count'] = function(block) {
+  var value_ticks = Blockly.CiaaSapi.valueToCode(block, 'ticks', Blockly.CiaaSapi.ORDER_ATOMIC);
+  var code = 'tickWrite(' + value_ticks + ');\n';
   return code;
 };
 
