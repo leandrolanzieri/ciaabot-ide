@@ -43,13 +43,19 @@ export class BlocklyComponent implements OnInit {
       <block type="logic_false"></block>
       <block type="logic_negate"></block>
       <block type="logic_null"></block>
+      <block type="switch_case"></block>
     </category>
     <category name="Entradas / Salidas" colour="120">
       <block type="ciaa_sapi_gpio_write">
         <field name="pin_option">LEDR</field>
-        <field name="value_option">ON</field>
+        <value name="value">
+          <block type="logic_on"></block>
+        </value>
       </block>
       <block type="ciaa_sapi_gpio_digital_read" >
+        <field name="pin_option">GPIO0</field>
+      </block>
+      <block type="ciaa_sapi_gpio_toggle" >
         <field name="pin_option">GPIO0</field>
       </block>
       <block type="ciaa_sapi_gpio_analog_read">
@@ -57,15 +63,25 @@ export class BlocklyComponent implements OnInit {
       </block>
       <block type="ciaa_sapi_dac_write">
         <field name="pin_option">DAC</field>
-        <field name="value">0</field>
+        <value name="value">
+          <block type="math_number">
+            <field name="NUM">150</field>
+          </block>
+        </value>
       </block>
       <block type="ciaa_sapi_pwm_write">
         <field name="pin_option">PWM0</field>
-        <field name="value_option">50</field>
+        <value name="value">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
       </block>
       <block type="ciaa_sapi_pwm_read">
         <field name="pin_option">PWM0</field>
       </block>
+      <block type="logic_on"></block>
+      <block type="logic_off"></block>
     </category>
     <category name="Servo" colour="230">
       <block type="ciaa_sapi_servo_write">
@@ -76,19 +92,37 @@ export class BlocklyComponent implements OnInit {
         <field name="pin_option">SERVO0</field>
       </block>
     </category>
+    <category name="Tiempo" colour="30">
+      <block type="ciaa_sapi_delay_seconds">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+      <block type="ciaa_sapi_get_tick_count">
+      </block>
+      <block type="ciaa_sapi_set_tick_count">
+        <value name="ticks">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+    </category>
     <category name="Control" colour="20">
+      <block type="controls_main_program">
+      </block>
       <block type="controls_repeat_forever">
       </block>
       <block type="controls_whileUntil">
       </block>
-      <block type="ciaa_sapi_blocking_delay">
-        <value name="delay_time">
+      <block type="controls_for_simplified">
+        <value name="CANT">
           <block type="math_number">
-            <field name="NUM">1000</field>
+            <field name="NUM">5</field>
           </block>
         </value>
-      </block>
-      <block type="ciaa_sapi_sleep_until_interrupt">
       </block>
       <block type="controls_for">
         <value name="FROM">
@@ -113,10 +147,34 @@ export class BlocklyComponent implements OnInit {
     <category name="Matemática">
       <block type="math_number">
       </block>
-      <block type="math_arithmetic">
+      <block type="math_arithmetic"></block>
+      <block type="math_map_range">
+            <value name="MIN_INITIAL">
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="MAX_INITIAL">
+              <block type="math_number">
+                <field name="NUM">1023</field>
+              </block>
+            </value>
+            <value name="MIN_LAST">
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="MAX_LAST">
+              <block type="math_number">
+                <field name="NUM">255</field>
+              </block>
+            </value>
       </block>
     </category>
     <category name="Texto">
+      <block type="ciaa_sapi_uart_send_string"></block>
+      <block type="ciaa_sapi_uart_receive_byte"></block>
+      <block type="ciaa_sapi_uart_send_byte"></block>
       <block type="text"></block>
     </category>
   </xml>
@@ -136,7 +194,16 @@ export class BlocklyComponent implements OnInit {
     this.workspace = Blockly.inject(this.blocklyContainer,
       {
         toolbox: this.blocklyToolbox,
-        scrollbars: false
+        zoom:
+        {
+          controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2
+        },
+        trashcan: true
       });
     let onresize = (e) => {
       // Compute the absolute coordinates and dimensions of blocklyArea.

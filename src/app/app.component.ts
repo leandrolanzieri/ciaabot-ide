@@ -12,7 +12,8 @@ const BrowserWindow = require('electron').remote.BrowserWindow;
 export class AppComponent {
   public notificationsOptions = {
     position: ['top', 'right'],
-    timeOut: 5000
+    timeOut: 5000,
+    maxStack: 1
   };
   public isMaximizedWindow: boolean = false;
   constructor(
@@ -49,5 +50,9 @@ export class AppComponent {
 
   public maximizedWindow() {
     return this.windowService.isMaximizedWindow();
+  }
+
+  public closeWindow() {
+    this.windowService.closeWindow();
   }
 }

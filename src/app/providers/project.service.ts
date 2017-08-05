@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
+import * as copyDir from 'copy-dir';
 import { Observable, Observer, Subject, BehaviorSubject } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 import { LocalStorage } from 'ng2-webstorage';
@@ -13,6 +14,8 @@ import { Workspace } from '../models/workspace';
 import { LocalStorageService } from 'ng2-webstorage';
 import { UserPreferences } from '../models/user-preferences';
 import { RecentProject } from '../models/recent-project';
+import { ElectronService } from './electron.service';
+import { ipcRenderer } from 'electron';
 
 @Injectable()
 export class ProjectService {
@@ -24,13 +27,22 @@ export class ProjectService {
     private confirmationService: ConfirmationService,
     private notificationsService: NotificationsService,
     private ngZone: NgZone,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private electronService: ElectronService
   ) {
     this.workspaceSubscription.next(this.workspace);
     this.updatePersistedWorkspace();
     const preferences = this.storage.retrieve('user-preferences');
     if (preferences) {
       this.userPreferences = preferences;
+      this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
+        if (a.lastOpened && b.lastOpened) {
+          return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
+        } else {
+          return 0;
+        }
+      });
+      console.log(this.userPreferences.recentProjects);
     }
   }
 
@@ -59,7 +71,7 @@ export class ProjectService {
   }
 
   public openProject(filePath: string): Observable<boolean> {
-    let retValue = new Observable((observer) => {
+    const retValue = new Observable<boolean>((observer) => {
       fs.readFile(filePath, (err, data) => {
         if (err) {
           this.notificationsService.alert('Ocurrió un error al abrir el proyecto');
@@ -67,13 +79,14 @@ export class ProjectService {
           observer.complete();
         } else {
           try {
-            let parsedData = JSON.parse(data as any);
+            const parsedData = JSON.parse(data as any);
             if (!new Project().isProject(parsedData)) {
               throw new Error();
             } else {
               this.workspace.project = parsedData;
               this.workspace.projectFile = filePath;
               this.workspace.changes = false;
+              this.electronService.ipcRenderer.send('workspace-changes', false);
               this.workspace.path = path.dirname(filePath);
               this.workspaceSubscription.next(this.workspace);
               this.updatePersistedUserPreferences();
@@ -95,12 +108,14 @@ export class ProjectService {
 
   public saveCurrentProject() {
     this.workspace.changes = false;
+    this.electronService.ipcRenderer.send('workspace-changes', false);
     this.workspaceSubscription.next(this.workspace);
     this.saveProjectToFile(this.workspace.projectFile);
   }
 
   public registerProjectChange() {
     this.workspace.changes = true;
+    this.electronService.ipcRenderer.send('workspace-changes', true);
     this.workspaceSubscription.next(this.workspace);
     this.updatePersistedWorkspace();
   }
@@ -148,8 +163,33 @@ export class ProjectService {
     return null;
   }
 
-  public getRecentProjects(): Array<{ name: string, projectFile: string, lastOpened: Date }> {
+  public getRecentProjects(): RecentProject[] {
     return this.userPreferences.recentProjects;
+  }
+
+  public removeRecentProject(project: RecentProject) {
+    /* If the project exists, it is removed from the array */
+    if (this.userPreferences.recentProjects) {
+      const index = this.userPreferences.recentProjects.findIndex((recentProject) => {
+        return recentProject.name === project.name && recentProject.projectFile === project.projectFile;
+      });
+      console.log('Removiendo', project);
+      console.log('Indice', index);
+      if (-1 !== index) {
+        this.userPreferences.recentProjects.splice(index, 1);
+        /* Order recent projects by date */
+        this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
+          if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
+            return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
+          } else if (a.lastOpened instanceof Date) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        this.updatePersistedUserPreferences();
+      }
+    }
   }
 
   private saveProjectToFile(file): boolean {
@@ -195,68 +235,90 @@ export class ProjectService {
 
   /**
    * Creates directories and copies the files needed to compile and load code to the board.
-   * @param project Project to be created
+   * @param directory String with the destination directory path
+   * @param file String with the project file name
+   * @returns Observable with result
    */
   private createProjectStructure(directory: string, file: string): Observable<boolean> {
-    let retValue = new Observable((observer) => {
-      let error: boolean = false;
-      mkdirp(directory, (err) => {
+    const retValue = new Observable<boolean>((observer) => {
+      copyDir(__dirname + '/assets/templates/g1', directory, (err) => {
         if (err) {
           console.error(err);
           observer.next(false);
           observer.complete();
           return;
-        } else {
-          if (this.saveProjectToFile(file)) {
-            console.log('Archivo cbp creado');
-          } else {
-            console.log('No se pudo crear el cbp');
-            observer.next(false);
-            observer.complete();
-            return;
-          }
         }
-
-        mkdirp(directory + '/app/src', (err) => {
-          if (err) {
-            console.error(err);
-            observer.next(false);
-            observer.complete();
-            return;
-          }
-
-          mkdirp(directory + '/app/inc', (err) => {
-            if (err) {
-              console.error(err);
-              observer.next(false);
-              observer.complete();
-              return;
-            }
-
-            mkdirp(directory + '/libs', (err) => {
-              if (err) {
-                console.error(err);
-                observer.next(false);
-                observer.complete();
-                return;
-              }
-
-              mkdirp(directory + '/scripts', (err) => {
-                if (err) {
-                  console.error(err);
-                  observer.next(false);
-                  observer.complete();
-                  return;
-                } else {
-                  observer.next(true);
-                  observer.complete();
-                }
-              });
-            });
-          });
-        });
+        if (this.saveProjectToFile(file)) {
+          console.log('Archivo cbp creado');
+          observer.next(true);
+        } else {
+          console.error('No se pudo crear el cbp');
+          observer.next(false);
+        }
+        observer.complete();
+        return;
       });
     });
+    // let retValue = new Observable((observer) => {
+    //   let error: boolean = false;
+    //   mkdirp(directory, (err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       observer.next(false);
+    //       observer.complete();
+    //       return;
+    //     } else {
+    //       if (this.saveProjectToFile(file)) {
+    //         console.log('Archivo cbp creado');
+    //       } else {
+    //         console.log('No se pudo crear el cbp');
+    //         observer.next(false);
+    //         observer.complete();
+    //         return;
+    //       }
+    //     }
+
+    //     mkdirp(directory + '/app/src', (err) => {
+    //       if (err) {
+    //         console.error(err);
+    //         observer.next(false);
+    //         observer.complete();
+    //         return;
+    //       }
+
+    //       mkdirp(directory + '/app/inc', (err) => {
+    //         if (err) {
+    //           console.error(err);
+    //           observer.next(false);
+    //           observer.complete();
+    //           return;
+    //         }
+
+    //         mkdirp(directory + '/libs', (err) => {
+    //           if (err) {
+    //             console.error(err);
+    //             observer.next(false);
+    //             observer.complete();
+    //             return;
+    //           }
+
+    //           mkdirp(directory + '/scripts', (err) => {
+    //             if (err) {
+    //               console.error(err);
+    //               observer.next(false);
+    //               observer.complete();
+    //               return;
+    //             } else {
+    //               observer.next(true);
+    //               observer.complete();
+    //             }
+    //           });
+    //         });
+    //       });
+    //     });
+    //   });
+    // });
+
     return retValue;
   }
 
@@ -271,19 +333,23 @@ export class ProjectService {
   private addToRecentProjects(project: Project) {
     /* If the project does not exists, it is pushed into the array */
     if (this.userPreferences.recentProjects) {
-      if (-1 === this.userPreferences.recentProjects.findIndex((recentProject) => {
+      const index = this.userPreferences.recentProjects.findIndex((recentProject) => {
         return recentProject.name === project.name && recentProject.projectFile === this.workspace.projectFile;
-      })) {
+      });
+      if (-1 === index) {
         const recentProject = new RecentProject();
         recentProject.name = project.name;
         recentProject.projectFile = this.workspace.projectFile;
         this.userPreferences.recentProjects.push(recentProject);
-        this.userPreferences.recentProjects.splice(0, 1);
+        /* If there are more than 10 projects saved, delete the older one */
+        if (this.userPreferences.recentProjects.length > 10) {
+          this.userPreferences.recentProjects.splice(0, 1);
+        }
 
         /* Order recent projects by date */
         this.userPreferences.recentProjects = this.userPreferences.recentProjects.sort((a, b) => {
           if (a.lastOpened instanceof Date && b.lastOpened instanceof Date) {
-            return b.lastOpened.getTime() - a.lastOpened.getTime();
+            return new Date(b.lastOpened).getTime() - new Date(a.lastOpened).getTime();
           } else if (a.lastOpened instanceof Date) {
             return -1;
           } else {
@@ -291,6 +357,9 @@ export class ProjectService {
           }
         });
 
+        this.updatePersistedUserPreferences();
+      } else {
+        this.userPreferences.recentProjects[index].lastOpened = new Date();
         this.updatePersistedUserPreferences();
       }
     } else {

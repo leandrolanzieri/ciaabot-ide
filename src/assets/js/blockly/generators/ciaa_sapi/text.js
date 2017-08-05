@@ -33,3 +33,36 @@ Blockly.CiaaSapi.text = function() {
   var code = Blockly.CiaaSapi.quote_(this.getFieldValue('TEXT'));
   return [code, Blockly.CiaaSapi.ORDER_ATOMIC];
 };
+
+Blockly.CiaaSapi['ciaa_sapi_uart_send_string'] = function(block) {
+  var dropdown_print_type = block.getFieldValue('PRINT_TYPE');
+  var printing_value = Blockly.CiaaSapi.valueToCode(block, 'printing', Blockly.CiaaSapi.ORDER_ATOMIC);
+  var checkbox_new_line = block.getFieldValue('new_line') == 'TRUE';
+  Blockly.CiaaSapi.setups_['console_print_config_uart'] = 'consolePrintConfigUart(UART_USB, 9600);';
+  var code = '';
+  if (dropdown_print_type === 'TEXT') {
+    code = 'consolePrintString(' + printing_value + ');\n'
+  } else if (dropdown_print_type === 'NUMBER') {
+    code = 'consolePrintInt(' + printing_value + ');\n'
+  } else if (dropdown_print_type === 'CHAR') {
+
+  }
+  if (checkbox_new_line) {
+    code += 'consolePrintEnter();\n';
+  }
+  return code;
+};
+
+Blockly.CiaaSapi['ciaa_sapi_uart_receive_byte'] = function(block) {
+  var variable = Blockly.CiaaSapi.variableDB_.getName(block.getFieldValue('VARIABLE'), Blockly.Variables.NAME_TYPE);
+  Blockly.CiaaSapi.setups_['console_print_config_uart'] = 'consolePrintConfigUart(UART_USB, 9600);';
+  var code = 'uartReadByte(UART_USB, &' + variable + ')';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['ciaa_sapi_uart_send_byte'] = function(block) {
+  var value_byte = Blockly.CiaaSapi.valueToCode(block, 'BYTE', Blockly.CiaaSapi.ORDER_ATOMIC);
+  Blockly.CiaaSapi.setups_['console_print_config_uart'] = 'consolePrintConfigUart(UART_USB, 9600);';
+  var code = 'uartWriteByte(UART_USB, ' + value_byte + ');\n';
+  return code;
+};

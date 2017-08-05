@@ -69,11 +69,26 @@ Blockly.CiaaSapi.ORDER_NONE = 99;          // (...)
 /*
  * Ciaa Board profiles
  *
+ * GPIO8,     GPIO7,     GPIO5,     GPIO3,       GPIO1,
+   LCD1,      LCD2,      LCD3,      LCDRS,       LCD4,
+   SPI_MISO,
+   ENET_TXD1, ENET_TXD0, ENET_MDIO, ENET_CRS_DV, ENET_MDC, ENET_TXEN, ENET_RXD1,
+   GPIO6,     GPIO4,     GPIO2,     GPIO0,
+   LCDEN,
+   SPI_MOSI,
+   ENET_RXD0,
+ *  * 
  */
 var profile = {
   edu_ciaa: {
     description: "EDU-CIAA-NXP board",
-    digital: [['Gpio 0','GPIO0'], ['Gpio 1','GPIO1'], ['Gpio 2','GPIO2'], ['Gpio 3','GPIO3'], ['Gpio 4','GPIO4'], ['Gpio 5','GPIO5'], ['Gpio 6','GPIO6'], ['Gpio 7','GPIO7'], ['Gpio 8','GPIO8']],
+    digital: [['Gpio 0','GPIO0'], ['Gpio 1','GPIO1'], ['Gpio 2','GPIO2'], ['Gpio 3','GPIO3'], ['Gpio 4','GPIO4'], ['Gpio 5','GPIO5'], 
+              ['Gpio 6','GPIO6'], ['Gpio 7','GPIO7'], ['Gpio 8','GPIO8'], ['T_FIL1', 'T_FIL1'], ['T_COL2', 'T_COL2'], ['T_COL0', 'T_COL0'],
+              ['T_FIL2', 'T_FIL2'], ['T_FIL3', 'T_FIL3'], ['T_FIL0', 'T_FIL0'], ['T_COL1', 'T_COL1'], ['CAN_TD', 'CAN_TD'], ['CAN_RD', 'CAN_RD'],
+              ['RS232_TXD', 'RS232_TXD'], ['RS232_RXD', 'RS232_RXD'], ['LCD1', 'LCD1'], ['LCD2', 'LCD2'], ['LCD3', 'LCD3'], ['LCDRS', 'LCDRS'],
+              ['LCD4', 'LCD4'], ['SPI_MISO', 'SPI_MISO'], ['ENET_TXD1', 'ENET_TXD1'], ['ENET_TXD0', 'ENET_TXD0'], ['ENET_MDIO', 'ENET_MDIO'],
+              ['ENET_CRS_DV', 'ENET_CRS_DV'], ['ENET_MDC', 'ENET_MDC'], ['ENET_TXEN', 'ENET_TXEN'], ['ENET_RXD1', 'ENET_RXD1'], ['LCDEN', 'LCDEN'],
+              ['SPI_MOSI', 'SPI_MOSI'], ['ENET_RXD0', 'ENET_RXD0']],
     leds: [["Led 1", "LED1"], ["Led 2", "LED2"], ["Led 3", "LED3"], ["Led Rojo", "LEDR"], ["Led Verde", "LEDG"], ["Led Azul", "LEDB"]],
     buttons: [["Tecla 1", "TEC1"], ["Tecla 2", "TEC2"], ["Tecla 3", "TEC3"], ["Tecla 4", "TEC4"]],
     adc: [["Canal 1", "CH1"], ["Canal 2", "CH2"], ["Canal 3", "CH3"]],
@@ -83,7 +98,9 @@ var profile = {
           ["PWM5", "PWM5"], ["PWM6", "PWM6"], ["PWM7", "PWM7"], ["PWM8", "PWM8"], ["PWM9", "PWM9"], ["PWM10", "PWM10"]],
     servo: [["SERVO0", "SERVO0"], ["SERVO1", "SERVO1"], ["SERVO2", "SERVO2"], ["SERVO3", "SERVO3"], ["SERVO4", "SERVO4"],
             ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]],
-    types: [["Entero", "int"], ["Decimal", "float"], ["Boolean", "boolean"]]
+    types: [["Entero", "int"], ["Decimal", "float"], ["Booleano", "bool_t"], ["Nulo", "void"]],
+    timeUnits: [["segundos", "_s"], ["milisegundos", "_ms"]],
+    printTypes: [["texto","TEXT"], ["número","NUMBER"], ["caracter", "CHAR"]],
   },
   ciaa: {
     description: "CIAA board"
@@ -93,7 +110,6 @@ var profile = {
 };
 //set default profile to edu_ciaa standard-compatible board
 profile["default"] = profile["edu_ciaa"];
-//alert(profile.default.digital[0]);
 
 /**
  * Initialise the database of variable names.
@@ -103,7 +119,7 @@ Blockly.CiaaSapi.init = function(workspace) {
   // Create a dictionary of definitions to be printed before setups.
   Blockly.CiaaSapi.definitions_ = Object.create(null);
   // Always include sAPI header file
-  Blockly.CiaaSapi.definitions_['sapi-header-file'] = '\n#include "sapi.h"';
+  Blockly.CiaaSapi.definitions_['sapi-header-file'] = '\r\n#include "sapi.h"\nCONSOLE_PRINT_ENABLE';
   // Create a dictionary of setups to be printed before the code.
   Blockly.CiaaSapi.setups_ = Object.create(null);
 
@@ -131,12 +147,13 @@ Blockly.CiaaSapi.init = function(workspace) {
  */
 Blockly.CiaaSapi.finish = function(code) {
   // Indent every line.
-  code = '  ' + code.replace(/\n/g, '\n      ');
+  code = '  ' + code.replace(/\n/g, '\n\t');
   var userCode = code.replace(/\n\s+$/, '\n');
-  code = 'void main(void) {\n\t // Board Initialization \n\t boardConfig(); \n\n';
-  code += '   // Enable tick counting every 1ms \n   tickConfig(1, 0); \n\n';
-  code += '   // User generated setups \n   setup(); \n\n';
-  code += userCode + '\n}';
+  // code = 'void main(void) {\n\t // Board Initialization \n\t boardConfig(); \n\n';
+  // code += '   // Enable tick counting every 1ms \n   tickConfig(1, 0); \n\n';
+  // code += '   // User generated setups \n   setup(); \n\n';
+  // code += userCode + '\n';
+  code = userCode + '\n';
 
   // Convert the definitions dictionary into a list.
   var imports = [];
@@ -156,7 +173,7 @@ Blockly.CiaaSapi.finish = function(code) {
     setups.push(Blockly.CiaaSapi.setups_[name]);
   }
 
-  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\n inline void setup(void) \n{\n  '+setups.join('\n  ') + '\n}'+ '\n\n';
+  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\ninline void setup(void) \n{\n  '+setups.join('\n  ') + '\n}'+ '\n\n';
   return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
 };
 

@@ -34,6 +34,56 @@ goog.require('Blockly.Blocks');
  */
 Blockly.Blocks.texts.HUE = 160;
 
+Blockly.Blocks['ciaa_sapi_uart_send_string'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Enviar ");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(profile.edu_ciaa.printTypes), "PRINT_TYPE");
+    this.appendDummyInput()
+        .appendField("por UART");
+    this.appendValueInput("printing")
+        .setCheck(["String", "Number", "Boolean"]);
+    this.appendDummyInput()
+        .appendField("      ¿Agregar Enter?")
+        .appendField(new Blockly.FieldCheckbox("FALSE"), "new_line");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("Invertir estado de una salida digital");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_uart_receive_byte'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Recibir byte por UART y guardarlo en")
+        .appendField(new Blockly.FieldVariable("byte"), "VARIABLE");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Si recibe un byte por UART lo guarda en la variable y retorna TRUE, sino retorna FALSE");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['ciaa_sapi_uart_send_byte'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Enviar byte por UART");
+    this.appendValueInput("BYTE")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("Envía un byte por UART");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['text'] = {
   /**
    * Block for text value.

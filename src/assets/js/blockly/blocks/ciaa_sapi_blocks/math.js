@@ -479,3 +479,34 @@ Blockly.Blocks['math_random_float'] = {
     this.setTooltip(Blockly.Msg.MATH_RANDOM_FLOAT_TOOLTIP);
   }
 };
+
+Blockly.Blocks['math_map_range'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Mapear el valor");
+    this.appendValueInput("VALUE")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("desde el rango [");
+    this.appendValueInput("MIN_INITIAL")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("-");
+    this.appendValueInput("MAX_INITIAL")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("] al rango [");
+    this.appendValueInput("MIN_LAST")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("-");
+    this.appendValueInput("MAX_LAST")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("]");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

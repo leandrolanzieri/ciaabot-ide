@@ -62,3 +62,20 @@ Blockly.CiaaSapi.math_arithmetic.OPERATORS = {
   DIVIDE: [' / ', Blockly.CiaaSapi.ORDER_MULTIPLICATIVE],
   POWER: [null, Blockly.CiaaSapi.ORDER_NONE]  // Handle power separately.
 };
+
+
+Blockly.CiaaSapi['math_map_range'] = function(block) {
+  var value_value = Blockly.CiaaSapi.valueToCode(block, 'VALUE', Blockly.CiaaSapi.ORDER_ATOMIC);
+  if (!value_value) value_value = '512';
+  var value_min_initial = Blockly.CiaaSapi.valueToCode(block, 'MIN_INITIAL', Blockly.CiaaSapi.ORDER_ATOMIC);
+  if (!value_min_initial) value_min_initial = '0';
+  var value_max_initial = Blockly.CiaaSapi.valueToCode(block, 'MAX_INITIAL', Blockly.CiaaSapi.ORDER_ATOMIC);
+  if (!value_max_initial) value_max_initial = '1023';
+  var value_min_last = Blockly.CiaaSapi.valueToCode(block, 'MIN_LAST', Blockly.CiaaSapi.ORDER_ATOMIC);
+  if (!value_min_last) value_min_last = '0';
+  var value_max_last = Blockly.CiaaSapi.valueToCode(block, 'MAX_LAST', Blockly.CiaaSapi.ORDER_ATOMIC);
+  if (!value_max_last) value_max_last = '255';
+
+  var code = '(' + value_value + ' - ' + value_min_initial + ') * (' + value_max_last + ' - ' + value_min_last + ') / (' + value_max_initial +  ' - ' + value_min_initial + ' ) + ' + value_min_last;
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};

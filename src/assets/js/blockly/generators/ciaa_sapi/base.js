@@ -34,6 +34,22 @@ Blockly.CiaaSapi.ciaa_sapi_blocking_delay = function() {
   return code;
 };
 
+Blockly.CiaaSapi['ciaa_sapi_delay_seconds'] = function(block) {
+  var value_time = Blockly.CiaaSapi.valueToCode(block, 'TIME', Blockly.CiaaSapi.ORDER_ATOMIC);
+  var unit = block.getFieldValue('UNIT');
+  var multiplier;
+  switch (unit) {
+    case "_s":
+      multiplier = "1000 * ";
+      break;
+    default:
+      multiplier = "";
+      break;
+  }
+  var code = 'delay(' + multiplier + value_time + ');\n';
+  return code;
+};
+
 Blockly.CiaaSapi['ciaa_sapi_inaccurate_blocking_delay'] = function(block) {
   var value_delay_ms = Blockly.CiaaSapi.valueToCode(block, 'delay_ms', Blockly.CiaaSapi.ORDER_ATOMIC);
   var code = 'delayInaccurate(' + value_delay_ms + ');\n';
@@ -43,12 +59,12 @@ Blockly.CiaaSapi['ciaa_sapi_inaccurate_blocking_delay'] = function(block) {
 Blockly.CiaaSapi['ciaa_sapi_gpio_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
   var value_pin = Blockly.CiaaSapi.valueToCode(block, 'pin', Blockly.CiaaSapi.ORDER_ATOMIC);
-  var dropdown_value_option = block.getFieldValue('value_option');
+  //var dropdown_value_option = block.getFieldValue('value_option');
   var value_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['gpio-enable'] = 'gpioConfig(0, GPIO_ENABLE);';
   Blockly.CiaaSapi.setups_['gpio-config-output' + dropdown_pin_option] = 'gpioConfig(' + dropdown_pin_option + ', GPIO_OUTPUT);';
-  var code = 'gpioWrite(' + dropdown_pin_option + ', ' + dropdown_value_option + ');\n';
+  var code = 'gpioWrite(' + dropdown_pin_option + ', ' + value_value + ');\n';
   return code;
 };
 
@@ -61,6 +77,12 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_digital_read'] = function(block) {
   return [code, Blockly.CiaaSapi.ORDER_NONE];
 };
 
+Blockly.CiaaSapi['ciaa_sapi_gpio_toggle'] = function(block) {
+  var dropdown_digital_pin = block.getFieldValue('DIGITAL_PIN');
+  var code = 'gpioToggle(' + dropdown_digital_pin + ');\n';
+  return code;
+};
+
 Blockly.CiaaSapi['ciaa_sapi_gpio_analog_read'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
   // Add configuration to user setups
@@ -71,7 +93,8 @@ Blockly.CiaaSapi['ciaa_sapi_gpio_analog_read'] = function(block) {
 
 Blockly.CiaaSapi['ciaa_sapi_dac_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
-  var number_value = block.getFieldValue('value');
+  // var number_value = block.getFieldValue('value');
+  var number_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['dac-enable'] = 'dacConfig(DAC_ENABLE);';
   var code = 'dacWrite(' + dropdown_pin_option + ', ' + number_value +');\n';
@@ -83,13 +106,24 @@ Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
   return code;
 };
 
+Blockly.CiaaSapi['ciaa_sapi_get_tick_count'] = function(block) {
+  var code = 'tickRead();';
+  return [code, Blockly.CiaaSapi.ORDER_NONE];
+};
+
+Blockly.CiaaSapi['ciaa_sapi_set_tick_count'] = function(block) {
+  var value_ticks = Blockly.CiaaSapi.valueToCode(block, 'ticks', Blockly.CiaaSapi.ORDER_ATOMIC);
+  var code = 'tickWrite(' + value_ticks + ');\n';
+  return code;
+};
+
 Blockly.CiaaSapi['ciaa_sapi_pwm_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
-  var number_value_option = block.getFieldValue('value_option');
+  var number_value = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['pwm-enable'] = 'pwmConfig(0, PWM_ENABLE);';
   Blockly.CiaaSapi.setups_['pwm-' + dropdown_pin_option + '-enable'] = 'pwmConfig(' + dropdown_pin_option + ', PWM_ENABLE_OUTPUT);';
-  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value_option + ');';
+  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value + ');';
   return code;
 };
 

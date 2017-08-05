@@ -79,6 +79,25 @@ Blockly.CiaaSapi.controls_for = function () {
     return code;
 };
 
+
+Blockly.CiaaSapi.controls_for_simplified = function () {
+    var value_cant = Blockly.CiaaSapi.valueToCode(this, 'CANT', Blockly.CiaaSapi.ORDER_ATOMIC);
+    var branch = Blockly.CiaaSapi.statementToCode(this, 'DO');
+    if (Blockly.CiaaSapi.INFINITE_LOOP_TRAP) {
+        branch = Blockly.CiaaSapi.INFINITE_LOOP_TRAP.replace(/%1/g,
+            '\'' + this.id + '\'') + branch;
+    }
+    var code;
+    code = 'for (int counter = 0; counter < ';
+    if (value_cant) {
+        code += value_cant;
+    } else {
+        code += '1';
+    }
+    code += '; counter++) {\n' + branch + '}\n';
+    return code;
+};
+
 Blockly.CiaaSapi.controls_whileUntil = function () {
     // Do while/until loop.
     var until = this.getFieldValue('MODE') == 'UNTIL';
@@ -109,4 +128,15 @@ Blockly.CiaaSapi['controls_repeat_forever'] = function (block) {
             '\'' + this.id + '\'') + statements_name;
     }
     return 'while (TRUE) {\n' + statements_name + '}\n';
+    //return 'while (TRUE) {\n' + statements_name + '  sleepUntilNextInterrupt();\n}\n';
+};
+
+Blockly.CiaaSapi['controls_main_program'] = function (block) {
+    var statements_programa = Blockly.CiaaSapi.statementToCode(block, 'programa');
+    var code = '';
+    code = 'void main(void) {\n// Inicializar placa \nboardConfig(); \n\n';
+    code += '// Habilita cuenta de tick cada 1ms \ntickConfig(1, 0); \n\n';
+    code += '// Inicializaciones del usuario prueba\nsetup(); \n\n';
+    code += statements_programa + '\n}';
+    return code;
 };

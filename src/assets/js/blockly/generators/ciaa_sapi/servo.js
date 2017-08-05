@@ -37,9 +37,9 @@ Blockly.CiaaSapi['ciaa_sapi_servo_read'] = function(block) {
 
 Blockly.CiaaSapi['ciaa_sapi_servo_write'] = function(block) {
   var dropdown_pin_option = block.getFieldValue('pin_option');
-  var angle_value_option = block.getFieldValue('value_option');
+  var angle = Blockly.CiaaSapi.valueToCode(block, 'value', Blockly.CiaaSapi.ORDER_ATOMIC);
   Blockly.CiaaSapi.setups_['servo-enable'] = 'servoConfig(0, SERVO_ENABLE);';
   Blockly.CiaaSapi.setups_['servo-' + dropdown_pin_option + '-enable'] = 'servoConfig(' + dropdown_pin_option + ', SERVO_ENABLE_OUTPUT);';
-  var code = 'servoWrite(' + dropdown_pin_option + ', ' + angle_value_option + ');\n';
+  var code = 'servoWrite(' + dropdown_pin_option + ', ' + angle + ');\n';
   return code;
 };
