@@ -107,7 +107,7 @@ Blockly.CiaaSapi['ciaa_sapi_sleep_until_interrupt'] = function(block) {
 };
 
 Blockly.CiaaSapi['ciaa_sapi_get_tick_count'] = function(block) {
-  var code = 'tickRead();';
+  var code = 'tickRead()';
   return [code, Blockly.CiaaSapi.ORDER_NONE];
 };
 
