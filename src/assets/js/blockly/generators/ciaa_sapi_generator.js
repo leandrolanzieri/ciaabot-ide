@@ -99,7 +99,7 @@ var profile = {
     servo: [["SERVO0", "SERVO0"], ["SERVO1", "SERVO1"], ["SERVO2", "SERVO2"], ["SERVO3", "SERVO3"], ["SERVO4", "SERVO4"],
             ["SERVO5", "SERVO5"], ["SERVO6", "SERVO6"], ["SERVO7", "SERVO7"], ["SERVO8", "SERVO8"]],
     types: [["Entero", "int"], ["Decimal", "float"], ["Booleano", "bool_t"], ["Nulo", "void"]],
-    timeUnits: [["segundos", "_s"], ["milisegundos", "_ms"], ["microsegundos", "_us"]],
+    timeUnits: [["segundos", "_s"], ["milisegundos", "_ms"]],
     printTypes: [["texto","TEXT"], ["número","NUMBER"], ["caracter", "CHAR"]],
   },
   ciaa: {
@@ -110,7 +110,6 @@ var profile = {
 };
 //set default profile to edu_ciaa standard-compatible board
 profile["default"] = profile["edu_ciaa"];
-//alert(profile.default.digital[0]);
 
 /**
  * Initialise the database of variable names.
