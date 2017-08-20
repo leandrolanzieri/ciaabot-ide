@@ -1,3 +1,5 @@
+@import '../assets/css/common-sizes';
+
 html, body{
   height: 100%;
   font-family: Arial, Helvetica, sans-serif
@@ -19,6 +21,14 @@ a.active {
 .contenido {
     background: #1f3042;
     color: white;
+    float:left;
+    padding: 0;
+    height: calc(100vh - (#{$topbar-height} + #{$bottombar-height}));
+    width: calc(100% - #{$sidebar-width});
+
+    >.row {
+      height: 100%;
+    }
 }
 
 #header {
@@ -29,7 +39,8 @@ a.active {
   padding: 5px;
   text-align: center;
   width: 100%;
-  -webkit-app-region: drag;
+  display: none;
+  // -webkit-app-region: drag;
 
   & #icon {
     float: left;
