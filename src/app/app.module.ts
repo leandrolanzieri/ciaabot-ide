@@ -29,6 +29,7 @@ import { EditorGuardService } from './providers/editor-guard.service';
 import { WindowService } from './providers/window.service';
 import { AppSidebarService } from './components/app-sidebar/app-sidebar.service';
 import { CompilingService } from './providers/compiling.service';
+import { BlocklyService } from './components/blockly/blockly.service';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { CompilingService } from './providers/compiling.service';
     Ng2Webstorage
   ],
   providers: [
+    BlocklyService,
     ElectronService,
     ProjectService,
     ConfirmationService,

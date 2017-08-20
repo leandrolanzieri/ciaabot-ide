@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap';
+import { BlocklyService } from './blockly.service';
+import { Observable } from 'rxjs/Observable';
 
 declare var Blockly: any;
 
@@ -18,17 +20,20 @@ export class BlocklyComponent implements OnInit {
   public promptModalDesc: string;
   public promptCallback: any;
   public promptValue: string;
+  public blocklyResizeSubscription: Observable<boolean>;
   @ViewChild('promptModal') public promptModal: ModalDirective;
   @Output() public onBlocklyCodeChange = new EventEmitter<string>();
   @Output() public onBlocklyBlocksChange = new EventEmitter<string>();
   @Input() public blocks;
 
-  constructor(private domSanitizer: DomSanitizer) {
+  constructor(
+    private domSanitizer: DomSanitizer,
+    private blocklyService: BlocklyService
+  ) {
     Blockly.prompt = (a, b, c) => {
       this.promptModalDesc = a;
       this.promptCallback = c;
       this.promptModal.show();
-      console.log('prompt', c);
     };
   }
 
@@ -179,12 +184,35 @@ export class BlocklyComponent implements OnInit {
     </category>
   </xml>
     `);
+    this.blocklyResizeSubscription = this.blocklyService.getResize();
+    this.blocklyResizeSubscription.subscribe((data) => {
+      if (data) {
+        this.onResize(null);
+        console.info('Blockly Resize');
+      }
+    });
   }
 
   public ngAfterViewInit() {
     this.blocklyResize();
     this.workspace.addChangeListener((e) => this.blocklyCodeChange());
+  }
 
+  public onResize(e) {
+    // Compute the absolute coordinates and dimensions of blocklyArea.
+    let element = this.blocklyArea;
+    let x = 0;
+    let y = 0;
+    do {
+      x += element.offsetLeft;
+      y += element.offsetTop;
+      element = element.offsetParent as HTMLElement;
+    } while (element);
+    // Position this.blocklyContainer over blocklyArea.
+    // this.blocklyContainer.style.left = x + 'px';
+    // this.blocklyContainer.style.top = y + 'px';
+    this.blocklyContainer.style.width = this.blocklyArea.offsetWidth + 'px';
+    this.blocklyContainer.style.height = this.blocklyArea.offsetHeight + 'px';
   }
 
   public blocklyResize() {
@@ -205,24 +233,9 @@ export class BlocklyComponent implements OnInit {
         },
         trashcan: true
       });
-    let onresize = (e) => {
-      // Compute the absolute coordinates and dimensions of blocklyArea.
-      let element = this.blocklyArea;
-      let x = 0;
-      let y = 0;
-      do {
-        x += element.offsetLeft;
-        y += element.offsetTop;
-        element = element.offsetParent as HTMLElement;
-      } while (element);
-      // Position this.blocklyContainer over blocklyArea.
-      // this.blocklyContainer.style.left = x + 'px';
-      // this.blocklyContainer.style.top = y + 'px';
-      this.blocklyContainer.style.width = this.blocklyArea.offsetWidth + 'px';
-      this.blocklyContainer.style.height = this.blocklyArea.offsetHeight + 'px';
-    };
-    window.addEventListener('resize', onresize, false);
-    onresize(null);
+
+    window.addEventListener('resize', this.onResize, false);
+    this.onResize(null);
     Blockly.svgResize(this.workspace as Blockly.WorkspaceSvg);
 
     if (this.blocks) {
