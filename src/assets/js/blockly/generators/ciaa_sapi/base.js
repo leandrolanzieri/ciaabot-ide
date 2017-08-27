@@ -123,7 +123,7 @@ Blockly.CiaaSapi['ciaa_sapi_pwm_write'] = function(block) {
   // Add configuration to user setups
   Blockly.CiaaSapi.setups_['pwm-enable'] = 'pwmConfig(0, PWM_ENABLE);';
   Blockly.CiaaSapi.setups_['pwm-' + dropdown_pin_option + '-enable'] = 'pwmConfig(' + dropdown_pin_option + ', PWM_ENABLE_OUTPUT);';
-  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value + ');';
+  var code = 'pwmWrite(' + dropdown_pin_option + ', ' + number_value + ');\n';
   return code;
 };
 
