@@ -63,6 +63,12 @@ Blockly.CiaaSapi.math_arithmetic.OPERATORS = {
   POWER: [null, Blockly.CiaaSapi.ORDER_NONE]  // Handle power separately.
 };
 
+Blockly.CiaaSapi['math_change'] = function(block) {
+  var value_delta = Blockly.CiaaSapi.valueToCode(block, 'DELTA', Blockly.CiaaSapi.ORDER_ATOMIC);
+  var variable_var = Blockly.CiaaSapi.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  var code = variable_var + ' += ' + value_delta + ';\n';
+  return code;
+};
 
 Blockly.CiaaSapi['math_map_range'] = function(block) {
   var value_value = Blockly.CiaaSapi.valueToCode(block, 'VALUE', Blockly.CiaaSapi.ORDER_ATOMIC);
