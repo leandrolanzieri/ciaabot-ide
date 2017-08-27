@@ -114,7 +114,7 @@ export class CompilingService {
     }
   }
 
-  private createMainFile(): boolean {
+  public createMainFile(): boolean {
     let fileDescriptor: number;
     let file = path.join(this.workspace.path, 'app/src/main.c');
 

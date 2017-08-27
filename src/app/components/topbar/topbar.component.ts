@@ -6,6 +6,7 @@ import { Dialog } from '../../models/dialog';
 import { ConfirmationService } from '../../providers/confirmation.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { CompilingService } from '../../providers/compiling.service';
 
 @Component({
   selector: 'app-topbar',
@@ -21,7 +22,8 @@ export class TopbarComponent implements OnInit {
     private projectService: ProjectService,
     private confirmationService: ConfirmationService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private compilingService: CompilingService
   ) { }
 
   public ngOnInit() {
@@ -34,6 +36,7 @@ export class TopbarComponent implements OnInit {
 
   public saveProject() {
     this.projectService.saveCurrentProject();
+    this.compilingService.createMainFile();
   }
 
   public openProject() {

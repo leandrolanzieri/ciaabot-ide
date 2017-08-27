@@ -259,66 +259,6 @@ export class ProjectService {
         return;
       });
     });
-    // let retValue = new Observable((observer) => {
-    //   let error: boolean = false;
-    //   mkdirp(directory, (err) => {
-    //     if (err) {
-    //       console.error(err);
-    //       observer.next(false);
-    //       observer.complete();
-    //       return;
-    //     } else {
-    //       if (this.saveProjectToFile(file)) {
-    //         console.log('Archivo cbp creado');
-    //       } else {
-    //         console.log('No se pudo crear el cbp');
-    //         observer.next(false);
-    //         observer.complete();
-    //         return;
-    //       }
-    //     }
-
-    //     mkdirp(directory + '/app/src', (err) => {
-    //       if (err) {
-    //         console.error(err);
-    //         observer.next(false);
-    //         observer.complete();
-    //         return;
-    //       }
-
-    //       mkdirp(directory + '/app/inc', (err) => {
-    //         if (err) {
-    //           console.error(err);
-    //           observer.next(false);
-    //           observer.complete();
-    //           return;
-    //         }
-
-    //         mkdirp(directory + '/libs', (err) => {
-    //           if (err) {
-    //             console.error(err);
-    //             observer.next(false);
-    //             observer.complete();
-    //             return;
-    //           }
-
-    //           mkdirp(directory + '/scripts', (err) => {
-    //             if (err) {
-    //               console.error(err);
-    //               observer.next(false);
-    //               observer.complete();
-    //               return;
-    //             } else {
-    //               observer.next(true);
-    //               observer.complete();
-    //             }
-    //           });
-    //         });
-    //       });
-    //     });
-    //   });
-    // });
-
     return retValue;
   }
 
