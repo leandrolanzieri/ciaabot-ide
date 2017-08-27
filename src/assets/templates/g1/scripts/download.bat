@@ -35,10 +35,6 @@
 ::/*****************************************************************************/
 ::
 @echo OFF
-set HOME=%HOMEDRIVE%%HOMEPATH%
-set PROJECT_PATH=%~dp0..\
-set TOOLS_PATH=C:\CIAA\EmbeddedIDE
-set PATH=%TOOLS_PATH%\bin;%TOOLS_PATH%\gcc-arm-embedded\bin;%TOOLS_PATH%\oocd\bin
 
 echo Descargar proyecto...
 make -C %PROJECT_PATH% Grabar_proyecto_en_flash

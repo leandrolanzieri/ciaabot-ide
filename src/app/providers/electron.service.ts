@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 // the resulting javascript file will look as if you never imported the module at all.
 import { ipcRenderer, BrowserWindow } from 'electron';
 import * as childProcess from 'child_process';
+import * as process from 'process';
+import * as path from 'path';
 
 @Injectable()
 export class ElectronService {
@@ -11,6 +13,8 @@ export class ElectronService {
   ipcRenderer: typeof ipcRenderer;
   childProcess: typeof childProcess;
   browserWindow: typeof BrowserWindow;
+  process: typeof process;
+  path: typeof path;
 
   constructor() {
     // Conditional imports
@@ -18,11 +22,21 @@ export class ElectronService {
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.childProcess = window.require('child_process');
       this.browserWindow = window.require('electron').remote.BrowserWindow;
+      this.process = window.require('process');
+      this.path = window.require('path');
     }
   }
 
-  isElectron = () => {
+  public isElectron = () => {
     return window && window.process && window.process.type;
+  }
+
+  public getEnvVariables() {
+    return this.process.env;
+  }
+
+  public getPathDelimiter() {
+    return this.path.delimiter;
   }
 
 }

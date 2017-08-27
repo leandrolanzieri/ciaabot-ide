@@ -1,7 +1,7 @@
 import 'zone.js';
 import 'reflect-metadata';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -30,6 +30,7 @@ import { WindowService } from './providers/window.service';
 import { AppSidebarService } from './components/app-sidebar/app-sidebar.service';
 import { CompilingService } from './providers/compiling.service';
 import { BlocklyService } from './components/blockly/blockly.service';
+import { IdeConfigurationService } from './providers/ide-configuration.service';
 
 @NgModule({
   declarations: [
@@ -58,14 +59,15 @@ import { BlocklyService } from './components/blockly/blockly.service';
     Ng2Webstorage
   ],
   providers: [
+    AppSidebarService,
     BlocklyService,
-    ElectronService,
-    ProjectService,
+    CompilingService,
     ConfirmationService,
     EditorGuardService,
+    ElectronService,
+    IdeConfigurationService,
+    ProjectService,
     WindowService,
-    AppSidebarService,
-    CompilingService
   ],
   bootstrap: [AppComponent]
 })

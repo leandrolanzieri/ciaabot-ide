@@ -25,7 +25,7 @@
       <small *ngIf="directoryPath">
         Se creará el directorio {{directoryPath + getPathSeparator() + toHyphenCase(project.name)}}
       </small>
-      <button class="btn btn-lg btn-primary" [disabled]="!project.name || !project.ciaabotModel || !directoryPath" (click)="createProject()">Crear Proyecto</button>
+      <button class="btn btn-lg btn-primary fullwidth-blue-button" [disabled]="!project.name || !project.ciaabotModel || !directoryPath" (click)="createProject()">Crear Proyecto</button>
     </div>
   </div>
 </div>

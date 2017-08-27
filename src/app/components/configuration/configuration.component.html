@@ -1,3 +1,34 @@
-<div class="container-fluid">
-  <h1 class="display-4">Configuración</h1>
+<div class="container-fluid h-100">
+  <div class="row align-items-center h-100">
+    <div class="col-4 offset-4">
+      <h1 class="display-4 project-title">Configuración</h1>
+      <br>
+      <form>
+        <label for="file">Directorios de búsqueda adicionales</label>
+        <div class="row">
+          <div class="col">
+            <div class="row path-item" *ngFor="let path of configuration.paths; let i = index;">
+              <div class="col path-string">
+                <span [innerHTML]="path"></span>
+              </div>
+              <div class="col-1" (click)="removePath(i)">
+                  <i class="fa fa-times path-remove-icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <label class="d-block file-label">
+              <input type="file" #newPathInput (change)="onFileChange($event)" webkitdirectory tabindex="3">
+              <i class="fa fa-plus text-success plus-sign"></i> Agregar
+            </label>
+          </div>
+        </div>
+        <br>
+      </form>
+      <br>
+      <button class="btn btn-lg btn-primary fullwidth-blue-button" [disabled]="!changes" (click)="saveConfiguration()">Guardar</button>
+    </div>
+  </div>
 </div>

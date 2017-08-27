@@ -1,0 +1,14 @@
+.fullwidth-blue-button {
+    background: white;
+    border: 1px solid white;
+    border-radius: 0;
+    color: #1f3042;
+    transition: all 0.2s ease;
+    width: 100%;
+
+    &:not([disabled]):hover {
+        background: #1f3042;
+        color: white;
+        cursor: pointer;
+    }
+}
