@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, AfterViewInit } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap';
 import { BlocklyService } from './blockly.service';
@@ -11,7 +11,7 @@ declare var Blockly: any;
   templateUrl: './blockly.component.html',
   styleUrls: ['./blockly.component.scss']
 })
-export class BlocklyComponent implements OnInit {
+export class BlocklyComponent implements OnInit, AfterViewInit {
   public blocklyArea: HTMLElement;
   public blocklyContainer: HTMLElement;
   public blocklyToolbox: HTMLElement;
@@ -37,7 +37,7 @@ export class BlocklyComponent implements OnInit {
     };
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.toolboxContent = this.domSanitizer.bypassSecurityTrustHtml(`
   <xml id="toolbox" style="display: none">
     <category name="Lógica" colour="210">
@@ -184,13 +184,13 @@ export class BlocklyComponent implements OnInit {
     </category>
   </xml>
     `);
-    this.blocklyResizeSubscription = this.blocklyService.getResize();
-    this.blocklyResizeSubscription.subscribe((data) => {
-      if (data) {
-        this.onResize(null);
-        console.info('Blockly Resize');
-      }
-    });
+    // this.blocklyResizeSubscription = this.blocklyService.getResize();
+    // this.blocklyResizeSubscription.subscribe((data) => {
+    //   if (data) {
+    //     this.onResize(null);
+    //     console.info('Blockly Resize');
+    //   }
+    // });
   }
 
   public ngAfterViewInit() {
@@ -203,16 +203,18 @@ export class BlocklyComponent implements OnInit {
     let element = this.blocklyArea;
     let x = 0;
     let y = 0;
-    do {
+    while (element) {
       x += element.offsetLeft;
       y += element.offsetTop;
       element = element.offsetParent as HTMLElement;
-    } while (element);
+    }
     // Position this.blocklyContainer over blocklyArea.
     // this.blocklyContainer.style.left = x + 'px';
     // this.blocklyContainer.style.top = y + 'px';
-    this.blocklyContainer.style.width = this.blocklyArea.offsetWidth + 'px';
-    this.blocklyContainer.style.height = this.blocklyArea.offsetHeight + 'px';
+    if (this.blocklyContainer) {
+      this.blocklyContainer.style.width = this.blocklyArea.offsetWidth + 'px';
+      this.blocklyContainer.style.height = this.blocklyArea.offsetHeight + 'px';
+    }
   }
 
   public blocklyResize() {
