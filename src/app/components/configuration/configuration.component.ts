@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IdeConfigurationService } from '../../providers/ide-configuration.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IdeConfiguration } from '../../models/ide-configuration';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-configuration',
@@ -14,6 +15,7 @@ export class ConfigurationComponent implements OnInit {
 
   constructor(
     private ideConfiguration: IdeConfigurationService,
+    private notificationsService: NotificationsService,
     private sanitizer: DomSanitizer
   ) { }
 
@@ -36,6 +38,7 @@ export class ConfigurationComponent implements OnInit {
 
   public saveConfiguration() {
     this.ideConfiguration.setIdeConfiguration(this.configuration);
+    this.notificationsService.info('Configuración guardada');
     this.changes = false;
   }
 }

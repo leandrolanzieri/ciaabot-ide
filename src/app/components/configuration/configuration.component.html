@@ -1,13 +1,13 @@
 <div class="container-fluid h-100">
   <div class="row align-items-center h-100">
-    <div class="col-4 offset-4">
+    <div class="col-xl-6 offset-xl-3 col-10 offset-1">
       <h1 class="display-4 project-title">Configuración</h1>
       <br>
       <form>
         <label for="file">Directorios de búsqueda adicionales</label>
         <div class="row">
           <div class="col">
-            <div class="row path-item" *ngFor="let path of configuration.paths; let i = index;">
+            <div class="row no-gutters path-item" *ngFor="let path of configuration.paths; let i = index;">
               <div class="col path-string">
                 <span [innerHTML]="path"></span>
               </div>
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col text-center">
+          <div class="col">
             <label class="d-block file-label">
               <input type="file" #newPathInput (change)="onFileChange($event)" webkitdirectory tabindex="3">
               <i class="fa fa-plus text-success plus-sign"></i> Agregar
@@ -28,7 +28,11 @@
         <br>
       </form>
       <br>
-      <button class="btn btn-lg btn-primary fullwidth-blue-button" [disabled]="!changes" (click)="saveConfiguration()">Guardar</button>
+      <div class="row">
+        <div class="col-8 offset-2">
+          <button class="btn btn-lg btn-primary fullwidth-blue-button" [disabled]="!changes" (click)="saveConfiguration()">Guardar</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
