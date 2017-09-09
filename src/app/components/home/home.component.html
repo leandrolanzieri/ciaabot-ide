@@ -1,6 +1,6 @@
 <div class="container-fluid" id="contenido">
   <div class="row align-items-center h-100">
-    <div class="col-6 offset-3">
+    <div class="col-xl-8 offset-xl-2 col-10 offset-1">
       <div class="row align-items-center">
         <div class="col-4">
           <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
@@ -12,11 +12,11 @@
               <div id="recent-projects">
                 <div *ngFor="let project of projectService.getRecentProjects()" (click)="openRecentProject(project)" class="recent-project">
                   <div class="row">
-                    <div class="col-11">
+                    <div class="col-10">
                       <div class="ellipsis">{{project.name}}</div>
                       <div class="path text-muted ellipsis">{{project.projectFile}}</div>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2 text-right">
                       <i class="fa fa-times delete-recent-project" (click)="removeRecentProject($event, project)" aria-hidden="true"></i>
                     </div>
                   </div>
@@ -26,13 +26,11 @@
             </div>
           </div>
           <div class="row" style="margin-left: 10px;">
-            <div class="col-3">
+            <div class="col">
               <button type="button" [routerLink]="['../project']" class="btn action">
                 <i class="fa fa-file fa-2x" aria-hidden="true"></i>
                 <small>Nuevo Proyecto</small>
               </button>
-            </div>
-            <div class="col">
               <button type="button" (click)="openProject()" class="btn action">
                 <i class="fa fa-folder-open-o fa-2x" aria-hidden="true"></i>
                 <small>Abrir Proyecto</small>

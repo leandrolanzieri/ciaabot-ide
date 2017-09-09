@@ -14,8 +14,11 @@ input[type='file'] {
 }
 
 .file-label {
-    cursor: pointer;
     height: $input-label-height;
+
+    & * {
+        cursor: pointer;
+    }
 }
 
 .path-item {
