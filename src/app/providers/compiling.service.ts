@@ -37,7 +37,7 @@ export class CompilingService {
           maxStack: 1
         });
 
-        childProcess.exec('make -C %PROJECT_PATH% Compilar_proyecto', {
+        childProcess.exec('make -C ' + this.electronService.getFormattedBashVariable('PROJECT_PATH') + ' Compilar_proyecto', {
           env: {
             PROJECT_PATH: this.workspace.path,
             PATH: this.electronService.getEnvVariables().PATH + this.electronService.getPathDelimiter() + this.getFormattedPaths(),
@@ -65,8 +65,8 @@ export class CompilingService {
           maxStack: 1
         });
         childProcess.exec(
-          'make -C %PROJECT_PATH% Compilar_proyecto' +
-          '&& make -C %PROJECT_PATH% Grabar_proyecto_en_flash'
+          'make -C ' + this.electronService.getFormattedBashVariable('PROJECT_PATH') + ' Compilar_proyecto' +
+          '&& make -C ' + this.electronService.getFormattedBashVariable('PROJECT_PATH') + ' Grabar_proyecto_en_flash'
           , {
           env: {
             PROJECT_PATH: this.workspace.path,

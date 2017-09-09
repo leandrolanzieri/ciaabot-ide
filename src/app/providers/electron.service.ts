@@ -6,6 +6,7 @@ import { ipcRenderer, BrowserWindow } from 'electron';
 import * as childProcess from 'child_process';
 import * as process from 'process';
 import * as path from 'path';
+import * as os from 'os';
 
 @Injectable()
 export class ElectronService {
@@ -37,6 +38,21 @@ export class ElectronService {
 
   public getPathDelimiter() {
     return this.path.delimiter;
+  }
+
+  /**
+   * Returns a variable formatted correctly to run in bash/batch
+   * depending on the platform.
+   * @param variable string Variable name
+   * @return string Formatted variable
+   */
+  public getFormattedBashVariable(variable: string): string {
+    switch (os.platform()) {
+      case 'win32':
+        return '%' + variable + '%';
+      default:
+        return '$' + variable;
+    }
   }
 
 }
