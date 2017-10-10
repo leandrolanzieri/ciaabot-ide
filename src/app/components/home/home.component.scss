@@ -34,6 +34,10 @@
         cursor: pointer;
     }
 
+    & .delete-recent-project {
+        padding-right: 3px;
+    }
+
     &:hover {
         background: rgba(181, 209, 228, 0.1);
         border-color: transparent;
@@ -63,6 +67,10 @@
 button.btn.action {
     background: transparent;
     color: #b5d1e4;
+
+    & * {
+        cursor: pointer;
+    }
 
     & small {
         display: block;

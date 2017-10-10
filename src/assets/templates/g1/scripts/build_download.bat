@@ -35,10 +35,6 @@
 ::/*****************************************************************************/
 ::
 @echo OFF
-set HOME=%HOMEDRIVE%%HOMEPATH%
-set PROJECT_PATH=%~dp0..\
-set TOOLS_PATH=C:\CIAA\EmbeddedIDE
-set PATH=%TOOLS_PATH%\bin;%TOOLS_PATH%\gcc-arm-embedded\bin;%TOOLS_PATH%\oocd\bin
 
 echo Compilar proyecto de C generado y descargar...
 make -C %PROJECT_PATH% Compilar_proyecto

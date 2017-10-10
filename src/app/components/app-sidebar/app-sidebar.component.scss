@@ -1,5 +1,7 @@
+@import '../../../assets/css/common-sizes';
+
 .sidebar {
-    min-height: calc(100vh - 98px);
+    min-height: calc(100vh - #{$topbar-height} + #{bottombar-height});
     background-color: #2c4762;
     border-top: 2px solid #1f3042;
     border-bottom: 2px solid #1f3042;

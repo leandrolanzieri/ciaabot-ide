@@ -1,0 +1,45 @@
+@import '../../../assets/css/common-ui';
+@import '../../../assets/css/common-colors';
+
+$input-label-height: 40px;
+
+input[type='file'] {
+    opacity: 0;
+    width: 0;
+}
+
+.plus-sign {
+    height: $input-label-height;
+    line-height: $input-label-height;
+}
+
+.file-label {
+    height: $input-label-height;
+
+    & * {
+        cursor: pointer;
+    }
+}
+
+.path-item {
+    border-bottom: 1px solid #b5d1e4;
+    font-size: 80%;
+    margin: 0;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    user-select: all;
+
+    &:last-child {
+        border: none;
+    }
+
+    .path-string {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .path-remove-icon {
+        cursor: pointer;
+    }
+}

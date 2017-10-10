@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../providers/project.service';
 import { AppSidebarService } from './app-sidebar.service';
 import { CompilingService } from '../../providers/compiling.service';
+import { BlocklyService } from '../blockly/blockly.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +15,8 @@ export class AppSidebarComponent implements OnInit {
   constructor(
     public projectService: ProjectService,
     private appSidebarService: AppSidebarService,
-    private compilingService: CompilingService
+    private compilingService: CompilingService,
+    private blocklyService: BlocklyService,
   ) { }
 
   public ngOnInit() {
@@ -25,6 +27,9 @@ export class AppSidebarComponent implements OnInit {
 
   public toggleCCode() {
     this.appSidebarService.toggleCCode();
+    setTimeout(() => {
+      this.blocklyService.triggerResize();
+    }, 1);
   }
 
   public compileProgram() {

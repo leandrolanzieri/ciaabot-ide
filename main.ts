@@ -24,7 +24,7 @@ function createWindow() {
     height: size.height,
     show: false,
     icon: __dirname + '/favicon.ico',
-    frame: false,
+    frame: true,
     title: 'Ciaabot IDE'
   });
 
