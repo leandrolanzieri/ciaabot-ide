@@ -38,6 +38,8 @@ function createWindow() {
     win.webContents.openDevTools();
   }
 
+  win.webContents.openDevTools();
+
   win.on('close', (e) => {
     if (projectChanges) {
       const choice = require('electron').dialog.showMessageBox(win,

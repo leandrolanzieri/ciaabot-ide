@@ -31,6 +31,7 @@ import { AppSidebarService } from './components/app-sidebar/app-sidebar.service'
 import { CompilingService } from './providers/compiling.service';
 import { BlocklyService } from './components/blockly/blockly.service';
 import { IdeConfigurationService } from './providers/ide-configuration.service';
+import { FirmataService } from './providers/firmata.service';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { IdeConfigurationService } from './providers/ide-configuration.service';
     IdeConfigurationService,
     ProjectService,
     WindowService,
+    FirmataService
   ],
   bootstrap: [AppComponent]
 })

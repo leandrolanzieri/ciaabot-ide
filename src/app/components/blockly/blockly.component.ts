@@ -252,6 +252,7 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
 
   public blocklyCodeChange() {
     const code = Blockly.CiaaSapi.workspaceToCode(this.workspace);
+    console.log(Blockly.Arduino);
     const xml = Blockly.Xml.workspaceToDom(this.workspace);
     const xmlText = Blockly.Xml.domToText(xml);
     this.onBlocklyCodeChange.emit(code);

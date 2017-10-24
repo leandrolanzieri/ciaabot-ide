@@ -3,6 +3,7 @@ import { ProjectService } from '../../providers/project.service';
 import { AppSidebarService } from './app-sidebar.service';
 import { CompilingService } from '../../providers/compiling.service';
 import { BlocklyService } from '../blockly/blockly.service';
+import { FirmataService } from '../../providers/firmata.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +18,7 @@ export class AppSidebarComponent implements OnInit {
     private appSidebarService: AppSidebarService,
     private compilingService: CompilingService,
     private blocklyService: BlocklyService,
+    private firmataService: FirmataService,
   ) { }
 
   public ngOnInit() {
@@ -38,6 +40,10 @@ export class AppSidebarComponent implements OnInit {
 
   public downloadProgram() {
     this.compilingService.downloadProgram();
+  }
+
+  public executeOnline() {
+    this.firmataService.executeOnline();
   }
 
 }
