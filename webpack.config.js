@@ -25,7 +25,8 @@ function getPlugins() {
   // inside your code for any environment checks; UglifyJS will automatically
   // drop any unreachable code.
   plugins.push(new DefinePlugin({
-    "process.env.NODE_ENV": "\"production\""
+    "process.env.NODE_ENV": "\"production\"",
+    "CIAABOT_VERSION": '"0.0.8-rc1"'
   }));
 
   plugins.push(new NoEmitOnErrorsPlugin());
@@ -58,6 +59,7 @@ function getPlugins() {
     "excludeChunks": [],
     "title": "Webpack App",
     "xhtml": true,
+    "ciaabotVersion": JSON.stringify(require("./package.json").version),
     "chunksSortMode": function sort(left, right) {
       let leftIndex = entryPoints.indexOf(left.names[0]);
       let rightindex = entryPoints.indexOf(right.names[0]);

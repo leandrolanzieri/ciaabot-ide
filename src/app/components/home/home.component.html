@@ -2,10 +2,10 @@
   <div class="row align-items-center h-100">
     <div class="col-xl-8 offset-xl-2 col-10 offset-1">
       <div class="row align-items-center">
-        <div class="col-4">
+        <div class="col-md-4 col-12">
           <img src="../../../assets/img/ciaabot-blanco.svg" id="logo" alt="">
         </div>
-        <div class="col-8 recent-project-list">
+        <div class="col-md-8 col-12 recent-project-list">
           <div *ngIf="projectService.getRecentProjects()">
             <div class="row" style="margin-left: 10px;" *ngIf="projectService.getRecentProjects().length > 0">
               <p class="lead" style="font-weight: 400">Proyectos recientes</p>

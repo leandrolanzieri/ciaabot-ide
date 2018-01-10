@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, AfterViewInit, HostListener, NgZone } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap';
 import { BlocklyService } from './blockly.service';
 import { Observable } from 'rxjs/Observable';
+import { AppSidebarService } from '../app-sidebar/app-sidebar.service';
 
 declare var Blockly: any;
 
@@ -28,7 +29,9 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
 
   constructor(
     private domSanitizer: DomSanitizer,
-    private blocklyService: BlocklyService
+    private blocklyService: BlocklyService,
+    private appSidebarService: AppSidebarService,
+    private ngZone: NgZone
   ) {
     Blockly.prompt = (a, b, c) => {
       this.promptModalDesc = a;
@@ -184,30 +187,33 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
     </category>
   </xml>
     `);
-    // this.blocklyResizeSubscription = this.blocklyService.getResize();
-    // this.blocklyResizeSubscription.subscribe((data) => {
-    //   if (data) {
-    //     this.onResize(null);
-    //     console.info('Blockly Resize');
-    //   }
-    // });
   }
 
   public ngAfterViewInit() {
     this.blocklyResize();
     this.workspace.addChangeListener((e) => this.blocklyCodeChange());
+
+    // Super hacky way of triggering blockly resize without calling the method directly
+    this.appSidebarService.getShowCCode().subscribe((show: boolean) => {
+      const event = new Event('resize');
+      setTimeout(() => {
+        window.dispatchEvent(event);
+      }, 1);
+    });
   }
 
-  public onResize(e) {
+  @HostListener('window:resize', ['$event'])
+  public onResize(event) {
     // Compute the absolute coordinates and dimensions of blocklyArea.
+    console.log("Resize");
     let element = this.blocklyArea;
     let x = 0;
     let y = 0;
-    while (element) {
+    do {
       x += element.offsetLeft;
       y += element.offsetTop;
       element = element.offsetParent as HTMLElement;
-    }
+    } while (element);
     // Position this.blocklyContainer over blocklyArea.
     // this.blocklyContainer.style.left = x + 'px';
     // this.blocklyContainer.style.top = y + 'px';
@@ -235,8 +241,6 @@ export class BlocklyComponent implements OnInit, AfterViewInit {
         },
         trashcan: true
       });
-
-    window.addEventListener('resize', this.onResize, false);
     this.onResize(null);
     Blockly.svgResize(this.workspace as Blockly.WorkspaceSvg);
 

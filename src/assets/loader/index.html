@@ -19,10 +19,14 @@
 
 	<div id="loader" class="overlay-loader">
 		<h2 class="titulo">CIAABOT <strong>IDE</strong></h2>
-		<p class="version">Versión 0.0.7-r</p>
+		<p class="version">Versión <span id="version-number"></span></p>
 		<div class="loader-background color-flip"></div>
 		<img class="loader-icon spinning-cog" src="cog03.svg">
 	</div>
 
-  </body>
+	<script src="./version.js"></script>
+	<script>
+		document.getElementById("version-number").innerHTML = getCiaabotVersion();
+	</script>
+</body>
 </html>

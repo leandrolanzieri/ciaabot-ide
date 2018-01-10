@@ -7,7 +7,7 @@ const BrowserWindow = require('electron').remote.BrowserWindow;
 // const ipcRenderer = require('electron').ipcRenderer;
 
 @Injectable()
-export class WindowService implements OnInit {
+export class WindowService {
 
   constructor(
     private projectService: ProjectService,
@@ -40,10 +40,6 @@ export class WindowService implements OnInit {
         }
       }
     });
-  }
-
-  public ngOnInit() {
-
   }
 
   public minimizeWindow() {
