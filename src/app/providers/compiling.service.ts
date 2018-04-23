@@ -39,7 +39,7 @@ export class CompilingService {
 
         childProcess.exec('make -C ' + this.electronService.getFormattedBashVariable('PROJECT_PATH') + ' Compilar_proyecto', {
           env: {
-            PROJECT_PATH: this.workspace.path,
+            PROJECT_PATH: '"' + this.workspace.path + '"',
             PATH: this.electronService.getEnvVariables().PATH + this.electronService.getPathDelimiter() + this.getFormattedPaths(),
           }
         }, (err, stdout) => {
